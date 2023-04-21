@@ -8,4 +8,4 @@ import { CommonModule } from '@angular/common';
   ],
   exports: [],
 })
-export class MainPageModule { }
+export class MainModule { }

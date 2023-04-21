@@ -1,0 +1,95 @@
+p {
+  margin: 0;
+}
+
+.header {
+  height: 88px;
+  background-color: rgba(116, 118, 122, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10.8%;
+    cursor: pointer;
+  }
+
+  &__icon-flight {
+   
+    position: relative;
+    font-size: 30px;
+    line-height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 34px;
+    height: 34px;
+  }
+
+  &__logo-text {
+    color: #11397E;
+    padding-left: 7px;
+  }
+  
+  &__icon-flight::after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: -0px;
+    left: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: 2px solid #11397E; 
+  }
+
+  &__user-pannel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10%;
+    width: 40%;
+  }
+
+  &__date {
+    width: 162px;
+    height: 40px;
+    border: none;
+    padding-top: 7px;
+    padding-left: 16px;
+    padding-right: 17px;
+  }
+
+  &__curr {
+    width: 62px;
+    height: 40px;
+    padding-top: 7px;
+    text-align: center;
+    padding-left: 16px;
+  }
+  
+ &__curr::-ms-expand {
+    display: none;
+  }
+
+  &__curr svg.ng-tns-c7-1 {
+    display: none;
+  }
+
+  &__button-user {
+    width: 114px;
+    height: 40px;
+  }
+
+  &__button-user-icon {
+    color: #11397E;
+  }
+
+  &__button-basket-icon {
+    color: black;
+  }
+
+}
+
