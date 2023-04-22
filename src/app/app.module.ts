@@ -10,19 +10,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { MainPageModule } from './main-page/main-page.module';
-import { BookingPageModule } from './booking-page/booking-page.module';
-import { CartPageModule } from './cart-page/cart-page.module';
+import { MainModule } from './main/main.module';
+import { BookingModule } from './booking/booking.module';
+import { CartModule } from './cart/cart.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    AuthModule,
     CoreModule,
-    MainPageModule,
-    BookingPageModule,
-    CartPageModule,
+    MainModule,
+    BookingModule,
+    CartModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

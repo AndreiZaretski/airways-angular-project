@@ -1,0 +1,46 @@
+<header class="header">
+  <div class="header__logo">
+<mat-icon color="primary" class="header__icon-flight">flight</mat-icon>
+<p class="header__logo-text">AIRWAYS</p>
+</div>
+
+
+<div class="header__user-pannel">
+<p class="header__settings-text">Book flight</p>
+<mat-select [(value)]="selected" class="header__date">
+  <mat-option value="option1">MM/DD/YYYY</mat-option>
+  <mat-option value="option2">DD/MM/YYYY</mat-option>
+  <mat-option value="option3">YYYY/DD/MM</mat-option>
+  <mat-option value="option3">YYYY/MM/DD</mat-option>
+</mat-select>
+
+
+<mat-select [(value)]="currency" class="header__curr" appearance="none">
+  <mat-option value="EUR">EUR</mat-option>
+  <mat-option value="USA">USA</mat-option>
+  <mat-option value="RUB">RUB</mat-option>
+  <mat-option value="PLN">PLN</mat-option>
+</mat-select>
+
+<button mat-button class="header__button-user" *ngIf="showButton">
+  <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
+  <mat-icon class="header__button-user-icon">account_circle</mat-icon>
+Sign in</button>
+
+<button mat-button class="header__button-user" *ngIf="!showButton">
+  <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
+  <mat-icon class="header__button-user-icon">account_circle</mat-icon>
+Sign up</button>
+
+<button mat-button class="header__button-basket">
+  <!-- <mat-icon class="header__basket">shopping_basket</mat-icon> -->
+  <mat-icon class="header__button-basket-icon" aria-hidden="false" aria-label="Example shopping_basket icon" fontIcon="shopping_basket"></mat-icon>
+</button>
+
+
+</div>
+
+
+</header>
+
+

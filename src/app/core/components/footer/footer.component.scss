@@ -1,0 +1,65 @@
+p {
+  margin: 0;
+}
+
+.footer {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__author {
+    display: flex;
+    align-items: center;
+    margin-left: 6%;
+
+  }
+
+  &__github-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    height: 24px;
+    padding-right: 2%;
+    background-image: url('../../../../assets/icons/github-logo.svg');
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+  }
+
+  &__right-text {
+    color: #11397E;
+  }
+
+  &__pay-systems {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 33%;
+    margin-right: 6%;
+  }
+
+  &__pay-icons {
+    background-size: 26px 26px;
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+   // padding: 0 2% 0 1%;
+  }
+
+  &__pay-icons.mastercard {
+    background-image: url('../../../../assets/icons/pay-systems/mastercard.svg');
+  }
+
+  &__pay-icons.pay {
+    background-image: url('../../../../assets/icons/pay-systems/pay.svg');
+  }
+
+  &__pay-icons.americanexpress  {
+    background-image: url('../../../../assets/icons/pay-systems/americanexpress.svg');
+  }
+
+  &__pay-icons.visa  {
+    background-image: url('../../../../assets/icons/pay-systems/visa.svg');
+  }
+}
