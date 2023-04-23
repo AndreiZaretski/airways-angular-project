@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -20,28 +21,37 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+const materialModules = [
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatStepperModule,
+  MatTabsModule,
+];
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    ...materialModules,
   ],
   exports: [
+    ...materialModules,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatStepperModule,
-    MatTabsModule,
-    MatBadgeModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
     FormsModule,
-    MatInputModule,
-    MatMenuModule,
-
   ],
 })
 export class SharedModule { }

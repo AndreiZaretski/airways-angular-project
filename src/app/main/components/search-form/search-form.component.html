@@ -1,0 +1,63 @@
+<div class="search-form-wrapper container">
+  <form class="example-form search-form">
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-button value="1" color="primary" checked>Round Trip</mat-radio-button>
+      <mat-radio-button value="2" color="primary">One Way</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="locations-wrap">
+      <mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>From</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let location of locations" [value]="location.value">
+            {{ location.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Destination</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let location of locations" [value]="location.value">
+            {{ location.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic">
+        <mat-icon><span class="material-symbols-outlined">
+          sync_alt
+          </span></mat-icon>
+      </button>
+    </div>
+
+    <div class="details-wrap">
+      <mat-form-field class="example-form-field dates-field" appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="rangePicker">
+          <input matStartDate placeholder="Start date">
+          <input matEndDate placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker>
+          <mat-date-range-picker-actions>
+            <button mat-button color="primary" matDateRangePickerCancel>Cancel</button>
+            <button mat-button color="primary" matDateRangePickerApply>Ok</button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Passengers</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let passenger of passengers" [value]="passenger.value">
+            {{ passenger.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">Search</button>
+  </form>
+</div>
+
+
