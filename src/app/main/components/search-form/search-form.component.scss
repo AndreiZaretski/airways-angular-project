@@ -42,17 +42,18 @@ mat-radio-group {
   margin-bottom: 12px;
 }
 
-// .example-form-field {
-//   margin-right: 20px;
-// }
-
 .dates-field {
   width: 160%;
 }
 
-// td {
-//   padding-right: 8px;
-// }
+.details-wrap.is-xsmall {
+  flex-direction: column;
+  gap: 8px;
+
+  .dates-field {
+    width: 100%;
+  }
+}
 
 button.search-btn {
   margin-right: auto;

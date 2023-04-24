@@ -29,7 +29,7 @@
       </button>
     </div>
 
-    <div class="details-wrap">
+    <div class="details-wrap" [ngClass]="{'is-xsmall': isFormVertical}">
       <mat-form-field class="example-form-field dates-field" appearance="outline">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [rangePicker]="rangePicker">

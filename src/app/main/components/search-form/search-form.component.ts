@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -9,10 +10,12 @@ import { Path } from '../../../shared/enums/router.enum';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   filteredOptions?: Observable<string[]>;
 
-  constructor(private router: Router) {}
+  isFormVertical = false;
+
+  constructor(private router: Router, private responsive: BreakpointObserver) {}
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -29,8 +32,18 @@ export class SearchFormComponent {
     { value: 'Infant -2', viewValue: 'Infant 0-2 years' },
   ];
 
+  ngOnInit() {
+    this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
+      this.isFormVertical = false;
+      if (result.matches) {
+        console.log('width <600px');
+        this.isFormVertical = true;
+      }
+    });
+  }
+
   submitSearchRequest() {
-    console.log('seearch request submitted');
+    console.log('search request submitted');
     this.router.navigateByUrl(`/${Path.Booking}`);
   }
 }
