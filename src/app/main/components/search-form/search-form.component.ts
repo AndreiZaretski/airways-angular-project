@@ -30,9 +30,15 @@ export class SearchFormComponent implements OnInit {
   ];
 
   passengers: IPassengers[] = [
-    { value: 'adult-0', viewValue: 'Adults 14+ years' },
-    { value: 'child-1', viewValue: 'Child 2-14 years' },
-    { value: 'Infant -2', viewValue: 'Infant 0-2 years' },
+    {
+      value: 'Adult', viewCategory: 'Adults', viewDesc: '14+ years', count: 0,
+    },
+    {
+      value: 'Child', viewCategory: 'Child', viewDesc: '2-14 years', count: 0,
+    },
+    {
+      value: 'Infant', viewCategory: 'Infant', viewDesc: '0-2 years', count: 0,
+    },
   ];
 
   ngOnInit():void {

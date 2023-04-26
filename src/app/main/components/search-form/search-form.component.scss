@@ -55,6 +55,77 @@ mat-radio-group {
   }
 }
 
+.passenger-options {
+  display: flex;
+}
+
+.passenger-option {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 2px;
+  width: 76px;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-right: 0;
+}
+
+::ng-deep mat-option.passenger-options mat-pseudo-checkbox {
+  display: none;
+}
+
+.passenger-options:not(:last-child) .passenger-category {
+  color: var(--blue);
+}
+
+.passenger-desc {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.passenger-counter {
+  display: flex;
+  gap: 4px;
+  height: 24px;
+  align-items: flex-start;
+}
+
+.remove-btn,
+.add-btn {
+  width: 24px;
+  height: 24px;
+  color: var(--gray);
+}
+
+.remove-btn:hover,
+.add-btn:hover{
+  color: var(--blue);
+}
+
+div mat-icon {
+  margin-right: 0;
+}
+
+// button.passenger-btn {
+//   padding: 0;
+//   // width: 24px;
+//   // height: 24px;
+//   transform: scale(0.5);
+
+//   mat-icon {
+//     margin-right: 0;
+//     width: 10px;
+//     height: 10px;
+//     font-size: 10px;
+//     top: 0;
+//     left: 0;
+//   }
+// }
+
 button.search-btn {
   margin-right: auto;
   width: 126px;
