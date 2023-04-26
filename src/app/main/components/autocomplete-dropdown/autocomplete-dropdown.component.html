@@ -1,0 +1,14 @@
+<mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
+  <mat-label>{{ label }}</mat-label>
+      <input type="text"
+      [placeholder]="placeholder"
+      aria-label="from"
+      matInput
+      [formControl]="locationInput"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
+        {{ item.viewValue }}
+      </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
