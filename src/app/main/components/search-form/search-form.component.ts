@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { FormControl } from '@angular/forms';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -11,9 +12,11 @@ import { Path } from '../../../shared/enums/router.enum';
   styleUrls: ['./search-form.component.scss'],
 })
 export class SearchFormComponent implements OnInit {
-  filteredOptions?: Observable<string[]>;
+  filteredLocations?: Observable<string[]>;
 
   isFormVertical = false;
+
+  fromLocation = new FormControl('');
 
   constructor(private router: Router, private responsive: BreakpointObserver) {}
 
@@ -32,14 +35,27 @@ export class SearchFormComponent implements OnInit {
     { value: 'Infant -2', viewValue: 'Infant 0-2 years' },
   ];
 
-  ngOnInit() {
+  ngOnInit():void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
       this.isFormVertical = false;
       if (result.matches) {
-        console.log('width <600px');
         this.isFormVertical = true;
       }
     });
+
+    this.filteredLocations = this.fromLocation.valueChanges
+      .pipe(
+        startWith(''),
+        map((value) => this.filter(value || '')),
+      );
+  }
+
+  filter(value: string):string[] {
+    const filterValue = value.toLowerCase();
+    const locationsValues = this.locations.map((item) => item.viewValue);
+    console.log(filterValue, locationsValues);
+
+    return locationsValues.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   submitSearchRequest() {

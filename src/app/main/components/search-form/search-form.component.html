@@ -6,22 +6,16 @@
     </mat-radio-group>
 
     <div class="locations-wrap">
-      <mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
-        <mat-label>From</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let location of locations" [value]="location.value">
-            {{ location.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
-        <mat-label>Destination</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let location of locations" [value]="location.value">
-            {{ location.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <app-autocomplete-dropdown
+      label="From"
+      placeholder="Choose your starting point"
+      [items] = "locations">
+    </app-autocomplete-dropdown>
+      <app-autocomplete-dropdown
+      label="Destination"
+      placeholder="Choose your destination"
+      [items] = "locations">
+    </app-autocomplete-dropdown>
       <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic">
         <mat-icon><span class="material-symbols-outlined">
           sync_alt
