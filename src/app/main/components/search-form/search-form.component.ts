@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, map, startWith } from 'rxjs';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { FormControl } from '@angular/forms';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -12,11 +10,7 @@ import { Path } from '../../../shared/enums/router.enum';
   styleUrls: ['./search-form.component.scss'],
 })
 export class SearchFormComponent implements OnInit {
-  filteredLocations?: Observable<string[]>;
-
   isFormVertical = false;
-
-  locationInput = new FormControl('');
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -48,12 +42,6 @@ export class SearchFormComponent implements OnInit {
         this.isFormVertical = true;
       }
     });
-
-    this.filteredLocations = this.locationInput.valueChanges
-      .pipe(
-        startWith(''),
-        map((value) => this.filter(value || '')),
-      );
   }
 
   addPassenger(chosenPassenger: IPassengers): void {
@@ -64,14 +52,6 @@ export class SearchFormComponent implements OnInit {
       chosenPassenger.selected = true;
     }
     console.log(chosenPassenger.value, chosenPassenger.count);
-  }
-
-  private filter(value: string):string[] {
-    const filterValue = value.toLowerCase();
-    const locationsValues = this.locations.map((item) => item.viewValue);
-    console.log(filterValue, locationsValues);
-
-    return locationsValues.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   removePassenger(chosenPassenger: IPassengers): void {
