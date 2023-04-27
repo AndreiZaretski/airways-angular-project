@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-// import { ModalComponent } from '../../pages/modal/modal.component';
-// import { CloseModalService } from '../../services/close-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +12,6 @@ export class LoginComponent {
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
-    // private closeModal: CloseModalService,
   ) {
   }
 
@@ -28,7 +25,6 @@ export class LoginComponent {
     ),
     password: new FormControl<string>('', [
       Validators.required,
-      // ValidatedForms.validatePassword,
     ]),
   });
 
@@ -43,13 +39,11 @@ export class LoginComponent {
     if (this.formLogin.controls.password.hasError('required')) {
       return 'Please enter a password';
     }
-    return this.formLogin.controls.password.hasError('invalidPassword')
-      ? 'Your password isn\'t strong enough. The password must contain at least 8 characters,a mixture of both uppercase and lowercase letters, a mixture of letters and numbers and inclusion of at least one special character, e.g., ! @ # ? [] + = ( )' : '';
+    return '';
   }
 
   onLogin() {
     if (this.formLogin.valid) {
-      // this.closeModal.closeModal();
       this.dialogRef.close();
     }
   }

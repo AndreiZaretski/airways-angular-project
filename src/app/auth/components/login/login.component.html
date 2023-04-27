@@ -4,7 +4,6 @@
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Enter your email</mat-label>
             <input matInput placeholder="login" formControlName="userName">
-            <mat-icon matSuffix>info_outline</mat-icon>
             <mat-error *ngIf="formLogin.controls.userName.invalid">{{getErrorMessageEmail()}}</mat-error>
           </mat-form-field>
         
@@ -24,7 +23,7 @@
             class="login__button"
             type="submit"
             color="primary" 
-            >Login</button>
+            >Log in</button>
           </form>
 
           

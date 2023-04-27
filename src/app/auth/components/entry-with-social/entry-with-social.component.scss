@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+
+  .entry-social {
+    text-align: center;
+    padding-right: 2%;
+    background-size: 18px 18px;
+    background-position: 27%;
+    background-repeat: no-repeat;
+  }
+
+  .entry-social.google {
+margin-top: 36px;
+margin-bottom: 16px;
+
+    background-image: url('../../../../assets/icons/social/google_24px.svg');
+  }
+
+  .entry-social.facebook {
+    
+    margin-bottom: 32px;
+    background-image: url('../../../../assets/icons/social/facebook.svg');
+      }
+
+      .entry-social__text {
+        text-align: center;
+        color: #000;
+        margin-top: 0;
+        font-size: 12px;
+      }
+}

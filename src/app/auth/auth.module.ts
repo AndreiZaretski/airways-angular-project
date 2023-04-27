@@ -4,22 +4,20 @@ import { ModalComponent } from './pages/modal/modal.component';
 import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
-// import { CloseModalService } from './services/close-modal.service';
-// import { AuthRoutingModule } from './auth-routing.module';
+import { EntryWithSocialComponent } from './components/entry-with-social/entry-with-social.component';
 
 @NgModule({
   declarations: [
     ModalComponent,
     LoginComponent,
     SignupComponent,
+    EntryWithSocialComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
   ],
-  // providers: [CloseModalService],
   exports: [ModalComponent,
-    // AuthRoutingModule
   ],
 })
 export class AuthModule { }

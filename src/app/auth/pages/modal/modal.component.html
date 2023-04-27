@@ -1,17 +1,13 @@
-<!-- <div mat-dialog-title class="auth-wrapper"> -->
+
   <mat-dialog-content class="auth-modal">
       <mat-tab-group animationDuration="0ms" class="auth-modal__content">
         <mat-tab label="Log in" class="auth-modal__content1">
+          <app-entry-with-social></app-entry-with-social>
           <app-login class="auth-modal__form"></app-login>
         </mat-tab>
-        <mat-tab label="Sign up">
-          <app-signup></app-signup>
+        <mat-tab label="Sign up" class="auth-modal__content2">
+          <app-entry-with-social></app-entry-with-social>
+          <app-signup class="auth-modal__form"></app-signup>
         </mat-tab>
       </mat-tab-group>
   </mat-dialog-content>
-<!-- </div> -->
-
-
-<!-- class="auth-modal" -->
-
-<!-- class="mat-typography auth-modal" -->
