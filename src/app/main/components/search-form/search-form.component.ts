@@ -16,9 +16,7 @@ export class SearchFormComponent implements OnInit {
 
   isFormVertical = false;
 
-  fromLocation = new FormControl('');
-
-  constructor(private router: Router, private responsive: BreakpointObserver) {}
+  locationInput = new FormControl('');
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -31,15 +29,17 @@ export class SearchFormComponent implements OnInit {
 
   passengers: IPassengers[] = [
     {
-      value: 'Adult', viewCategory: 'Adults', viewDesc: '14+ years', count: 0,
+      value: 'Adult', viewCategory: 'Adults', viewDesc: '14+ years', count: 0, selected: false,
     },
     {
-      value: 'Child', viewCategory: 'Child', viewDesc: '2-14 years', count: 0,
+      value: 'Child', viewCategory: 'Child', viewDesc: '2-14 years', count: 0, selected: false,
     },
     {
-      value: 'Infant', viewCategory: 'Infant', viewDesc: '0-2 years', count: 0,
+      value: 'Infant', viewCategory: 'Infant', viewDesc: '0-2 years', count: 0, selected: false,
     },
   ];
+
+  constructor(private router: Router, private responsive: BreakpointObserver) {}
 
   ngOnInit():void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
@@ -49,14 +49,24 @@ export class SearchFormComponent implements OnInit {
       }
     });
 
-    this.filteredLocations = this.fromLocation.valueChanges
+    this.filteredLocations = this.locationInput.valueChanges
       .pipe(
         startWith(''),
         map((value) => this.filter(value || '')),
       );
   }
 
-  filter(value: string):string[] {
+  addPassenger(chosenPassenger: IPassengers): void {
+    if (chosenPassenger.count !== undefined) {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.count += 1;
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.selected = true;
+    }
+    console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  private filter(value: string):string[] {
     const filterValue = value.toLowerCase();
     const locationsValues = this.locations.map((item) => item.viewValue);
     console.log(filterValue, locationsValues);
@@ -64,7 +74,18 @@ export class SearchFormComponent implements OnInit {
     return locationsValues.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  submitSearchRequest() {
+  removePassenger(chosenPassenger: IPassengers): void {
+    if (chosenPassenger.count) {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.count -= 1;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.selected = false;
+    }
+    console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  submitSearchRequest(): void {
     console.log('search request submitted');
     this.router.navigateByUrl(`/${Path.Booking}`);
   }

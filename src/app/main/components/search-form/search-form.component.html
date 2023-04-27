@@ -9,12 +9,14 @@
       <app-autocomplete-dropdown
       label="From"
       placeholder="Choose your starting point"
-      [items] = "locations">
+      [items] = "locations"
+      #fromLocation>
     </app-autocomplete-dropdown>
       <app-autocomplete-dropdown
       label="Destination"
       placeholder="Choose your destination"
-      [items] = "locations">
+      [items] = "locations"
+      #toLocation>
     </app-autocomplete-dropdown>
       <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic">
         <mat-icon><span class="material-symbols-outlined">
@@ -41,27 +43,32 @@
       </mat-form-field>
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Passengers</mat-label>
-        <mat-select multiple #passengersChosen>
+        <mat-select disableRipple multiple #passengersChosen>
           <mat-select-trigger>
-            {{ passengersChosen.value?.[0] }}
+            <ng-container *ngFor="let passenger of passengers; let i = index">
+              <ng-container *ngIf="passengersChosen?.value?.includes(passenger.value)">
+                {{ passenger.count ? passenger.count : '' }} {{ passenger.count ? passengersChosen.value?.[i] : '' }} {{ passenger.count && passengersChosen.value?.length > i + 1 ? ',' : '' }}
+              </ng-container>
+            </ng-container>
+            <!-- {{ passengersChosen.value?.[0] }}
             <span *ngIf="(passengersChosen.value?.length) > 1">
               , {{passengersChosen.value?.[1]}}
             </span>
             <span *ngIf="(passengersChosen.value?.length) > 2">
               , {{passengersChosen.value?.[2]}}
-            </span>
+            </span> -->
           </mat-select-trigger>
-          <mat-option class="passenger-options" *ngFor="let passenger of passengers" [value]="passenger.value">
+          <mat-option #passengerOption class="passenger-options" *ngFor="let passenger of passengers" [value]="passenger.value">
             <div class="passenger-option">
               <span class="passenger-category">{{ passenger.viewCategory }}</span>
               <span class="passenger-desc">{{ passenger.viewDesc }}</span>
             </div>
             <div class="passenger-counter">
-              <div class="remove-btn">
+              <div class="remove-btn" [ngClass]="{'disabled': !passenger.count}" (click)="removePassenger(passenger)">
                 <mat-icon>remove</mat-icon>
               </div>
               <span class="count-number">{{ passenger.count }}</span>
-              <div class="add-btn">
+              <div class="add-btn" (click)="addPassenger(passenger)">
                 <mat-icon color="gray">add</mat-icon>
               </div>
             </div>
