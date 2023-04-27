@@ -106,25 +106,15 @@ mat-radio-group {
   color: var(--blue);
 }
 
+.remove-btn.disabled,
+.add-btn.disabled {
+  cursor: default;
+  color: var(--gray);
+}
+
 div mat-icon {
   margin-right: 0;
 }
-
-// button.passenger-btn {
-//   padding: 0;
-//   // width: 24px;
-//   // height: 24px;
-//   transform: scale(0.5);
-
-//   mat-icon {
-//     margin-right: 0;
-//     width: 10px;
-//     height: 10px;
-//     font-size: 10px;
-//     top: 0;
-//     left: 0;
-//   }
-// }
 
 button.search-btn {
   margin-right: auto;

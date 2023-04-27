@@ -8,9 +8,5 @@ export interface IPassengers {
   viewCategory: string;
   viewDesc: string;
   count?: number;
+  selected: boolean;
 }
-
-// export interface IPassengers {
-//   value: string;
-//   viewValue: string;
-// }
