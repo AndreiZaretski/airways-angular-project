@@ -1,0 +1,45 @@
+.registered-form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__icon {
+    color: red;
+  }
+  
+
+  &__input.email{
+margin-top: 24px;
+  }
+
+  &__input.password {
+    margin-bottom: 20px;
+  }
+  
+
+  &__gender {
+    
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__gender-item {
+    width: 50%;
+    text-align: center;
+  }
+
+  .mat-button-toggle-checked {
+    color: #11397E;
+  }
+
+  &__phome-number {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  a {
+    text-decoration: none;
+    color: #11397E;
+  }
+}

@@ -5,6 +5,7 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from '../shared/shared.module';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     SharedModule,
+    AuthModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

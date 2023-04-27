@@ -13,14 +13,14 @@ import { CoreModule } from './core/core.module';
 import { MainModule } from './main/main.module';
 import { BookingModule } from './booking/booking.module';
 import { CartModule } from './cart/cart.module';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    AuthModule,
+    // AuthModule,
     CoreModule,
     MainModule,
     BookingModule,

@@ -23,6 +23,11 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { MatChipsModule } from '@angular/material/chips';
+
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -40,6 +45,9 @@ const materialModules = [
   MatSelectModule,
   MatStepperModule,
   MatTabsModule,
+  MatDialogModule,
+  MatChipsModule,
+  MatButtonToggleModule,
 ];
 
 @NgModule({
