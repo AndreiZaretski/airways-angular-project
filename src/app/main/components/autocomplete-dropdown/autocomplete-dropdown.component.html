@@ -11,4 +11,7 @@
         {{ item.viewValue }}
       </mat-option>
     </mat-autocomplete>
+    <mat-error *ngIf="locationInput.hasError('required')">
+      Please choose a location
+    </mat-error>
 </mat-form-field>
