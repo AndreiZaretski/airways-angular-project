@@ -31,8 +31,7 @@ mat-radio-group {
 
 .swap-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 40px;
   right: 20px;
 }
 
@@ -76,10 +75,6 @@ mat-radio-group {
 
 ::ng-deep mat-option.passenger-options mat-pseudo-checkbox {
   display: none;
-}
-
-.passenger-options:not(:last-child) .passenger-category {
-  color: var(--blue);
 }
 
 .passenger-desc {

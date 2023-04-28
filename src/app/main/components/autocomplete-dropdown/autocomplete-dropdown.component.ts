@@ -2,7 +2,7 @@ import {
   Component, Input, OnInit, forwardRef,
 } from '@angular/core';
 import {
-  AbstractControl, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators
+  FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators,
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { ILocation } from '../../model/search-form.model';

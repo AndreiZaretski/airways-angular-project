@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { createDateValidator } from 'src/app/shared/validators/custom-validators-search-form';
+import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -41,8 +41,10 @@ export class SearchFormComponent implements OnInit {
 
   searchForm = this.formBuilder.group({
     way: ['1', Validators.required],
-    fromLocation: ['', Validators.required],
-    toLocation: ['', Validators.required],
+    route: this.formBuilder.group({
+      fromLocation: ['', Validators.required],
+      toLocation: ['', Validators.required],
+    }, { validator: createLocationsValidator() }),
     dates: this.formBuilder.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -79,6 +81,14 @@ export class SearchFormComponent implements OnInit {
 
   get way(): AbstractControl<string | null> | null {
     return this.searchForm.get('way');
+  }
+
+  get route(): AbstractControl<{
+    [key: string]: Date;
+  }, {
+    [key: string]: Date;
+  }> | null {
+    return this.searchForm.get('route');
   }
 
   get dates(): AbstractControl<{
@@ -119,7 +129,3 @@ export class SearchFormComponent implements OnInit {
     }
   }
 }
-function validateRangeDates(startDate: AbstractControl<string | null, string | null> | null): any {
-  throw new Error('Function not implemented.');
-}
-

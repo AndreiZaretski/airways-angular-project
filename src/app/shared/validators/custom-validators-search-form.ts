@@ -10,3 +10,14 @@ export function createDateValidator(): ValidatorFn {
     return isValid ? null : { isDateInvalid: true };
   };
 }
+
+export function createLocationsValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const { fromLocation } = control.value;
+    const { toLocation } = control.value;
+
+    const isValid = fromLocation ? fromLocation !== toLocation : true;
+
+    return isValid ? null : { sameLocations: true };
+  };
+}

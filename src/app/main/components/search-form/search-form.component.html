@@ -8,7 +8,7 @@
       </mat-error>
     </mat-radio-group>
 
-    <div class="locations-wrap">
+    <div class="locations-wrap" formGroupName="route">
       <app-autocomplete-dropdown
       formControlName="fromLocation"
       label="From"
@@ -23,6 +23,9 @@
       [items] = "locations"
       #toLocation>
     </app-autocomplete-dropdown>
+    <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">
+      Locations should differ
+    </mat-error>
       <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic">
         <mat-icon><span class="material-symbols-outlined">
           sync_alt
@@ -80,13 +83,6 @@
                 {{ passenger.count ? passenger.count : '' }} {{ passenger.count ? passengersChosen.value?.[i] : '' }} {{ passenger.count && passengersChosen.value?.length > i + 1 ? ',' : '' }}
               </ng-container>
             </ng-container>
-            <!-- {{ passengersChosen.value?.[0] }}
-            <span *ngIf="(passengersChosen.value?.length) > 1">
-              , {{passengersChosen.value?.[1]}}
-            </span>
-            <span *ngIf="(passengersChosen.value?.length) > 2">
-              , {{passengersChosen.value?.[2]}}
-            </span> -->
           </mat-select-trigger>
           <mat-option #passengerOption class="passenger-options" *ngFor="let passenger of passengerOptions" [value]="passenger.value">
             <div class="passenger-option">
