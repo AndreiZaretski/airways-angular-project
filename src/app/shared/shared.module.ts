@@ -23,6 +23,11 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { MatChipsModule } from '@angular/material/chips';
+
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -47,6 +52,9 @@ const materialModules = [
   MatTableModule,
   MatSortModule,
   MatDividerModule,
+  MatDialogModule,
+  MatChipsModule,
+  MatButtonToggleModule,
 ];
 
 @NgModule({
