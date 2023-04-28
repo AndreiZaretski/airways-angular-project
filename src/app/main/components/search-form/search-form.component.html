@@ -33,7 +33,7 @@
     <div class="details-wrap" [ngClass]="{'is-xsmall': isFormVertical}">
       <mat-form-field class="example-form-field dates-field" appearance="outline">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="rangePicker" [min]="minDate" [max]="maxDate">
+        <mat-date-range-input formGroupName="dates" [rangePicker]="rangePicker" [min]="minDate" [max]="maxDate">
           <input
           formControlName="startDate"
           matStartDate
@@ -66,6 +66,9 @@
         </mat-error>
         <mat-error *ngIf="startDate?.hasError('required') || endDate?.hasError('required')">
           Start/end dates are required
+        </mat-error>
+        <mat-error *ngIf="dates?.hasError('isDateInvalid')">
+          Start date should go before end date
         </mat-error>
       </mat-form-field>
       <mat-form-field class="example-full-width" appearance="outline">
