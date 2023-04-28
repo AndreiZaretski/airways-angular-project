@@ -29,6 +29,10 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+
 const materialModules = [
   MatAutocompleteModule,
   MatBadgeModule,
@@ -45,6 +49,9 @@ const materialModules = [
   MatSelectModule,
   MatStepperModule,
   MatTabsModule,
+  MatTableModule,
+  MatSortModule,
+  MatDividerModule,
   MatDialogModule,
   MatChipsModule,
   MatButtonToggleModule,

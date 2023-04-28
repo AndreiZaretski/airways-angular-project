@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: () => import('./booking/booking.module').then((m) => m.BookingModule),
   },
   {
+    path: Path.Cart,
+    loadChildren: () => import('./cart/cart.module').then((m) => m.CartModule),
+  },
+  {
     path: Path.Empty,
     redirectTo: Path.Main,
     pathMatch: 'full',

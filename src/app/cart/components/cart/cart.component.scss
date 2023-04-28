@@ -1,0 +1,196 @@
+.cart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: calc(100% - 88px - 92px);
+  background: #f5f5f5;
+
+  mat-card {
+    width: 78%;
+    height: 82%;
+    background: #ffffff;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+
+    .cart-title {
+      display: flex;
+      align-items: center;
+      height: 88px;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 28px;
+      color: #11397e;
+      padding-left: 33px;
+    }
+
+    table {
+      width: 100%;
+      height: 70%;
+      box-shadow: none;
+
+      .mat-column-position {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        color: #0090BD;
+      }
+
+      .mat-column-flight,
+      .mat-column-typeTrip,
+      .mat-column-dataType,
+      .mat-column-passengers,
+      .mat-column-price {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        color: #000000;
+        letter-spacing: 0.5px;
+      }
+
+      .mat-column-price {
+        font-family: inherit;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        letter-spacing: 0.5px;
+        color: #7F8906;
+      }
+
+      .mdc-data-table__header-row {
+        border: 5px solid #000000;
+        color: #11397e;
+      }
+
+      .mdc-data-table__header-cell {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 20px;
+        color: #000000;
+        background-color: #F5F5F5;
+        border-bottom: 0.5px solid #E9EDF1;
+      }
+    }
+  }
+
+  .cart-section_addtrip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 38px 35px;
+
+    .cart-button_addtrip {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #11397e;
+      background: #f4f6f9;
+      border-radius: 4px;
+      padding: 4px 8px;
+      width: 121px;
+      height: 28px;
+    }
+
+    .cart-totalprice {
+      display: flex;
+
+      .cart-total {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 20px;
+        color: #000000;
+      }
+
+      .cart-price {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 36px;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        background: linear-gradient(90deg, #11397e 0%, #005abc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+  }
+
+  .cart-divider {
+    margin: 0px 34px;
+    color: #e1e5eb;
+    transform: matrix(1, 0, 0, -1, 0, 0);
+  }
+
+  .cart-section_payment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 35px 0px 34px;
+
+    .cart-form {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      width: 374px;
+
+      .cart-promo {
+        width: 100%;
+        border-radius: 4px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        color: #74767a;
+        border: 1px solid #e1e5eb;
+        padding: 8px 16px 8px 16px;
+        padding-right: 80px;
+      }
+
+      .cart-button_apply {
+        position: absolute;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: #11397e;
+        right: 8px;
+      }
+    }
+
+    .section_payment-right {
+      display: flex;
+      align-items: center;
+
+      .cart-selected {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        color: #74767a;
+        margin-right: 37px;
+      }
+
+      .cart-button_payment {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 12px 24px;
+        width: 126px;
+        height: 60px;
+        background: #11397e;
+        border-radius: 4px;
+        letter-spacing: 0.1px;
+        color: #ffffff;
+        margin: 40px 0px 39px 0px;
+      }
+    }
+  }
+}
