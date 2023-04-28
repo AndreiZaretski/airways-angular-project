@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -21,7 +22,11 @@ export class SearchFormComponent implements OnInit {
     { value: 'FCO-5', viewValue: 'Leonardo Da Vinci-Fiumicino Airport (FCO)' },
   ];
 
-  passengers: IPassengers[] = [
+  minDate = new Date();
+
+  maxDate = new Date(2024, 0, 1);
+
+  passengerOptions: IPassengers[] = [
     {
       value: 'Adult', viewCategory: 'Adults', viewDesc: '14+ years', count: 0, selected: false,
     },
@@ -33,7 +38,20 @@ export class SearchFormComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private responsive: BreakpointObserver) {}
+  searchForm = this.formBuilder.group({
+    way: ['1', Validators.required],
+    fromLocation: ['', Validators.required],
+    toLocation: ['', Validators.required],
+    startDate: ['', Validators.required],
+    endDate: ['', Validators.required],
+    passengers: ['', Validators.required],
+  });
+
+  constructor(
+    private router: Router,
+    private responsive: BreakpointObserver,
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit():void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
@@ -42,6 +60,8 @@ export class SearchFormComponent implements OnInit {
         this.isFormVertical = true;
       }
     });
+    console.log('minDate', this.minDate);
+    console.log('max', this.maxDate);
   }
 
   addPassenger(chosenPassenger: IPassengers): void {
@@ -52,6 +72,22 @@ export class SearchFormComponent implements OnInit {
       chosenPassenger.selected = true;
     }
     console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  get way(): AbstractControl<string | null> | null {
+    return this.searchForm.get('way');
+  }
+
+  get startDate(): AbstractControl<string | null> | null {
+    return this.searchForm.get('startDate');
+  }
+
+  get endDate(): AbstractControl<string | null> | null {
+    return this.searchForm.get('endDate');
+  }
+
+  get passengers(): AbstractControl<string | null> | null {
+    return this.searchForm.get('passengers');
   }
 
   removePassenger(chosenPassenger: IPassengers): void {
@@ -66,7 +102,9 @@ export class SearchFormComponent implements OnInit {
   }
 
   submitSearchRequest(): void {
-    console.log('search request submitted');
-    this.router.navigateByUrl(`/${Path.Booking}`);
+    if (this.searchForm.valid) {
+      console.log('search request submitted');
+      this.router.navigateByUrl(`/${Path.Booking}`);
+    }
   }
 }
