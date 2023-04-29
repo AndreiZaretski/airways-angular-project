@@ -31,8 +31,7 @@ mat-radio-group {
 
 .swap-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 40px;
   right: 20px;
 }
 
@@ -53,6 +52,63 @@ mat-radio-group {
   .dates-field {
     width: 100%;
   }
+}
+
+.passenger-options {
+  display: flex;
+}
+
+.passenger-option {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 2px;
+  width: 76px;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-right: 0;
+}
+
+::ng-deep mat-option.passenger-options mat-pseudo-checkbox {
+  display: none;
+}
+
+.passenger-desc {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.passenger-counter {
+  display: flex;
+  gap: 4px;
+  height: 24px;
+  align-items: flex-start;
+}
+
+.remove-btn,
+.add-btn {
+  width: 24px;
+  height: 24px;
+  color: var(--gray);
+}
+
+.remove-btn:hover,
+.add-btn:hover{
+  color: var(--blue);
+}
+
+.remove-btn.disabled,
+.add-btn.disabled {
+  cursor: default;
+  color: var(--gray);
+}
+
+div mat-icon {
+  margin-right: 0;
 }
 
 button.search-btn {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 
@@ -11,11 +12,7 @@ import { Path } from '../../../shared/enums/router.enum';
   styleUrls: ['./search-form.component.scss'],
 })
 export class SearchFormComponent implements OnInit {
-  filteredOptions?: Observable<string[]>;
-
   isFormVertical = false;
-
-  constructor(private router: Router, private responsive: BreakpointObserver) {}
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -26,24 +23,109 @@ export class SearchFormComponent implements OnInit {
     { value: 'FCO-5', viewValue: 'Leonardo Da Vinci-Fiumicino Airport (FCO)' },
   ];
 
-  passengers: IPassengers[] = [
-    { value: 'adult-0', viewValue: 'Adults 14+ years' },
-    { value: 'child-1', viewValue: 'Child 2-14 years' },
-    { value: 'Infant -2', viewValue: 'Infant 0-2 years' },
+  minDate = new Date();
+
+  maxDate = new Date(2024, 0, 1);
+
+  passengerOptions: IPassengers[] = [
+    {
+      value: 'Adult', viewCategory: 'Adults', viewDesc: '14+ years', count: 0, selected: false,
+    },
+    {
+      value: 'Child', viewCategory: 'Child', viewDesc: '2-14 years', count: 0, selected: false,
+    },
+    {
+      value: 'Infant', viewCategory: 'Infant', viewDesc: '0-2 years', count: 0, selected: false,
+    },
   ];
 
-  ngOnInit() {
+  searchForm = this.formBuilder.group({
+    way: ['1', Validators.required],
+    route: this.formBuilder.group({
+      fromLocation: ['', Validators.required],
+      toLocation: ['', Validators.required],
+    }, { validator: createLocationsValidator() }),
+    dates: this.formBuilder.group({
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+    }, { validator: createDateValidator() }),
+    passengers: ['', Validators.required],
+  });
+
+  constructor(
+    private router: Router,
+    private responsive: BreakpointObserver,
+    private formBuilder: FormBuilder,
+  ) {}
+
+  ngOnInit():void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
       this.isFormVertical = false;
       if (result.matches) {
-        console.log('width <600px');
         this.isFormVertical = true;
       }
     });
+    console.log('minDate', this.minDate);
+    console.log('max', this.maxDate);
   }
 
-  submitSearchRequest() {
-    console.log('search request submitted');
-    this.router.navigateByUrl(`/${Path.Booking}`);
+  addPassenger(chosenPassenger: IPassengers): void {
+    if (chosenPassenger.count !== undefined) {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.count += 1;
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.selected = true;
+    }
+    console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  get way(): AbstractControl<string | null> | null {
+    return this.searchForm.get('way');
+  }
+
+  get route(): AbstractControl<{
+    [key: string]: Date;
+  }, {
+    [key: string]: Date;
+  }> | null {
+    return this.searchForm.get('route');
+  }
+
+  get dates(): AbstractControl<{
+    [key: string]: Date;
+  }, {
+    [key: string]: Date;
+  }> | null {
+    return this.searchForm.get('dates');
+  }
+
+  get startDate(): AbstractControl<string | null> | null {
+    return this.searchForm.get('dates.startDate');
+  }
+
+  get endDate(): AbstractControl<string | null> | null {
+    return this.searchForm.get('dates.endDate');
+  }
+
+  get passengers(): AbstractControl<string | null> | null {
+    return this.searchForm.get('passengers');
+  }
+
+  removePassenger(chosenPassenger: IPassengers): void {
+    if (chosenPassenger.count) {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.count -= 1;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      chosenPassenger.selected = false;
+    }
+    console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  submitSearchRequest(): void {
+    if (this.searchForm.valid) {
+      console.log('search request submitted');
+      this.router.navigateByUrl(`/${Path.Booking}`);
+    }
   }
 }

@@ -5,5 +5,8 @@ export interface ILocation {
 
 export interface IPassengers {
   value: string;
-  viewValue: string;
+  viewCategory: string;
+  viewDesc: string;
+  count?: number;
+  selected: boolean;
 }
