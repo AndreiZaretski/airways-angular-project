@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CloseModalService } from './close-modal.service';
+import { AuthService } from './auth.service';
 
-describe('CloseModalService', () => {
-  let service: CloseModalService;
+describe('AuthService', () => {
+  let service: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CloseModalService);
+    service = TestBed.inject(AuthService);
   });
 
   it('should be created', () => {

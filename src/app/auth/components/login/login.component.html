@@ -3,8 +3,8 @@
         
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Enter your email</mat-label>
-            <input matInput placeholder="login" formControlName="userName">
-            <mat-error *ngIf="formLogin.controls.userName.invalid">{{getErrorMessageEmail()}}</mat-error>
+            <input matInput placeholder="login" formControlName="email">
+            <mat-error *ngIf="formLogin.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
           </mat-form-field>
         
             <mat-form-field  appearance="outline" class="form-input">
@@ -14,12 +14,15 @@
               <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
-              <mat-error class="login-message" *ngIf="formLogin.controls.password.invalid">{{getErrorMessagePassword()}}</mat-error>
+              <mat-error class="login-message" *ngIf="formLogin.controls['password'].invalid">{{getErrorMessagePassword()}}</mat-error>
             </mat-form-field>
 
             <p class="login-password">Forgot password? </p>
+
+            <div class="message">{{message}}</div>
         
             <button mat-raised-button 
+            [disabled]="loading"
             class="login__button"
             type="submit"
             color="primary" 
