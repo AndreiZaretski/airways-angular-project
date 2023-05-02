@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Subscription, catchError, tap } from 'rxjs';
+import { Subscription, catchError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { getRequestUser } from 'src/app/redux/actions/auth.actions';
 import { AuthService } from '../../services/auth.service';
 import { AuthResponse } from '../../../core/models/interface';
 
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
     private authService: AuthService,
+    private store: Store,
   ) {
   }
 
@@ -67,7 +69,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.subscription = this.authService.login(this.formLogin.value).pipe(
         catchError(() => this.message = 'Incorrect email or password'),
       ).subscribe((res) => {
-        if ((res as AuthResponse).user) { this.dialogRef.close(); }
+        if ((res as AuthResponse).user) {
+          this.dialogRef.close();
+          const result = (res as AuthResponse).user;
+          this.store.dispatch(getRequestUser({ currentUser: result }));
+        }
         this.loading = false;
       });
     }

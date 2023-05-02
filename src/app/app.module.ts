@@ -13,14 +13,13 @@ import { CoreModule } from './core/core.module';
 import { MainModule } from './main/main.module';
 import { BookingModule } from './booking/booking.module';
 import { CartModule } from './cart/cart.module';
-// import { AuthModule } from './auth/auth.module';
+import { authState } from './redux/state/app.state';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    // AuthModule,
     CoreModule,
     MainModule,
     BookingModule,
@@ -29,7 +28,7 @@ import { CartModule } from './cart/cart.module';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {
+    StoreModule.forRoot(authState, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,

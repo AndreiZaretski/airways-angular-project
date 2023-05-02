@@ -3,8 +3,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ValidatedForms } from 'src/app/shared/validators/custom-validate-forms';
 import { country } from 'src/app/shared/data/country';
-// import { catchError } from 'rxjs';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AuthResponse } from 'src/app/core/models/interface';
+import { getRequestUser } from 'src/app/redux/actions/auth.actions';
 import { AuthService } from '../../services/auth.service';
 
 interface Country {
@@ -34,10 +36,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<SignupComponent>,
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private store: Store,
 
   ) {}
 
-  formSignup!: FormGroup;
+  formSignup: FormGroup;
 
   ngOnInit(): void {
     this.formSignup = this.formBuilder.group({
@@ -96,24 +99,16 @@ export class SignupComponent implements OnInit, OnDestroy {
     console.log(this.formSignup.valid);
     if (this.formSignup.valid) {
       this.loading = true;
-      this.subscription = this.authService.registration(this.formSignup.value)
-        // .pipe(catchError(() => this.message = 'This email is already exist'))
-        .subscribe(
-          () => {
-            this.dialogRef.close();
-            console.log(this.authService.user$);
-          },
-          () => {
-            (this.message = 'This email is already exist');
-            this.loading = false;
-          },
-          () => null,
-        );
-      // (res) => console.log(res),
-
-      // );
-      // this.dialogRef.close();
-      // console.log(this.formSignup.value);
+      this.subscription = this.authService.registration(this.formSignup.value).pipe(
+        catchError(() => this.message = 'This email is already exist'),
+      ).subscribe((res) => {
+        if ((res as AuthResponse).user) {
+          this.dialogRef.close();
+          const result = (res as AuthResponse).user;
+          this.store.dispatch(getRequestUser({ currentUser: result }));
+        }
+        this.loading = false;
+      });
     }
   }
 }

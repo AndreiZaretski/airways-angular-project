@@ -5,10 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/auth/pages/modal/modal.component';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { Subscription } from 'rxjs';
-import { AuthResponse } from '../../models/interface';
-// import { Path } from 'src/app/shared/enums/router.enum';
-// import { AuthModule } from 'src/app/auth/auth.module';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectAuthCards } from 'src/app/redux/selectors/cards.selector';
+import { getRequestUser } from 'src/app/redux/actions/auth.actions';
+import { Path } from 'src/app/shared/enums/router.enum';
+import { AuthResponseLight } from '../../models/interface';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +19,8 @@ import { AuthResponse } from '../../models/interface';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   // Date: Date;
+
+  str: string;
 
   mdy = Date.MDY;
 
@@ -34,35 +38,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   pln = Currency.PLN;
 
-  showButton = true;
+  private subscription: Subscription;
 
-  user?: AuthResponse;
+  user: AuthResponseLight;
 
-  private subscription?: Subscription;
+  user$: Observable<AuthResponseLight | null>;
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
     public authService: AuthService,
-  ) {}
+    private store: Store,
+  ) { }
+
+  ngOnInit() {
+    this.subscription = this.authService.getUser().subscribe((res) => {
+      this.store
+        .dispatch(getRequestUser({ currentUser: res }));
+    });
+
+    this.user$ = this.store.select(selectAuthCards);
+  }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  ngOnInit(): void {
-    // console.log(this.authService.user$);
-
-    this.subscription = this.authService.getUser().subscribe((res) => console.log(!!res));
+  goToMainPage() {
+    this.router.navigate([Path.Main]);
   }
 
   openDialog() {
-    // const dialogRef =
     this.dialog.open(ModalComponent);
-    // this.router.navigate([Path.Login]);
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
   }
 }
