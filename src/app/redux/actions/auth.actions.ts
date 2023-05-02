@@ -6,3 +6,7 @@ export const getRequestUser = createAction(
   props<{ currentUser: AuthResponseLight,
   }>(),
 );
+
+export const checkRequestUser = createAction(
+  '[USER] Check get user',
+);

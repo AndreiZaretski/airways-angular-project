@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  EMPTY,
-  Observable, catchError, tap,
+  EMPTY, Observable, catchError, tap,
 } from 'rxjs';
 import {
   AuthLogin, AuthRegistration, AuthResponse, AuthResponseLight,
@@ -12,6 +11,8 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
+  // currentUser$ = new BehaviorSubject<AuthResponseLight | null>(null);
+
   constructor(private http: HttpClient) { }
 
   login(user: AuthLogin): Observable<AuthResponse> {
@@ -19,6 +20,7 @@ export class AuthService {
       tap((res) => {
         this.writeLocalStorage(res);
       }),
+      // tap((res) => this.currentUser$.next(res.user)),
     );
   }
 
@@ -27,6 +29,7 @@ export class AuthService {
       tap((res) => {
         this.writeLocalStorage(res);
       }),
+      // tap((res) => this.currentUser$.next(res.user)),
     );
   }
 
@@ -43,10 +46,16 @@ export class AuthService {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('auth-token')}`,
         },
-      }).pipe(
-        catchError(() => EMPTY),
-      );
+      })
+        .pipe(
+          catchError(() => EMPTY),
+          // tap((result) => this.currentUser$.next(result)),
+        );
     }
     return new Observable<AuthResponseLight>();
   }
+
+  // get getCurrentUser() {
+  //   return this.currentUser$.value;
+  // }
 }

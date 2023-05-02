@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Path } from './shared/enums/router.enum';
+import { GuardGuard } from './core/guards/guard.guard';
 
 const routes: Routes = [
 
@@ -19,6 +20,8 @@ const routes: Routes = [
   {
     path: Path.Cart,
     loadChildren: () => import('./cart/cart.module').then((m) => m.CartModule),
+    canActivate: [GuardGuard],
+    canLoad: [GuardGuard],
   },
   {
     path: Path.Empty,

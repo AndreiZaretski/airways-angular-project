@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectAuthCards } from 'src/app/redux/selectors/cards.selector';
-import { getRequestUser } from 'src/app/redux/actions/auth.actions';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { AuthResponseLight } from '../../models/interface';
 
@@ -52,10 +51,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscription = this.authService.getUser().subscribe((res) => {
-      this.store
-        .dispatch(getRequestUser({ currentUser: res }));
-    });
+    // this.subscription = this.authService.getUser().subscribe((res) => {
+    //   this.store
+    //     .dispatch(getRequestUser({ currentUser: res }));
+    // });
 
     this.user$ = this.store.select(selectAuthCards);
   }
@@ -66,6 +65,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   goToMainPage() {
     this.router.navigate([Path.Main]);
+  }
+
+  goToCartPage() {
+    this.router.navigate([Path.Cart]);
   }
 
   openDialog() {

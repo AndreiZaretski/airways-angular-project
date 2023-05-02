@@ -14,6 +14,7 @@ import { MainModule } from './main/main.module';
 import { BookingModule } from './booking/booking.module';
 import { CartModule } from './cart/cart.module';
 import { authState } from './redux/state/app.state';
+import { UserEffects } from './redux/effects/autn-user.effects';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { authState } from './redux/state/app.state';
         strictActionTypeUniqueness: true,
       },
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
   ],
