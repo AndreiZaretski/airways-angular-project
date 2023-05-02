@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
+import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomplete-dropdown.component';
 
 @Component({
   selector: 'app-search-form',
@@ -13,6 +14,10 @@ import { Path } from '../../../shared/enums/router.enum';
 })
 export class SearchFormComponent implements OnInit {
   isFormVertical = false;
+
+  locationFrom = '';
+
+  locationTo = '';
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -127,5 +132,16 @@ export class SearchFormComponent implements OnInit {
       console.log('search request submitted');
       this.router.navigateByUrl(`/${Path.Booking}`);
     }
+  }
+
+  switchLocations(
+    fromLocation: AutocompleteDropdownComponent,
+    toLocation: AutocompleteDropdownComponent
+  ) {
+    this.locationFrom = toLocation.locationInput.value ?? '';
+    this.locationTo = fromLocation.locationInput.value ?? '';
+
+    fromLocation.locationInput.setValue(this.locationFrom);
+    toLocation.locationInput.setValue(this.locationTo);
   }
 }

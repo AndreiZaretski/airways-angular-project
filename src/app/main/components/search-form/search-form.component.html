@@ -26,7 +26,7 @@
     <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">
       Locations should differ
     </mat-error>
-      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic">
+      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic" (click)="switchLocations(fromLocation, toLocation)">
         <mat-icon><span class="material-symbols-outlined">
           sync_alt
           </span></mat-icon>
