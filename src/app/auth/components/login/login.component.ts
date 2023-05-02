@@ -1,42 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Subscription, catchError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { getRequestUser } from 'src/app/redux/actions/auth.actions';
+import { AuthService } from '../../services/auth.service';
+import { AuthResponse } from '../../../core/models/interface';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   hide = true;
+
+  message = '';
+
+  loading = false;
+
+  subscription: Subscription | undefined;
+
+  formLogin!: FormGroup;
 
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
+    private authService: AuthService,
+    private store: Store,
   ) {
   }
 
-  public formLogin = new FormGroup({
-    userName: new FormControl<string>(
-      '',
-      [
+  ngOnInit(): void {
+    this.formLogin = new FormGroup({
+      email: new FormControl<string>(
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        ],
+      ),
+      password: new FormControl<string>('', [
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-      ],
-    ),
-    password: new FormControl<string>('', [
-      Validators.required,
-    ]),
-  });
+      ]),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   getErrorMessageEmail() {
-    if (this.formLogin.controls.userName.hasError('required')) {
+    if (this.formLogin.controls['email'].hasError('required')) {
       return 'Please enter a login email';
     }
-    return this.formLogin.controls.userName.hasError('pattern') ? 'Enter a valid email' : '';
+    return this.formLogin.controls['email'].hasError('pattern') ? 'Enter a valid email' : '';
   }
 
   getErrorMessagePassword() {
-    if (this.formLogin.controls.password.hasError('required')) {
+    if (this.formLogin.controls['password'].hasError('required')) {
       return 'Please enter a password';
     }
     return '';
@@ -44,7 +65,17 @@ export class LoginComponent {
 
   onLogin() {
     if (this.formLogin.valid) {
-      this.dialogRef.close();
+      this.loading = true;
+      this.subscription = this.authService.login(this.formLogin.value).pipe(
+        catchError(() => this.message = 'Incorrect email or password'),
+      ).subscribe((res) => {
+        if ((res as AuthResponse).user) {
+          this.dialogRef.close();
+          const result = (res as AuthResponse).user;
+          this.store.dispatch(getRequestUser({ currentUser: result }));
+        }
+        this.loading = false;
+      });
     }
   }
 }

@@ -1,5 +1,5 @@
 <header class="header">
-  <div class="header__logo">
+  <div class="header__logo" (click)="goToMainPage()">
 <mat-icon color="primary" class="header__icon-flight">flight</mat-icon>
 <p class="header__logo-text">AIRWAYS</p>
 </div>
@@ -22,18 +22,21 @@
   <mat-option [value]="pln">{{pln}}</mat-option>
 </mat-select>
 
-<button mat-button class="header__button-user" *ngIf="showButton"
+<button mat-button class="header__button-user" *ngIf="(user$ |async) === null"
 (click)="openDialog()">
   <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
   <mat-icon class="header__button-user-icon">account_circle</mat-icon>
 Sign in</button>
 
-<button mat-button class="header__button-user" *ngIf="!showButton">
+<ng-container *ngIf="(user$ |async) as user">
+<button mat-button class="header__button-user" *ngIf="(user$ |async) as user">
   <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
   <mat-icon class="header__button-user-icon">account_circle</mat-icon>
-Sign up</button>
+{{user.firstName}} {{user.lastName}}
+</button>
+</ng-container>
 
-<button mat-button class="header__button-basket">
+<button mat-button class="header__button-basket" (click)="goToCartPage()">
   <!-- <mat-icon class="header__basket">shopping_basket</mat-icon> -->
   <mat-icon class="header__button-basket-icon" aria-hidden="false" aria-label="Example shopping_basket icon" fontIcon="shopping_basket">shopping_basket</mat-icon>
 </button>

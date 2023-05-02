@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CloseModalService } from './close-modal.service';
+import { UserEffects } from './autn-user.effects';
 
-describe('CloseModalService', () => {
-  let service: CloseModalService;
+describe('EfectsEffectsService', () => {
+  let service: UserEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CloseModalService);
+    service = TestBed.inject(UserEffects);
   });
 
   it('should be created', () => {

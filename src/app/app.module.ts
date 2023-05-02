@@ -13,14 +13,14 @@ import { CoreModule } from './core/core.module';
 import { MainModule } from './main/main.module';
 import { BookingModule } from './booking/booking.module';
 import { CartModule } from './cart/cart.module';
-// import { AuthModule } from './auth/auth.module';
+import { authState } from './redux/state/app.state';
+import { UserEffects } from './redux/effects/autn-user.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    // AuthModule,
     CoreModule,
     MainModule,
     BookingModule,
@@ -29,7 +29,7 @@ import { CartModule } from './cart/cart.module';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {
+    StoreModule.forRoot(authState, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
@@ -39,7 +39,7 @@ import { CartModule } from './cart/cart.module';
         strictActionTypeUniqueness: true,
       },
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
   ],
