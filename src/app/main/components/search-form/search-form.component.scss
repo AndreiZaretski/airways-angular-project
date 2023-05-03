@@ -55,7 +55,16 @@ mat-radio-group {
 }
 
 .passenger-options {
+  cursor: default;
+  padding: 0;
+}
+
+.passenger-option-wrapper {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 0 16px;
 }
 
 .passenger-option {
@@ -98,6 +107,7 @@ mat-radio-group {
 
 .remove-btn:hover,
 .add-btn:hover{
+  cursor: pointer;
   color: var(--blue);
 }
 

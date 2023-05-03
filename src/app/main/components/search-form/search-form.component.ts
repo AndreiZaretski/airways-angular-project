@@ -15,10 +15,6 @@ import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomp
 export class SearchFormComponent implements OnInit {
   isFormVertical = false;
 
-  locationFrom = '';
-
-  locationTo = '';
-
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
     { value: 'CDG-1', viewValue: 'Paris Charles de Gaulle (CDG)' },
@@ -45,7 +41,7 @@ export class SearchFormComponent implements OnInit {
   ];
 
   searchForm = this.formBuilder.group({
-    way: ['1', Validators.required],
+    way: ['round', Validators.required],
     route: this.formBuilder.group({
       fromLocation: ['', Validators.required],
       toLocation: ['', Validators.required],
@@ -54,8 +50,14 @@ export class SearchFormComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
     }, { validator: createDateValidator() }),
-    passengers: ['', Validators.required],
+    passengers: [[], Validators.required],
   });
+
+  private locationFrom = '';
+
+  private locationTo = '';
+
+  private selectedPassengers: string[] = [];
 
   constructor(
     private router: Router,
@@ -63,25 +65,32 @@ export class SearchFormComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {}
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
       this.isFormVertical = false;
       if (result.matches) {
         this.isFormVertical = true;
       }
     });
-    console.log('minDate', this.minDate);
-    console.log('max', this.maxDate);
   }
 
-  addPassenger(chosenPassenger: IPassengers): void {
+  addPassenger(chosenPassenger: IPassengers, event: Event): void {
     if (chosenPassenger.count !== undefined) {
       // eslint-disable-next-line no-param-reassign
       chosenPassenger.count += 1;
       // eslint-disable-next-line no-param-reassign
       chosenPassenger.selected = true;
+      event.stopPropagation();
+      if (!this.selectedPassengers.includes(chosenPassenger.value)) {
+        this.selectedPassengers.push(chosenPassenger.value);
+        this.passengers?.setValue(this.selectedPassengers);
+      }
     }
-    console.log(chosenPassenger.value, chosenPassenger.count);
+  }
+
+  disableClickDefaultBehaviour(event: Event): void {
+    event.stopImmediatePropagation();
+    event.preventDefault();
   }
 
   get way(): AbstractControl<string | null> | null {
@@ -112,32 +121,39 @@ export class SearchFormComponent implements OnInit {
     return this.searchForm.get('dates.endDate');
   }
 
-  get passengers(): AbstractControl<string | null> | null {
+  get passengers(): AbstractControl<string[] | null> | null {
     return this.searchForm.get('passengers');
   }
 
-  removePassenger(chosenPassenger: IPassengers): void {
+  removePassenger(chosenPassenger: IPassengers, event: Event): void {
+    event.stopPropagation();
     if (chosenPassenger.count) {
       // eslint-disable-next-line no-param-reassign
       chosenPassenger.count -= 1;
-    } else {
+    }
+    if (chosenPassenger.count === 0) {
       // eslint-disable-next-line no-param-reassign
       chosenPassenger.selected = false;
+      const indexToRemove = this.selectedPassengers.indexOf(chosenPassenger.value);
+      if (indexToRemove > -1) {
+        this.selectedPassengers.splice(indexToRemove, 1);
+      }
     }
-    console.log(chosenPassenger.value, chosenPassenger.count);
+    this.passengers?.setValue(this.selectedPassengers);
   }
 
   submitSearchRequest(): void {
     if (this.searchForm.valid) {
       console.log('search request submitted');
+      console.log(this.searchForm.value);
       this.router.navigateByUrl(`/${Path.Booking}`);
     }
   }
 
   switchLocations(
     fromLocation: AutocompleteDropdownComponent,
-    toLocation: AutocompleteDropdownComponent
-  ) {
+    toLocation: AutocompleteDropdownComponent,
+  ): void {
     this.locationFrom = toLocation.locationInput.value ?? '';
     this.locationTo = fromLocation.locationInput.value ?? '';
 

@@ -1,8 +1,8 @@
 <div class="search-form-wrapper container">
   <form [formGroup]="searchForm" class="example-form search-form">
     <mat-radio-group formControlName="way" aria-label="Select an option">
-      <mat-radio-button value="1" color="primary">Round Trip</mat-radio-button>
-      <mat-radio-button value="2" color="primary">One Way</mat-radio-button>
+      <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
+      <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
       <mat-error *ngIf="way?.hasError('required')">
         Please choose an option
       </mat-error>
@@ -54,7 +54,6 @@
             <button mat-button color="primary" matDateRangePickerApply>Ok</button>
           </mat-date-range-picker-actions>
         </mat-date-range-picker>
-
         <mat-error *ngIf="startDate?.hasError('matDatepickerMin')">
           Start date cannot be in the past
         </mat-error>
@@ -74,30 +73,31 @@
           Start date should go before end date
         </mat-error>
       </mat-form-field>
+
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Passengers</mat-label>
         <mat-select formControlName="passengers" disableRipple multiple #passengersChosen>
           <mat-select-trigger>
             <ng-container *ngFor="let passenger of passengerOptions; let i = index">
-              <ng-container *ngIf="passengersChosen?.value?.includes(passenger.value)">
-                {{ passenger.count ? passenger.count : '' }} {{ passenger.count ? passengersChosen.value?.[i] : '' }} {{ passenger.count && passengersChosen.value?.length > i + 1 ? ',' : '' }}
-              </ng-container>
+              {{ passenger.count ? passenger.count : '' }} {{ passenger.count ? passenger.value : '' }}{{ passenger.count && (passengerOptions[i + 1] && passengerOptions[i + 1].count || passengerOptions[i + 2] && passengerOptions[i + 2].count) ? ',' : '' }}
             </ng-container>
           </mat-select-trigger>
-          <mat-option #passengerOption class="passenger-options" *ngFor="let passenger of passengerOptions" [value]="passenger.value">
-            <div class="passenger-option">
-              <span class="passenger-category">{{ passenger.viewCategory }}</span>
-              <span class="passenger-desc">{{ passenger.viewDesc }}</span>
-            </div>
-            <div class="passenger-counter">
-              <div class="remove-btn" [ngClass]="{'disabled': !passenger.count}" (click)="removePassenger(passenger)">
-                <mat-icon>remove</mat-icon>
+            <mat-option #passengerOption class="passenger-options" *ngFor="let passenger of passengerOptions" [value]="passenger.value" (click)="disableClickDefaultBehaviour($event)">
+              <div class="passenger-option-wrapper" (click)="$event.stopPropagation()">
+                <div class="passenger-option">
+                  <span class="passenger-category">{{ passenger.viewCategory }}</span>
+                  <span class="passenger-desc">{{ passenger.viewDesc }}</span>
+                </div>
+                <div class="passenger-counter">
+                  <div class="remove-btn" [ngClass]="{'disabled': !passenger.count}" (click)="removePassenger(passenger, $event)">
+                    <mat-icon>remove</mat-icon>
+                  </div>
+                  <span class="count-number">{{ passenger.count }}</span>
+                  <div class="add-btn" (click)="addPassenger(passenger, $event)">
+                    <mat-icon color="gray">add</mat-icon>
+                  </div>
+                </div>
               </div>
-              <span class="count-number">{{ passenger.count }}</span>
-              <div class="add-btn" (click)="addPassenger(passenger)">
-                <mat-icon color="gray">add</mat-icon>
-              </div>
-            </div>
           </mat-option>
         </mat-select>
         <mat-error *ngIf="passengers?.hasError('required')">
@@ -105,7 +105,6 @@
         </mat-error>
       </mat-form-field>
     </div>
-
 
     <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">Search</button>
   </form>
