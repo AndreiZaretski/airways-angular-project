@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription, catchError } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { getRequestUser } from 'src/app/redux/actions/auth.actions';
-import { AuthService } from '../../services/auth.service';
+import { getRequestUser } from 'src/app/redux/actions/state.actions';
+import { AuthService } from '../../../core/services/auth.service';
 import { AuthResponse } from '../../../core/models/interface';
 
 @Component({

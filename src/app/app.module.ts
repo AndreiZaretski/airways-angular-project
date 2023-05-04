@@ -13,7 +13,7 @@ import { CoreModule } from './core/core.module';
 import { MainModule } from './main/main.module';
 import { BookingModule } from './booking/booking.module';
 import { CartModule } from './cart/cart.module';
-import { authState } from './redux/state/app.state';
+import { AppState } from './redux/state/app.state';
 import { UserEffects } from './redux/effects/autn-user.effects';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { UserEffects } from './redux/effects/autn-user.effects';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(authState, {
+    StoreModule.forRoot(AppState, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,

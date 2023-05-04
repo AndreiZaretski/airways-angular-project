@@ -16,7 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(user: AuthLogin): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('http://localhost:3000/login', user).pipe(
+    return this.http.post<AuthResponse>('login', user).pipe(
       tap((res) => {
         this.writeLocalStorage(res);
       }),
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   registration(user: AuthRegistration): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('http://localhost:3000/register', user).pipe(
+    return this.http.post<AuthResponse>('register', user).pipe(
       tap((res) => {
         this.writeLocalStorage(res);
       }),
@@ -42,7 +42,7 @@ export class AuthService {
 
   getUser() {
     if (localStorage.getItem('auth-id') && localStorage.getItem('auth-token')) {
-      return this.http.get<AuthResponseLight>(`http://localhost:3000/600/users/${localStorage.getItem('auth-id')}`, {
+      return this.http.get<AuthResponseLight>(`600/users/${localStorage.getItem('auth-id')}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('auth-token')}`,
         },

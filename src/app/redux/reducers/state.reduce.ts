@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { AuthStateInit } from '../state/state.model';
-import { getRequestUser } from '../actions/auth.actions';
+import { StateInit } from '../state/state.model';
+import { getRequestUser, updateAirsData, updateMainState } from '../actions/state.actions';
 
 // export const youTubeCardsReducer = createReducer(
 //   AppStateInit,
@@ -25,7 +25,7 @@ import { getRequestUser } from '../actions/auth.actions';
 // );
 
 export const authReducer = createReducer(
-  AuthStateInit,
+  StateInit,
   on(
     getRequestUser,
     (state, { currentUser }) => ({
@@ -33,11 +33,26 @@ export const authReducer = createReducer(
       authState: currentUser,
     }),
   ),
-  // on(
-  //   getCustomCard,
-  //   (state, { customCard }) => ({
-  //     ...state,
-  //     customCards: [...state.customCards, customCard],
-  //   }),
-  // ),
+);
+
+export const mainStateReducer = createReducer(
+  StateInit,
+  on(
+    updateMainState,
+    (state, { newState }) => ({
+      ...state,
+      searchMainState: newState,
+    }),
+  ),
+);
+
+export const airStateReducer = createReducer(
+  StateInit,
+  on(
+    updateAirsData,
+    (state, { newAirsData }) => ({
+      ...state,
+      airResponse: newAirsData,
+    }),
+  ),
 );

@@ -4,9 +4,9 @@ import {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   EMPTY, buffer, catchError, map, mergeAll, mergeMap, scan, switchAll, switchMap,
 } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 // import { AuthResponseLight } from 'src/app/core/models/interface';
-import { checkRequestUser, getRequestUser } from '../actions/auth.actions';
+import { checkRequestUser, getRequestUser } from '../actions/state.actions';
 
 @Injectable({
   providedIn: 'root',
