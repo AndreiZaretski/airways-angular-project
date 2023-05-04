@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
+import { Store } from '@ngrx/store';
+import { GetAirDataService } from 'src/app/core/services/get-air-data.service';
+import { updateAirsData, updateMainState } from 'src/app/redux/actions/state.actions';
+import { Subscription } from 'rxjs';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomplete-dropdown.component';
@@ -12,8 +16,10 @@ import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomp
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
 })
-export class SearchFormComponent implements OnInit {
+export class SearchFormComponent implements OnInit, OnDestroy {
   isFormVertical = false;
+
+  subscription: Subscription;
 
   locations: ILocation[] = [
     { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
@@ -63,7 +69,13 @@ export class SearchFormComponent implements OnInit {
     private router: Router,
     private responsive: BreakpointObserver,
     private formBuilder: FormBuilder,
+    private store: Store,
+    private airData: GetAirDataService,
   ) {}
+
+  ngOnDestroy(): void {
+    setTimeout(() => this.subscription?.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
@@ -98,9 +110,9 @@ export class SearchFormComponent implements OnInit {
   }
 
   get route(): AbstractControl<{
-    [key: string]: Date;
+    [key: string]: string;
   }, {
-    [key: string]: Date;
+    [key: string]: string;
   }> | null {
     return this.searchForm.get('route');
   }
@@ -146,6 +158,35 @@ export class SearchFormComponent implements OnInit {
     if (this.searchForm.valid) {
       console.log('search request submitted');
       console.log(this.searchForm.value);
+
+      const searchFormValue = {
+        startDate: String(this.startDate?.value),
+        endDate: String(this.endDate?.value),
+        passengers: this.searchForm.value.passengers,
+        route: {
+          fromLocation: this.route?.value['fromLocation'] as string,
+          toLocation: this.route?.value['toLocation'] as string,
+        },
+        way: this.searchForm.value.way as string,
+      };
+
+      const airRequest = {
+        from: this.route?.value['fromLocation'] as string,
+        to: this.route?.value['toLocation'] as string,
+        way: this.searchForm.value.way as string,
+        endDate: String(this.endDate?.value),
+        startDate: String(this.startDate?.value),
+        passengersCount: this.passengerOptions
+          .reduce((sum, el): number => sum + (el.count as number), 0),
+      };
+
+      this.subscription = this.airData.getAirsData(airRequest)
+        .subscribe((res) => this.store.dispatch(updateAirsData({ newAirsData: res })));
+
+      this.store.dispatch(updateMainState({
+        newSearchForm: searchFormValue,
+        newPassengerOptions: this.passengerOptions,
+      }));
       this.router.navigateByUrl(`/${Path.Booking}`);
     }
   }

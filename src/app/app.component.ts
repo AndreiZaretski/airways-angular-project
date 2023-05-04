@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthService } from './auth/services/auth.service';
-import { checkRequestUser } from './redux/actions/auth.actions';
+import { AuthService } from './core/services/auth.service';
+import { checkRequestUser } from './redux/actions/state.actions';
 
 @Component({
   selector: 'app-root',

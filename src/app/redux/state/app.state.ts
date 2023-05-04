@@ -1,5 +1,7 @@
-import { authReducer } from '../reducers/auth.reduce';
+import { airStateReducer, authReducer, mainStateReducer } from '../reducers/state.reduce';
 
-export const authState = {
+export const AppState = {
   authState: authReducer,
+  searchMainState: mainStateReducer,
+  airResponse: airStateReducer,
 };

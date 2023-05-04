@@ -4,10 +4,10 @@ import { Currency } from 'src/app/shared/enums/currency.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/auth/pages/modal/modal.component';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectAuthCards } from 'src/app/redux/selectors/cards.selector';
+import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { AuthResponseLight } from '../../models/interface';
 
