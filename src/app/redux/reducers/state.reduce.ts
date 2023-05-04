@@ -39,9 +39,12 @@ export const mainStateReducer = createReducer(
   StateInit,
   on(
     updateMainState,
-    (state, { newState }) => ({
+    (state, { newSearchForm, newPassengerOptions }) => ({
       ...state,
-      searchMainState: newState,
+      searchMainState: {
+        searchForm: newSearchForm,
+        passengerOptions: newPassengerOptions,
+      },
     }),
   ),
 );

@@ -32,7 +32,7 @@ export interface IAirRequest {
 export interface ISearchForm {
   startDate: string,
   endDate: string,
-  passengers: [],
+  passengers: [] | unknown,
   route: {
     fromLocation: string,
     toLocation: string,

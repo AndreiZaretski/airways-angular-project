@@ -26,3 +26,10 @@ export const selectAirResponse = createSelector(
   selectAirResponseState,
   (state) => state.airResponse,
 );
+
+// export const selectBookingPageData = createSelector(
+//   selectSearchPassengers,
+//   selectAirResponseState,
+//   (state) => state,
+
+// );

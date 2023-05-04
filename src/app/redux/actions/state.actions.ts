@@ -1,7 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { AuthResponseLight } from 'src/app/core/models/interface';
-import { IAirResponse } from 'src/app/shared/models/interfaces';
-import { ISearchMainState } from '../state/state.model';
+import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
+import { IPassengers } from 'src/app/main/model/search-form.model';
+// import { ISearchMainState } from '../state/state.model';
 
 export const getRequestUser = createAction(
   '[USER] Get get user',
@@ -15,7 +16,10 @@ export const checkRequestUser = createAction(
 
 export const updateMainState = createAction(
   '[Main] update main state',
-  props<{ newState: ISearchMainState,
+  props<{
+    newSearchForm: ISearchForm,
+    newPassengerOptions: IPassengers[]
+    ,
   }>(),
 
 );

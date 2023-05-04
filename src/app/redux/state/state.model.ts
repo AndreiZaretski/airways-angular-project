@@ -9,7 +9,10 @@ export interface ISearchMainState {
 
 export interface IState {
   authState: AuthResponseLight | null,
-  searchMainState: ISearchMainState,
+  searchMainState: {
+    searchForm: ISearchForm,
+    passengerOptions: IPassengers[]
+  },
   airResponse: IAirResponse | null,
 }
 
