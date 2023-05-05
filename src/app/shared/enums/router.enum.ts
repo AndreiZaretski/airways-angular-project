@@ -4,4 +4,7 @@ export enum Path {
   Main = 'main',
   Booking = 'booking',
   Cart = 'cart',
+  Flights = 'flights',
+  Passengers = 'passengers',
+  Summary = 'summary',
 }
