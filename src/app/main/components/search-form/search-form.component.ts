@@ -187,7 +187,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         newSearchForm: searchFormValue,
         newPassengerOptions: this.passengerOptions,
       }));
-      this.router.navigateByUrl(`/${Path.Booking}`);
+      this.router.navigate([Path.Booking, Path.Flights]);
     }
   }
 
