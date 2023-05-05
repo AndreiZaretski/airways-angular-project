@@ -13,7 +13,7 @@ export interface IUserBooking {
       available: number,
       direct: boolean,
       airportRedirect: string,
-      checked: true,
+      checked: boolean,
     },
     toFlight?:{ date: string,
       time: string,
@@ -23,7 +23,7 @@ export interface IUserBooking {
       available: number,
       direct: boolean,
       airportRedirect: string,
-      checked: true, },
+      checked: boolean, },
   },
 
   passengersCount: {
