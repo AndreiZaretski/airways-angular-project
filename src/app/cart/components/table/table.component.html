@@ -1,0 +1,137 @@
+<div
+  [ngClass]="isVisibleInCart ? 'table-container' : 'table-history-container'"
+>
+  <table
+    class="cart-table"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="position"
+    matSortDirection="asc"
+    class="mat-elevation-z8"
+    (matSortChange)="announceSortChange(sort)"
+    cdkScrollable
+  >
+    <ng-container matColumnDef="select" *ngIf="isVisibleInCart">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          color="primary"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          color="primary"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="position">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        width="12%"
+      >
+        No.
+      </th>
+
+      <td mat-cell *matCellDef="let element">
+        <a
+          [routerLink]="['/' + path.Booking + '/summary']"
+          *ngIf="!isVisibleInCart"
+          >{{ element.position }}</a
+        >
+        <div *ngIf="isVisibleInCart">{{ element.position }}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="flight">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by flight"
+        width="20%"
+      >
+        Flight
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.flight }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="typeTrip">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by typeTrip"
+        width="15%"
+      >
+        Type Trip
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.typeTrip }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataType">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by dataType"
+        width="30%"
+      >
+        Data & Time
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.dataType }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="passengers">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        sortActionDescription="Sort by passengers"
+        width="13%"
+      >
+        Passengers
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.passengers }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by price"
+      >
+        Price
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.price | currency }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionMenu">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button [matMenuTriggerFor]="mainMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #mainMenu="matMenu" MenuPositionX="before">
+          <button mat-menu-item>Delete</button>
+          <button mat-menu-item (click)="editFlightDetails()">Edit</button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="flightsColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: flightsColumns"></tr>
+  </table>
+</div>
