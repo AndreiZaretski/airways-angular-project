@@ -8,7 +8,9 @@ export interface IAirResponse {
     flightNumber: string,
     price: number,
     available: number,
-    getDay: Array<number>
+    getDay: Array<number>,
+    direct: boolean,
+    airportRedirect: string[],
   },
   backWay?: {
     startTimeBack: string,
@@ -16,7 +18,9 @@ export interface IAirResponse {
     flightNumberBack: string,
     priceBack: number,
     availableBack: number,
-    getDayBack: number[]
+    getDayBack: number[],
+    directBack: boolean,
+    airportRedirectBack: string[],
   }
 }
 
