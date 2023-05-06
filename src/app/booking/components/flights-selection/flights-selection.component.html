@@ -1,1 +1,3 @@
 <p>flights-selection works!</p>
+<app-flights-selection-item></app-flights-selection-item>
+<app-flights-selection-item *ngIf="(responseDetails$ | async)?.responseAir?.backWay"></app-flights-selection-item>
