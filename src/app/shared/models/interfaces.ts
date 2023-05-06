@@ -2,25 +2,22 @@ export interface IAirResponse {
   from: string,
   to: string,
   way: string,
-  thereWay: {
-    startTime: string,
-    timeWay: number,
-    flightNumber: string,
-    price: number,
-    available: number,
-    getDay: Array<number>,
-    direct: boolean,
-    airportRedirect: string[],
-  },
-  backWay?: {
-    startTimeBack: string,
-    timeWayBack: number,
-    flightNumberBack: string,
-    priceBack: number,
-    availableBack: number,
-    getDayBack: number[],
-    directBack: boolean,
-    airportRedirectBack: string[],
+  endDate: string,
+  startDate: string,
+  thereWay: IFlightInfo[],
+  backWay?: IFlightInfo[],
+}
+
+export interface IFlightInfo {
+  startTime: string,
+  timeWay: number,
+  flightNumber: string,
+  price: number,
+  available: number,
+  isFlight: boolean,
+  direct: {
+    isDirect: boolean,
+    airportRedirect: string[]
   }
 }
 

@@ -15,7 +15,7 @@ export interface IState {
     searchForm: ISearchForm,
     passengerOptions: IPassengers[]
   },
-  userBoking: IUserBooking | null,
+  // userBoking: IUserBooking | null,
   // airResponse: IAirResponse | null,
 }
 
@@ -44,11 +44,25 @@ export const StateInit: IState = {
       },
     ],
   },
-  userBoking: {
-    responseAir: null,
-    chooseData: null,
-    passengersCount: null,
-    userPassengers: null,
-  },
+  // userBoking: {
+  //   responseAir: null,
+  //   chooseData: null,
+  //   passengersCount: null,
+  //   userPassengers: null,
+  // },
+  // airResponse: null,
+};
+
+// export interface IUserBookingState {userBoking: IUserBooking, }
+
+export const UserBookingStateInit: IUserBooking = {
+
+  responseAir: null,
+  chooseData: null,
+  checkedFrom: false,
+  checkedTo: false,
+  passengersCount: null,
+  userPassengers: null,
+
   // airResponse: null,
 };
