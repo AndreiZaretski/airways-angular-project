@@ -32,6 +32,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
+import { AirportNamePipe } from './pipes/airport-name.pipe';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -58,7 +59,9 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AirportNamePipe,
+  ],
   imports: [
     CommonModule,
     ...materialModules,
@@ -67,6 +70,7 @@ const materialModules = [
     ...materialModules,
     ReactiveFormsModule,
     FormsModule,
+    AirportNamePipe,
   ],
 })
 export class SharedModule { }
