@@ -1,18 +1,19 @@
 <div class="booking-header" [ngClass]="{'is-xsmall': isHeaderVertical}">
   <div class="header-content container">
-    <div class="itinerary">
-      <span>Dublin</span>
-      <div class="way-icon round-trip"></div>
-      <span>Warsaw Modlin</span>
-    </div>
-    <div class="order-details">
-      <span class="way detail-item">Return</span>
-      <span class="dates detail-item">1Mar - 18 Mar</span>
-      <div class="passengers">
-        <span>3</span>
-        <mat-icon class="passenger-icon">person</mat-icon>
+    <ng-container *ngIf="(headerDetails$| async) as formDetails">
+      <div class="itinerary">
+        <span>{{ formDetails.searchForm.route.fromLocation }}</span>
+        <div class="way-icon" [ngClass]="{'round-trip': formDetails.searchForm.way === 'round'}"></div>
+        <span>{{ formDetails.searchForm.route.toLocation }}</span>
       </div>
-    </div>
-    <button class="edit-btn" mat-button color="primary">Edit</button>
-  </div>
+      <div class="order-details">
+        <span class="way detail-item">{{ formDetails.searchForm.way === 'round' ? 'Return' : 'One-way' }}</span>
+        <span class="dates detail-item">{{ formDetails.searchForm.startDate | date }} - {{ formDetails.searchForm.endDate | date }}</span>
+        <div class="passengers">
+          <span>{{ formDetails.passengerOptions | totalPassengers }}</span>
+          <mat-icon class="passenger-icon">person</mat-icon>
+        </div>
+      </div>
+      <button class="edit-btn" mat-button color="primary">Edit</button>
+    </ng-container>
 </div>
