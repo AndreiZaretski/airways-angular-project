@@ -71,9 +71,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     private store: Store,
   ) {}
 
-  // ngOnDestroy(): void {
-  //   setTimeout(() => this.subscription?.unsubscribe());
-  // }
+  ngOnDestroy(): void {
+    setTimeout(() => this.subscription?.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
@@ -82,10 +82,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         this.isFormVertical = true;
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
