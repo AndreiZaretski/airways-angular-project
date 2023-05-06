@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { AuthResponseLight } from 'src/app/core/models/interface';
 import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
 import { IPassengers } from 'src/app/main/model/search-form.model';
-import { IChooseData, IPassengersCount } from 'src/app/shared/models/interface-user-booking';
+import { IChooseData, IPassengersCount, IUserPassengers } from 'src/app/shared/models/interface-user-booking';
 // import { ISearchMainState } from '../state/state.model';
 
 export const getRequestUser = createAction(
@@ -45,10 +45,15 @@ export const updateChooseData = createAction(
 
 export const updateChooseChekedFrom = createAction(
   '[Passengers] update choose checked data from',
-  props<{ newChooseDataChecked: boolean,
-  }>(),
+
 );
 
 export const updateChooseChekedTo = createAction(
   '[Passengers] update choose checked data to',
+);
+
+export const updatePassengersInfo = createAction(
+  '[Passengers] update passengers info',
+  props<{ newPassengersInfo: IUserPassengers,
+  }>(),
 );

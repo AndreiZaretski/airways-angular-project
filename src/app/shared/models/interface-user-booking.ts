@@ -1,9 +1,12 @@
-import { IAirResponse } from './interfaces';
+import { IAirResponse, IFlightInfo } from './interfaces';
 
 export interface IUserBooking {
   responseAir: IAirResponse | null,
 
   chooseData: IChooseData | null,
+
+  checkedFrom: boolean,
+  checkedTo: boolean,
 
   passengersCount: IPassengersCount | null,
 
@@ -41,15 +44,9 @@ export interface IUserPassengers {
 }
 
 export interface IChooseData {
-  dataThere: {
-    price: number,
-    date: string,
-    checked: boolean,
-  },
-  dataBack?:{
-    price: number,
-    date: string,
-    checked: boolean,
-  },
-
+  from: string,
+  to: string,
+  way: string,
+  dataThere: IFlightInfo,
+  dataBack?: IFlightInfo,
 }

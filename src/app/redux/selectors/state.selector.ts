@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { IUserBooking } from 'src/app/shared/models/interface-user-booking';
 import { IState } from '../state/state.model';
 
 export const selectAuthState = createFeatureSelector<IState>('authState');
@@ -20,26 +21,19 @@ export const selectSearchPassengers = createSelector(
   (state) => state.passengerOptions,
 );
 
-export const selectAirResponseState = createFeatureSelector<IState>('userBoking');
+export const selectAirResponseState = createFeatureSelector<IUserBooking>('responseAir');
 
 export const selectUserBoking = createSelector(
   selectAirResponseState,
-  (state) => state.userBoking,
+  (state) => state,
 );
 
 export const selectAirResponse = createSelector(
   selectUserBoking,
-  (state) => state?.responseAir,
+  (state) => state.responseAir,
 );
 
 export const selectChooseData = createSelector(
   selectUserBoking,
-  (state) => state?.chooseData,
+  (state) => state.chooseData,
 );
-
-// export const selectBookingPageData = createSelector(
-//   selectSearchPassengers,
-//   selectAirResponseState,
-//   (state) => state,
-
-// );
