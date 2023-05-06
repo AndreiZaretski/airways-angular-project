@@ -4,8 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { Store } from '@ngrx/store';
-import { GetAirDataService } from 'src/app/core/services/get-air-data.service';
-import { updateAirsData, updateMainState } from 'src/app/redux/actions/state.actions';
+import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
 import { ILocation, IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
@@ -70,7 +69,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     private responsive: BreakpointObserver,
     private formBuilder: FormBuilder,
     private store: Store,
-    private airData: GetAirDataService,
   ) {}
 
   ngOnDestroy(): void {
@@ -169,19 +167,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         },
         way: this.searchForm.value.way as string,
       };
-
-      const airRequest = {
-        from: this.route?.value['fromLocation'] as string,
-        to: this.route?.value['toLocation'] as string,
-        way: this.searchForm.value.way as string,
-        endDate: String(this.endDate?.value),
-        startDate: String(this.startDate?.value),
-        passengersCount: this.passengerOptions
-          .reduce((sum, el): number => sum + (el.count as number), 0),
-      };
-
-      this.subscription = this.airData.getAirsData(airRequest)
-        .subscribe((res) => this.store.dispatch(updateAirsData({ newAirsData: res })));
 
       this.store.dispatch(updateMainState({
         newSearchForm: searchFormValue,

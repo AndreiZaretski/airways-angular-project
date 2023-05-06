@@ -1,5 +1,7 @@
 import { AuthResponseLight } from 'src/app/core/models/interface';
 import { IPassengers } from 'src/app/main/model/search-form.model';
+import { IUserBooking } from 'src/app/shared/models/interface-user-booking';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
 
 export interface ISearchMainState {
@@ -13,7 +15,8 @@ export interface IState {
     searchForm: ISearchForm,
     passengerOptions: IPassengers[]
   },
-  airResponse: IAirResponse | null,
+  userBoking: IUserBooking | null,
+  // airResponse: IAirResponse | null,
 }
 
 export const StateInit: IState = {
@@ -41,6 +44,11 @@ export const StateInit: IState = {
       },
     ],
   },
-
-  airResponse: null,
+  userBoking: {
+    responseAir: null,
+    chooseData: null,
+    passengersCount: null,
+    userPassengers: null,
+  },
+  // airResponse: null,
 };

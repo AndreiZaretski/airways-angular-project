@@ -1,58 +1,55 @@
+import { IAirResponse } from './interfaces';
+
 export interface IUserBooking {
+  responseAir: IAirResponse | null,
 
-  userFlights: {
-    from: string,
-    to: string,
-    way: string,
-    fromFlight:{
-      date: string,
-      time: string,
-      timeWay: string,
-      flightNumber: string,
-      price: number,
-      available: number,
-      direct: boolean,
-      airportRedirect: string,
-      checked: boolean,
-    },
-    toFlight?:{ date: string,
-      time: string,
-      timeWay: string,
-      flightNumber: string,
-      price: number,
-      available: number,
-      direct: boolean,
-      airportRedirect: string,
-      checked: boolean, },
-  },
+  chooseData: IChooseData | null,
 
-  passengersCount: {
-    adult: number,
-    child: number,
-    infant: number,
-  }
+  passengersCount: IPassengersCount | null,
 
-  userPassengers:{
-    adult: Array<IPassengersData>,
-    child: Array<IPassengersData>,
-    infant: Array<IPassengersData>,
-    contactsDetail: {
-      countriCode: string,
-      phoneNumber: string,
-      email: string,
-    }
-  }
+  userPassengers: IUserPassengers | null
 }
 
 export interface ICartsData {
   cartShoppings: Array<IUserBooking>
 }
 
-interface IPassengersData {
+export interface IPassengersData {
   firstName: string,
   lastName: string,
   gender: string,
   dateBirth: string,
   bagage?: string,
   specialAssistance?: boolean,
+}
+
+export interface IPassengersCount {
+  adult: number,
+  child: number,
+  infant: number,
+}
+
+export interface IUserPassengers {
+  adult: Array<IPassengersData>,
+  child: Array<IPassengersData>,
+  infant: Array<IPassengersData>,
+  contactsDetail: {
+    countriCode: string,
+    phoneNumber: string,
+    email: string,
+  }
+}
+
+export interface IChooseData {
+  dataThere: {
+    price: number,
+    date: string,
+    checked: boolean,
+  },
+  dataBack?:{
+    price: number,
+    date: string,
+    checked: boolean,
+  },
+
 }

@@ -20,11 +20,21 @@ export const selectSearchPassengers = createSelector(
   (state) => state.passengerOptions,
 );
 
-export const selectAirResponseState = createFeatureSelector<IState>('airResponse');
+export const selectAirResponseState = createFeatureSelector<IState>('userBoking');
+
+export const selectUserBoking = createSelector(
+  selectAirResponseState,
+  (state) => state.userBoking,
+);
 
 export const selectAirResponse = createSelector(
-  selectAirResponseState,
-  (state) => state.airResponse,
+  selectUserBoking,
+  (state) => state?.responseAir,
+);
+
+export const selectChooseData = createSelector(
+  selectUserBoking,
+  (state) => state?.chooseData,
 );
 
 // export const selectBookingPageData = createSelector(
