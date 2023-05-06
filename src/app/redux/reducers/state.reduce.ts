@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { StateInit } from '../state/state.model';
-import { getRequestUser, updateAirsData, updateMainState } from '../actions/state.actions';
+import {
+  // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
+  getRequestUser, updateAirsData, updateChooseChekedFrom, updateChooseData, updateMainState, updatePassengersCount,
+} from '../actions/state.actions';
 
 // export const youTubeCardsReducer = createReducer(
 //   AppStateInit,
@@ -55,7 +58,30 @@ export const airStateReducer = createReducer(
     updateAirsData,
     (state, { newAirsData }) => ({
       ...state,
-      airResponse: newAirsData,
+      responseAir: newAirsData,
     }),
   ),
+  on(
+    updatePassengersCount,
+    (state, { newPassengersCount }) => ({
+      ...state,
+      passengersCount: newPassengersCount,
+    }),
+  ),
+  on(
+    updateChooseData,
+    (state, { newChooseData }) => ({
+      ...state,
+      chooseData: newChooseData,
+    }),
+  ),
+
+  // on(
+  //   updateChooseChekedFrom,
+  //   (state, { newChooseDataChecked }) => ({
+  //     ...state,
+  //     chooseData?.dataThere.checked: newChooseDataChecked,
+
+  //   }),
+  // ),
 );

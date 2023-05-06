@@ -3,5 +3,6 @@ import { airStateReducer, authReducer, mainStateReducer } from '../reducers/stat
 export const AppState = {
   authState: authReducer,
   searchMainState: mainStateReducer,
-  airResponse: airStateReducer,
+  userBooking: airStateReducer,
+
 };
