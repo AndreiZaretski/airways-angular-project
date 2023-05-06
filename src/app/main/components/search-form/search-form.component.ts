@@ -73,9 +73,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     private airData: GetAirDataService,
   ) {}
 
-  ngOnDestroy(): void {
-    setTimeout(() => this.subscription?.unsubscribe());
-  }
+  // ngOnDestroy(): void {
+  //   setTimeout(() => this.subscription?.unsubscribe());
+  // }
 
   ngOnInit(): void {
     this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
@@ -84,6 +84,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         this.isFormVertical = true;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -179,6 +183,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         passengersCount: this.passengerOptions
           .reduce((sum, el): number => sum + (el.count as number), 0),
       };
+
+      // this.subscription = this.airData.getAirsData(airRequest)
+      //   .subscribe((res) => this.store.dispatch(updateAirsData({ newAirsData: res })));
 
       this.subscription = this.airData.getAirsData(airRequest)
         .subscribe((res) => this.store.dispatch(updateAirsData({ newAirsData: res })));
