@@ -8,6 +8,7 @@
 .header-content {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   gap: 40px;
 }
 
@@ -46,6 +47,10 @@
   height: 20px;
   font-size: 18px;
   line-height: 18px;
+}
+
+.dates {
+  min-width: 100px;
 }
 
 .detail-item {

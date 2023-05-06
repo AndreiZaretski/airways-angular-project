@@ -9,6 +9,7 @@ import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
   styleUrls: ['./booking-header.component.scss'],
 })
 export class BookingHeaderComponent implements OnInit {
+
   isHeaderVertical = false;
 
   headerDetails$ = this.store.select(selectSearchMain);
