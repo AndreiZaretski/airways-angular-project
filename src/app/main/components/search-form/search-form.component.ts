@@ -6,9 +6,11 @@ import { createDateValidator, createLocationsValidator } from 'src/app/shared/va
 import { Store } from '@ngrx/store';
 import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { ILocation, IPassengers } from '../../model/search-form.model';
+import { IAirport } from 'src/app/shared/models/interface-airport-locations';
+import { IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomplete-dropdown.component';
+import airports from '../../../shared/data/airports.json';
 
 @Component({
   selector: 'app-search-form',
@@ -20,14 +22,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  locations: ILocation[] = [
-    { value: 'LHR-0', viewValue: 'London Heathrow (LHR)' },
-    { value: 'CDG-1', viewValue: 'Paris Charles de Gaulle (CDG)' },
-    { value: 'FRA-2', viewValue: 'Frankfurt Airport (FRA)' },
-    { value: 'AMS-3', viewValue: 'Amsterdam Airport Schiphol (AMS)' },
-    { value: 'MAD-4', viewValue: 'Adolfo Suárez Madrid-Barajas Airport (MAD)' },
-    { value: 'FCO-5', viewValue: 'Leonardo Da Vinci-Fiumicino Airport (FCO)' },
-  ];
+  airportsList: IAirport[] = airports;
 
   minDate = new Date();
 

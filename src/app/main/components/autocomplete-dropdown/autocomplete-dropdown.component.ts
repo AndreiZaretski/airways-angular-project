@@ -5,7 +5,7 @@ import {
   FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators,
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
-import { ILocation } from '../../model/search-form.model';
+import { IAirport } from 'src/app/shared/models/interface-airport-locations';
 
 @Component({
   selector: 'app-autocomplete-dropdown',
@@ -25,13 +25,13 @@ import { ILocation } from '../../model/search-form.model';
   ],
 })
 export class AutocompleteDropdownComponent implements OnInit {
-  @Input() items?: ILocation[];
+  @Input() items?: IAirport[];
 
   @Input() label?: string;
 
   @Input() placeholder = '';
 
-  filteredItems?: Observable<ILocation[] | undefined>;
+  filteredItems?: Observable<IAirport[] | undefined>;
 
   locationInput = new FormControl('', [Validators.required]);
 
@@ -46,16 +46,22 @@ export class AutocompleteDropdownComponent implements OnInit {
 
   displayFn(location: string): string {
     if (location) {
-      return this.items?.find((x) => x.value === location)?.viewValue ?? '';
+      const selectedLocation = this.items?.find((x) => x.iataCode === location);
+      return selectedLocation ? `${selectedLocation?.city} (${selectedLocation?.iataCode})` : '';
     }
 
     return location;
   }
 
-  private filter(value: string): ILocation[] | undefined {
+  private filter(value: string): IAirport[] | undefined {
     const filterValue = value.toLowerCase();
 
-    return this.items?.filter((option) => option.viewValue.toLowerCase().includes(filterValue));
+    return this.items?.filter(
+      (option) => option.city.toLowerCase().includes(filterValue)
+      || option.iataCode.toLowerCase().includes(filterValue)
+      || option.name.toLowerCase().includes(filterValue)
+      || option.country.toLowerCase().includes(filterValue),
+    );
   }
 
   writeValue(val: any): void {
@@ -71,9 +77,7 @@ export class AutocompleteDropdownComponent implements OnInit {
     this.onTouched = fn;
   }
 
-  // validate(c: AbstractControl): ValidationErrors | null {
   validate(): ValidationErrors | null {
-    // console.log('Location Input validation', c);
     return this.locationInput.valid ? null : { invalidForm: { valid: false, message: 'location input fields are invalid' } };
   }
 }
