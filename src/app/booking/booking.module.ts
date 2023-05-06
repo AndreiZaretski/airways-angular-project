@@ -9,6 +9,7 @@ import { PassengersComponent } from './components/passengers/passengers.componen
 import { SummaryComponent } from './components/summary/summary.component';
 import { Path } from '../shared/enums/router.enum';
 import { BookingHeaderComponent } from './components/booking-header/booking-header.component';
+import { TotalPassengersPipe } from './pipes/total-passengers.pipe';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     PassengersComponent,
     SummaryComponent,
     BookingHeaderComponent,
+    TotalPassengersPipe,
   ],
   imports: [
     CommonModule,
