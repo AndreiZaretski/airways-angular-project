@@ -13,14 +13,14 @@
       formControlName="fromLocation"
       label="From"
       placeholder="Choose your starting point"
-      [items] = "locations"
+      [items] = "airportsList"
       #fromLocation>
     </app-autocomplete-dropdown>
       <app-autocomplete-dropdown
       formControlName="toLocation"
       label="Destination"
       placeholder="Choose your destination"
-      [items] = "locations"
+      [items] = "airportsList"
       #toLocation>
     </app-autocomplete-dropdown>
     <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">

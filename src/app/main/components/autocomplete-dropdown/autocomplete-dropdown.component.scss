@@ -1,3 +1,15 @@
 .example-full-width {
   width: 100%;
 }
+
+.location-option {
+  display: flex;
+  flex-direction: column;
+  height: 56px;
+  color: var(--black);
+}
+
+.option-details {
+  font-size: 14px;
+  color: var(--gray);
+}
