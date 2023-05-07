@@ -12,7 +12,12 @@ export interface IFlightInfo {
   startTime: string,
   timeWay: number,
   flightNumber: string,
-  price: number,
+  price: {
+    eur: number,
+    usd: number,
+    pln: number,
+    rub: number,
+  },
   available: number,
   isFlight: boolean,
   direct: {

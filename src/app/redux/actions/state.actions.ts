@@ -52,6 +52,15 @@ export const updateChooseChekedTo = createAction(
   '[Passengers] update choose checked data to',
 );
 
+export const updateChooseChekedToBack = createAction(
+  '[Passengers] update choose checked data to back',
+);
+
+export const updateChooseChekedFromBack = createAction(
+  '[Passengers] update choose checked data from back',
+
+);
+
 export const updatePassengersInfo = createAction(
   '[Passengers] update passengers info',
   props<{ newPassengersInfo: IUserPassengers,
