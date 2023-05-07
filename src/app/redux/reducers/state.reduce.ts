@@ -1,31 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { StateInit, UserBookingStateInit } from '../state/state.model';
 import {
-  // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
-  getRequestUser, updateAirsData, updateChooseChekedFrom, updateChooseChekedTo, updateChooseData, updateMainState, updatePassengersCount, updatePassengersInfo,
+  getRequestUser, updateAirsData, updateChooseChekedFrom,
+  updateChooseChekedFromBack, updateChooseChekedTo, updateChooseChekedToBack,
+  updateChooseData, updateMainState, updatePassengersCount, updatePassengersInfo,
 } from '../actions/state.actions';
-
-// export const youTubeCardsReducer = createReducer(
-//   AppStateInit,
-//   on(
-//     getSearchCards,
-//     (state, { searchResult }) => ({
-//       ...state,
-//       youTubeCards: [...searchResult],
-//     }),
-//   ),
-// );
-
-// export const customCardsReducer = createReducer(
-//   AppStateInit,
-//   on(
-//     getCustomCard,
-//     (state, { customCard }) => ({
-//       ...state,
-//       customCards: [...state.customCards, customCard],
-//     }),
-//   ),
-// );
 
 export const authReducer = createReducer(
   StateInit,
@@ -90,6 +69,23 @@ export const airStateReducer = createReducer(
     (state) => ({
       ...state,
       checkedTo: true,
+    }),
+  ),
+
+  on(
+    updateChooseChekedFromBack,
+    (state) => ({
+      ...state,
+      checkedFrom: false,
+
+    }),
+  ),
+
+  on(
+    updateChooseChekedToBack,
+    (state) => ({
+      ...state,
+      checkedTo: false,
     }),
   ),
 

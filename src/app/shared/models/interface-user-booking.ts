@@ -1,6 +1,8 @@
 import { IAirResponse, IFlightInfo } from './interfaces';
 
 export interface IUserBooking {
+  orderId: string | null
+
   responseAir: IAirResponse | null,
 
   chooseData: IChooseData | null,

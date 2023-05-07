@@ -20,7 +20,6 @@ export class AuthService {
       tap((res) => {
         this.writeLocalStorage(res);
       }),
-      // tap((res) => this.currentUser$.next(res.user)),
     );
   }
 
@@ -29,7 +28,6 @@ export class AuthService {
       tap((res) => {
         this.writeLocalStorage(res);
       }),
-      // tap((res) => this.currentUser$.next(res.user)),
     );
   }
 
@@ -49,13 +47,8 @@ export class AuthService {
       })
         .pipe(
           catchError(() => EMPTY),
-          // tap((result) => this.currentUser$.next(result)),
         );
     }
     return new Observable<AuthResponseLight>();
   }
-
-  // get getCurrentUser() {
-  //   return this.currentUser$.value;
-  // }
 }
