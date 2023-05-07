@@ -1,3 +1,3 @@
-<p>flights-selection works!</p>
+<app-floating-panel *ngIf="editPanelService.editPanelShown"></app-floating-panel>
 <app-flights-selection-item></app-flights-selection-item>
 <app-flights-selection-item *ngIf="(responseDetails$ | async)?.responseAir?.backWay"></app-flights-selection-item>

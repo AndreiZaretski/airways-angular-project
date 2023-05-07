@@ -33,6 +33,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
 import { AirportNamePipe } from './pipes/airport-name.pipe';
+import { FormComponent } from './components/form/form.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -61,9 +63,12 @@ const materialModules = [
 @NgModule({
   declarations: [
     AirportNamePipe,
+    FormComponent,
+    DropdownComponent,
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ...materialModules,
   ],
   exports: [
@@ -71,6 +76,8 @@ const materialModules = [
     ReactiveFormsModule,
     FormsModule,
     AirportNamePipe,
+    FormComponent,
+    DropdownComponent,
   ],
 })
 export class SharedModule { }

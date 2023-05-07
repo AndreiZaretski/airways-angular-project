@@ -10,3 +10,11 @@ export interface IAirport {
 }
 
 export type TGeoloc = { [key: string]: number };
+
+export interface IPassengers {
+  value: string;
+  viewCategory: string;
+  viewDesc: string;
+  count?: number;
+  selected: boolean;
+}

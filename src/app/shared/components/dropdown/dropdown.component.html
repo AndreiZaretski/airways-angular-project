@@ -1,0 +1,20 @@
+<mat-form-field class="example-full-width" appearance="outline" subscriptSizing="dynamic">
+  <mat-label>{{ label }}</mat-label>
+      <input type="text"
+      [placeholder]="placeholder"
+      aria-label="from"
+      matInput
+      [formControl]="locationInput"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+      <mat-option *ngFor="let item of filteredItems | async" [value]="item.iataCode">
+        <div class="location-option">
+          <span class="option-title">{{ item.city }} ({{ item.iataCode }})</span>
+          <span class="option-details">{{ item.name }}, {{ item.country }}</span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="locationInput.hasError('required')">
+      Please choose a location
+    </mat-error>
+</mat-form-field>
