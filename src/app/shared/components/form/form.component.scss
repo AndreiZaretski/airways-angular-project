@@ -154,4 +154,39 @@ button.search-btn {
   .search-btn {
     height: 56px;
   }
+
+  .is-medium {
+    &.search-form {
+      flex-wrap: wrap;
+      gap: 12px;
+      max-height: 250px;
+
+      .locations-wrap {
+        gap: 12px;
+        width: 100%;
+      }
+
+      .details-wrap {
+        flex-shrink: 5;
+        gap: 12px;
+      }
+
+      button.search-btn {
+        width: 100px;
+      }
+    }
+  }
+
+  .is-xsmall {
+    &.search-form {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      max-height: 100%;
+    }
+
+    .locations-wrap,
+    .details-wrap {
+      flex-direction: column;
+    }
+  }
 }

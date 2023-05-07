@@ -1,5 +1,5 @@
 <div class="search-form-wrapper container" [ngClass]="{'is-booking-page': source === 'booking-page'}">
-  <form [formGroup]="searchForm" class="example-form search-form">
+  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}">
     <mat-radio-group formControlName="way" aria-label="Select an option">
       <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
       <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
@@ -8,15 +8,15 @@
       </mat-error>
     </mat-radio-group>
 
-    <div class="locations-wrap" formGroupName="route">
-      <app-dropdown
+    <div class="locations-wrap" formGroupName="route" [ngClass]="{'is-xsmall': isFormVertical}">
+      <app-dropdown class="dropdown"
       formControlName="fromLocation"
       label="From"
       placeholder="Choose your starting point"
       [items] = "airportsList"
       #fromLocation>
     </app-dropdown>
-      <app-dropdown
+      <app-dropdown class="dropdown"
       formControlName="toLocation"
       label="Destination"
       placeholder="Choose your destination"
@@ -40,8 +40,7 @@
           <input
           formControlName="startDate"
           matStartDate
-          placeholder="Start date"
-          [value]="dateStartPrefilled">
+          placeholder="Start date">
           <input
           formControlName="endDate"
           matEndDate

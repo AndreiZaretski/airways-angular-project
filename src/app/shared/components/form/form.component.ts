@@ -23,6 +23,8 @@ import airports from '../../data/airports.json';
 export class FormComponent implements OnInit, OnDestroy {
   @Input() source: string;
 
+  isBookingFormVertical = false;
+
   isFormVertical = false;
 
   subscription: Subscription;
@@ -34,8 +36,6 @@ export class FormComponent implements OnInit, OnDestroy {
   maxDate = new Date(2024, 0, 1);
 
   savedState$ = this.store.select(selectSearchMain);
-
-  dateStartPrefilled = '';
 
   passengerOptions: IPassengers[] = [
     {
@@ -80,11 +80,24 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
+    this.responsive.observe(
+      [Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Small],
+    ).subscribe((result) => {
+      const { breakpoints } = result;
       this.isFormVertical = false;
-      if (result.matches) {
+      this.isBookingFormVertical = false;
+
+      if (breakpoints[Breakpoints.Medium] || breakpoints[Breakpoints.Small]) {
+        this.isBookingFormVertical = true;
+      }
+      if (breakpoints[Breakpoints.XSmall]) {
         this.isFormVertical = true;
       }
+
+      // this.isFormVertical = false;
+      // if (result.matches) {
+      //   this.isFormVertical = true;
+      // }
     });
 
     this.savedState$.subscribe((res) => {
@@ -97,18 +110,12 @@ export class FormComponent implements OnInit, OnDestroy {
       this.passengerOptions.forEach((option, index) => {
         Object.assign(option, res.passengerOptions[index]);
       });
-
-      this.dateStartPrefilled = res.searchForm.startDate;
-      this.startDate?.setValue(this.dateStartPrefilled);
-      console.log(this.startDate?.value);
-
       // console.log(res.searchForm.startDate, res.searchForm.endDate);
       // this.startDate?.setValue(res.searchForm.startDate);
       // this.endDate?.setValue(res.searchForm.endDate);
       // console.log(this.startDate, this.endDate);
     });
     // this.startDate?.setValue(this.minDate.toString());
-    console.log(this.startDate?.value);
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
