@@ -1,1 +1,53 @@
-<p>flights-selection-item works!</p>
+<h2 class="page-title flight-selection-title">
+  <mat-icon class="flight-icon">flight</mat-icon>
+  <span>
+    {{ source === 'backway' ?
+    (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name') + ' to ' + (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name'):
+    (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name') + ' to ' + (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name')}}
+  </span>
+</h2>
+
+<mat-card class="flight-card">
+  <mat-card-content class="content-wrapper">
+    <div class="flight-details-wrapper">
+      <div class="flight-details">
+        <div class="departure-wrapper">
+          <span>{{ source !== 'backway' ? (response.startDate | date: 'fullDate') : (response.endDate | date: 'fullDate') }}</span>
+          <span>{{ source !== 'backway' ? (response.startDate | date: 'longTime') : (response.endDate | date: 'longTime') }}</span>
+          <!-- <span>UTC +0</span> -->
+          <span>{{ source === 'backway' ?
+            (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name') :
+            (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name') }}</span>
+        </div>
+        <div class="add-info">
+          <span>{{ source !== 'backway' ? response.thereWay[0].timeWay : (response.backWay ? response.backWay[0].timeWay : '')}}</span>
+          <mat-icon>flight_takeoff</mat-icon>
+          <span>{{ source !== 'backway' ? (response.thereWay[0].direct.isDirect ? 'Direct' : 'Connected') : (response.backWay ? (response.backWay[0].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+        </div>
+        <div class="arrival-wrapper">
+          <span>{{ source !== 'backway' ? (response.startDate | date: 'fullDate') : (response.endDate | date: 'fullDate') }} Calculate!!</span>
+          <span>{{ source !== 'backway' ? (response.startDate | date: 'longTime') : (response.endDate | date: 'longTime') }} Calculate!!</span>
+          <!-- <span>UTC +0</span> -->
+          <span>{{ source !== 'backway' ?
+            (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name') :
+            (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name') }}</span>
+        </div>
+      </div>
+      <div class="flight-number">
+        <span>Flight no.</span>
+        <span>{{ source !== 'backway' ? response.thereWay[0].flightNumber : (response.backWay ? response.backWay[0].flightNumber : '')}}</span>
+      </div>
+    </div>
+    <div class="price-details">
+      <div class="availabilty-price">
+        <div>{{ source !== 'backway' ? response.thereWay[0].available : (response.backWay ? response.backWay[0].available : '')}} seats available</div>
+        <div class="price-wrapper">
+          <span>Price</span>
+          <span>{{ source !== 'backway' ? (response.thereWay[0].price.eur | currency:'EUR') : (response.backWay ? (response.backWay[0].price.eur | currency:'EUR') : '')}}</span>
+        </div>
+      </div>
+      <button mat-flat-button color="primary">Select</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+

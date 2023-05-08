@@ -1,3 +1,10 @@
 <app-floating-panel class="panel" *ngIf="editPanelService.editPanelShown"></app-floating-panel>
-<app-flights-selection-item></app-flights-selection-item>
-<!-- <app-flights-selection-item *ngIf="(responseDetails$ | async)?.responseAir?.backWay"></app-flights-selection-item> -->
+<div class="flights-selection-wrapper container">
+  <ng-container *ngIf="(responseDetails$ | async) as response">
+    <app-flights-selection-item [response]="response" [index]="index"></app-flights-selection-item>
+    <app-flights-selection-item *ngIf="(responseDetails$ | async)?.backWay" [response]="response"
+      source="backway"></app-flights-selection-item>
+  </ng-container>
+</div>
+
+

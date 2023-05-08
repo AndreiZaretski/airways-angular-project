@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IAirResponse } from 'src/app/shared/models/interfaces';
 
 @Component({
   selector: 'app-flights-selection-item',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./flights-selection-item.component.scss'],
 })
 export class FlightsSelectionItemComponent {
+  @Input() index: number;
 
+  @Input() response: IAirResponse;
+
+  @Input() source: string;
 }
