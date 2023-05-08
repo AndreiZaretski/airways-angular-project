@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnDestroy, OnInit
+  Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -8,9 +8,8 @@ import { createDateValidator, createLocationsValidator } from 'src/app/shared/va
 import { Store } from '@ngrx/store';
 import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { IAirport } from 'src/app/shared/models/interface-airport-locations';
 import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
-import { IPassengers } from '../../models/interface-locations-passengers';
+import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import airports from '../../data/airports.json';
@@ -107,14 +106,23 @@ export class FormComponent implements OnInit, OnDestroy {
       this.selectedPassengers = [...res.searchForm.passengers as Array<string>];
       this.passengers?.setValue(this.selectedPassengers);
 
-      this.passengerOptions.forEach((option, index) => {
-        Object.assign(option, res.passengerOptions[index]);
-      });
+      // this.passengerOptions.forEach((option, index) => {
+      //   Object.assign(option, res.passengerOptions[index]);
+      // });
+      // this.passengerOptions = this.passengerOptions.map(
+      //   (option, index) => Object.assign(option, res.passengerOptions[index]),
+      // );
+      // console.log(Object.getOwnPropertyDescriptors(this.passengerOptions[0]));
+      // console.log(Object.getOwnPropertyDescriptors(this.passengerOptions));
+
+      this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
+
       // console.log(res.searchForm.startDate, res.searchForm.endDate);
       // this.startDate?.setValue(res.searchForm.startDate);
       // this.endDate?.setValue(res.searchForm.endDate);
       // console.log(this.startDate, this.endDate);
     });
+    //
     // this.startDate?.setValue(this.minDate.toString());
   }
 
