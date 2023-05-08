@@ -1,0 +1,60 @@
+.flight-selection-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.flight-icon {
+  line-height: 20px;
+  transform:rotate(90deg);
+}
+
+.flight-card {
+  margin-bottom: 32px;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flight-details-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.flight-details {
+  display: flex;
+  gap: 28px;
+}
+
+.departure-wrapper,
+.arrival-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.departure-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-details {
+  display: flex;
+}
+
+.availabilty-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-wrapper {
+  display: flex;
+  flex-direction: column;
+}
