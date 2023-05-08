@@ -22,19 +22,15 @@ import airports from '../../data/airports.json';
 export class FormComponent implements OnInit, OnDestroy {
   @Input() source: string;
 
+  airportsList: IAirport[] = airports;
+
   isBookingFormVertical = false;
 
   isFormVertical = false;
 
-  subscription: Subscription;
-
-  airportsList: IAirport[] = airports;
-
   minDate = new Date();
 
   maxDate = new Date(2024, 0, 1);
-
-  savedState$ = this.store.select(selectSearchMain);
 
   passengerOptions: IPassengers[] = [
     {
@@ -65,7 +61,11 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private locationTo = '';
 
+  private savedState$ = this.store.select(selectSearchMain);
+
   private selectedPassengers: string[] = [];
+
+  private subscriptionBreakpoints: Subscription;
 
   constructor(
     private router: Router,
@@ -74,12 +74,8 @@ export class FormComponent implements OnInit, OnDestroy {
     private store: Store,
   ) {}
 
-  ngOnDestroy(): void {
-    setTimeout(() => this.subscription?.unsubscribe());
-  }
-
   ngOnInit(): void {
-    this.responsive.observe(
+    this.subscriptionBreakpoints = this.responsive.observe(
       [Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Small],
     ).subscribe((result) => {
       const { breakpoints } = result;
@@ -92,11 +88,6 @@ export class FormComponent implements OnInit, OnDestroy {
       if (breakpoints[Breakpoints.XSmall]) {
         this.isFormVertical = true;
       }
-
-      // this.isFormVertical = false;
-      // if (result.matches) {
-      //   this.isFormVertical = true;
-      // }
     });
 
     this.savedState$.subscribe((res) => {
@@ -105,15 +96,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
       this.selectedPassengers = [...res.searchForm.passengers as Array<string>];
       this.passengers?.setValue(this.selectedPassengers);
-
-      // this.passengerOptions.forEach((option, index) => {
-      //   Object.assign(option, res.passengerOptions[index]);
-      // });
-      // this.passengerOptions = this.passengerOptions.map(
-      //   (option, index) => Object.assign(option, res.passengerOptions[index]),
-      // );
-      // console.log(Object.getOwnPropertyDescriptors(this.passengerOptions[0]));
-      // console.log(Object.getOwnPropertyDescriptors(this.passengerOptions));
 
       this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
 
@@ -177,6 +159,10 @@ export class FormComponent implements OnInit, OnDestroy {
     return this.searchForm.get('passengers');
   }
 
+  ngOnDestroy(): void {
+    this.subscriptionBreakpoints.unsubscribe();
+  }
+
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
     event.stopPropagation();
     if (chosenPassenger.count) {
@@ -196,9 +182,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   submitSearchRequest(): void {
     if (this.searchForm.valid) {
-      console.log('search request submitted');
-      console.log(this.searchForm.value);
-
       const searchFormValue = {
         startDate: String(this.startDate?.value),
         endDate: String(this.endDate?.value),
@@ -214,6 +197,7 @@ export class FormComponent implements OnInit, OnDestroy {
         newSearchForm: searchFormValue,
         newPassengerOptions: this.passengerOptions,
       }));
+
       this.router.navigate([Path.Booking, Path.Flights]);
     }
   }
