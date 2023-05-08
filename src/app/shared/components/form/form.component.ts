@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnDestroy, OnInit
+  Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -8,9 +8,8 @@ import { createDateValidator, createLocationsValidator } from 'src/app/shared/va
 import { Store } from '@ngrx/store';
 import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { IAirport } from 'src/app/shared/models/interface-airport-locations';
 import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
-import { IPassengers } from '../../models/interface-locations-passengers';
+import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import airports from '../../data/airports.json';
@@ -23,19 +22,15 @@ import airports from '../../data/airports.json';
 export class FormComponent implements OnInit, OnDestroy {
   @Input() source: string;
 
+  airportsList: IAirport[] = airports;
+
   isBookingFormVertical = false;
 
   isFormVertical = false;
 
-  subscription: Subscription;
-
-  airportsList: IAirport[] = airports;
-
   minDate = new Date();
 
   maxDate = new Date(2024, 0, 1);
-
-  savedState$ = this.store.select(selectSearchMain);
 
   passengerOptions: IPassengers[] = [
     {
@@ -66,7 +61,11 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private locationTo = '';
 
+  private savedState$ = this.store.select(selectSearchMain);
+
   private selectedPassengers: string[] = [];
+
+  private subscriptionBreakpoints: Subscription;
 
   constructor(
     private router: Router,
@@ -75,12 +74,8 @@ export class FormComponent implements OnInit, OnDestroy {
     private store: Store,
   ) {}
 
-  ngOnDestroy(): void {
-    setTimeout(() => this.subscription?.unsubscribe());
-  }
-
   ngOnInit(): void {
-    this.responsive.observe(
+    this.subscriptionBreakpoints = this.responsive.observe(
       [Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Small],
     ).subscribe((result) => {
       const { breakpoints } = result;
@@ -93,11 +88,6 @@ export class FormComponent implements OnInit, OnDestroy {
       if (breakpoints[Breakpoints.XSmall]) {
         this.isFormVertical = true;
       }
-
-      // this.isFormVertical = false;
-      // if (result.matches) {
-      //   this.isFormVertical = true;
-      // }
     });
 
     this.savedState$.subscribe((res) => {
@@ -107,14 +97,14 @@ export class FormComponent implements OnInit, OnDestroy {
       this.selectedPassengers = [...res.searchForm.passengers as Array<string>];
       this.passengers?.setValue(this.selectedPassengers);
 
-      this.passengerOptions.forEach((option, index) => {
-        Object.assign(option, res.passengerOptions[index]);
-      });
+      this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
+
       // console.log(res.searchForm.startDate, res.searchForm.endDate);
       // this.startDate?.setValue(res.searchForm.startDate);
       // this.endDate?.setValue(res.searchForm.endDate);
       // console.log(this.startDate, this.endDate);
     });
+    //
     // this.startDate?.setValue(this.minDate.toString());
   }
 
@@ -169,6 +159,10 @@ export class FormComponent implements OnInit, OnDestroy {
     return this.searchForm.get('passengers');
   }
 
+  ngOnDestroy(): void {
+    this.subscriptionBreakpoints.unsubscribe();
+  }
+
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
     event.stopPropagation();
     if (chosenPassenger.count) {
@@ -188,9 +182,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   submitSearchRequest(): void {
     if (this.searchForm.valid) {
-      console.log('search request submitted');
-      console.log(this.searchForm.value);
-
       const searchFormValue = {
         startDate: String(this.startDate?.value),
         endDate: String(this.endDate?.value),
@@ -206,6 +197,7 @@ export class FormComponent implements OnInit, OnDestroy {
         newSearchForm: searchFormValue,
         newPassengerOptions: this.passengerOptions,
       }));
+
       this.router.navigate([Path.Booking, Path.Flights]);
     }
   }

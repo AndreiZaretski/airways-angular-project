@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import airports from '../data/airports.json';
-import { IAirport, TGeoloc } from '../models/interface-airport-locations';
+import { IAirport, TGeoloc } from '../models/interface-locations-passengers';
 
 @Pipe({
   name: 'airportName',

@@ -5,7 +5,7 @@ import {
   FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators,
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
-import { IAirport } from 'src/app/shared/models/interface-airport-locations';
+import { IAirport } from 'src/app/shared/models/interface-locations-passengers';
 
 @Component({
   selector: 'app-autocomplete-dropdown',

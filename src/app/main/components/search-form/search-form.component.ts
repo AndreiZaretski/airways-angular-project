@@ -6,7 +6,7 @@ import { createDateValidator, createLocationsValidator } from 'src/app/shared/va
 import { Store } from '@ngrx/store';
 import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { IAirport } from 'src/app/shared/models/interface-airport-locations';
+import { IAirport } from 'src/app/shared/models/interface-locations-passengers';
 import { IPassengers } from '../../model/search-form.model';
 import { Path } from '../../../shared/enums/router.enum';
 import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomplete-dropdown.component';

@@ -9,11 +9,16 @@ import { EditPanelService } from '../../services/edit-panel.service';
   styleUrls: ['./flights-selection.component.scss'],
 })
 export class FlightsSelectionComponent implements OnInit {
-  responseDetails$ = this.store.select(selectUserBoking);
+  bookingDetails$ = this.store.select(selectUserBoking);
+
+  // responseDetails$ = this.store.select(selectAirResponse);
 
   constructor(private store: Store, public editPanelService: EditPanelService) {}
 
   ngOnInit() {
-    console.log(this.responseDetails$);
+    // console.log('response', this.responseDetails$);
+    console.log('booking', this.bookingDetails$);
+
+    this.bookingDetails$.subscribe((res) => console.log(res));
   }
 }
