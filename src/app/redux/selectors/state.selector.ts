@@ -21,7 +21,8 @@ export const selectSearchPassengers = createSelector(
   (state) => state.passengerOptions,
 );
 
-export const selectAirResponseState = createFeatureSelector<IUserBooking>('responseAir');
+// export const selectAirResponseState = createFeatureSelector<IUserBooking>('responseAir');
+export const selectAirResponseState = createFeatureSelector<IUserBooking>('userBooking');
 
 export const selectUserBoking = createSelector(
   selectAirResponseState,
