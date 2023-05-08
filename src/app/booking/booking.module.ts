@@ -8,6 +8,10 @@ import { FlightsSelectionComponent } from './components/flights-selection/flight
 import { PassengersComponent } from './components/passengers/passengers.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { Path } from '../shared/enums/router.enum';
+import { BookingHeaderComponent } from './components/booking-header/booking-header.component';
+import { TotalPassengersPipe } from './pipes/total-passengers.pipe';
+import { FlightsSelectionItemComponent } from './components/flights-selection-item/flights-selection-item.component';
+import { FloatingPanelComponent } from './components/floating-panel/floating-panel.component';
 
 const routes: Routes = [
   {
@@ -28,6 +32,10 @@ const routes: Routes = [
     FlightsSelectionComponent,
     PassengersComponent,
     SummaryComponent,
+    BookingHeaderComponent,
+    TotalPassengersPipe,
+    FlightsSelectionItemComponent,
+    FloatingPanelComponent,
   ],
   imports: [
     CommonModule,

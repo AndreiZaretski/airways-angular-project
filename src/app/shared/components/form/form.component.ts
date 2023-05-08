@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, Input, OnDestroy, OnInit
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
@@ -7,17 +9,22 @@ import { Store } from '@ngrx/store';
 import { updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
 import { IAirport } from 'src/app/shared/models/interface-airport-locations';
-import { IPassengers } from '../../model/search-form.model';
-import { Path } from '../../../shared/enums/router.enum';
-import { AutocompleteDropdownComponent } from '../autocomplete-dropdown/autocomplete-dropdown.component';
-import airports from '../../../shared/data/airports.json';
+import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
+import { IPassengers } from '../../models/interface-locations-passengers';
+import { Path } from '../../enums/router.enum';
+import { DropdownComponent } from '../dropdown/dropdown.component';
+import airports from '../../data/airports.json';
 
 @Component({
-  selector: 'app-search-form',
-  templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.scss'],
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
-export class SearchFormComponent implements OnInit, OnDestroy {
+export class FormComponent implements OnInit, OnDestroy {
+  @Input() source: string;
+
+  isBookingFormVertical = false;
+
   isFormVertical = false;
 
   subscription: Subscription;
@@ -27,6 +34,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   minDate = new Date();
 
   maxDate = new Date(2024, 0, 1);
+
+  savedState$ = this.store.select(selectSearchMain);
 
   passengerOptions: IPassengers[] = [
     {
@@ -71,12 +80,42 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
+    this.responsive.observe(
+      [Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Small],
+    ).subscribe((result) => {
+      const { breakpoints } = result;
       this.isFormVertical = false;
-      if (result.matches) {
+      this.isBookingFormVertical = false;
+
+      if (breakpoints[Breakpoints.Medium] || breakpoints[Breakpoints.Small]) {
+        this.isBookingFormVertical = true;
+      }
+      if (breakpoints[Breakpoints.XSmall]) {
         this.isFormVertical = true;
       }
+
+      // this.isFormVertical = false;
+      // if (result.matches) {
+      //   this.isFormVertical = true;
+      // }
     });
+
+    this.savedState$.subscribe((res) => {
+      this.way?.setValue(res.searchForm.way);
+      this.route?.setValue(res.searchForm.route);
+
+      this.selectedPassengers = [...res.searchForm.passengers as Array<string>];
+      this.passengers?.setValue(this.selectedPassengers);
+
+      this.passengerOptions.forEach((option, index) => {
+        Object.assign(option, res.passengerOptions[index]);
+      });
+      // console.log(res.searchForm.startDate, res.searchForm.endDate);
+      // this.startDate?.setValue(res.searchForm.startDate);
+      // this.endDate?.setValue(res.searchForm.endDate);
+      // console.log(this.startDate, this.endDate);
+    });
+    // this.startDate?.setValue(this.minDate.toString());
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -172,8 +211,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   switchLocations(
-    fromLocation: AutocompleteDropdownComponent,
-    toLocation: AutocompleteDropdownComponent,
+    fromLocation: DropdownComponent,
+    toLocation: DropdownComponent,
   ): void {
     this.locationFrom = toLocation.locationInput.value ?? '';
     this.locationTo = fromLocation.locationInput.value ?? '';

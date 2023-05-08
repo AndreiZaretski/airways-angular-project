@@ -1,5 +1,5 @@
-<div class="search-form-wrapper container">
-  <form [formGroup]="searchForm" class="example-form search-form">
+<div class="search-form-wrapper container" [ngClass]="{'is-booking-page': source === 'booking-page'}">
+  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}">
     <mat-radio-group formControlName="way" aria-label="Select an option">
       <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
       <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
@@ -8,21 +8,21 @@
       </mat-error>
     </mat-radio-group>
 
-    <div class="locations-wrap" formGroupName="route">
-      <app-autocomplete-dropdown
+    <div class="locations-wrap" formGroupName="route" [ngClass]="{'is-xsmall': isFormVertical}">
+      <app-dropdown class="dropdown"
       formControlName="fromLocation"
       label="From"
       placeholder="Choose your starting point"
       [items] = "airportsList"
       #fromLocation>
-    </app-autocomplete-dropdown>
-      <app-autocomplete-dropdown
+    </app-dropdown>
+      <app-dropdown class="dropdown"
       formControlName="toLocation"
       label="Destination"
       placeholder="Choose your destination"
       [items] = "airportsList"
       #toLocation>
-    </app-autocomplete-dropdown>
+    </app-dropdown>
     <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">
       Locations should differ
     </mat-error>
@@ -106,8 +106,6 @@
       </mat-form-field>
     </div>
 
-    <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">Search</button>
+    <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
   </form>
 </div>
-
-

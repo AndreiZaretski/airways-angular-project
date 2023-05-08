@@ -8,23 +8,23 @@ import { Observable, map, startWith } from 'rxjs';
 import { IAirport } from 'src/app/shared/models/interface-airport-locations';
 
 @Component({
-  selector: 'app-autocomplete-dropdown',
-  templateUrl: './autocomplete-dropdown.component.html',
-  styleUrls: ['./autocomplete-dropdown.component.scss'],
+  selector: 'app-dropdown',
+  templateUrl: './dropdown.component.html',
+  styleUrls: ['./dropdown.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AutocompleteDropdownComponent),
+      useExisting: forwardRef(() => DropdownComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => AutocompleteDropdownComponent),
+      useExisting: forwardRef(() => DropdownComponent),
       multi: true,
     },
   ],
 })
-export class AutocompleteDropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit {
   @Input() items?: IAirport[];
 
   @Input() label?: string;
