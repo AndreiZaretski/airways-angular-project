@@ -1,0 +1,8 @@
+<mat-card class="flight-card">
+  <div  class="flight-card__title">
+    <mat-card-title class="title-position">{{flight.position}}</mat-card-title>
+    <mat-card-title class="title-flight">{{flight.flight}}</mat-card-title>
+    <mat-card-subtitle class="flight-card__subtitle">{{flight.dataType}}</mat-card-subtitle>
+  </div>
+  <app-passenger-luggage *ngFor="let passenger of passengers" [passenger]="passenger"></app-passenger-luggage>
+</mat-card>
