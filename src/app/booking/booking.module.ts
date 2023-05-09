@@ -6,12 +6,15 @@ import { BookingPageComponent } from './pages/booking-page/booking-page.componen
 import BookingRoutingModule from './booking-routing.module';
 import { FlightsSelectionComponent } from './components/flights-selection/flights-selection.component';
 import { PassengersComponent } from './components/passengers/passengers.component';
-import { SummaryComponent } from './components/summary/summary.component';
 import { Path } from '../shared/enums/router.enum';
 import { BookingHeaderComponent } from './components/booking-header/booking-header.component';
 import { TotalPassengersPipe } from './pipes/total-passengers.pipe';
 import { FlightsSelectionItemComponent } from './components/flights-selection-item/flights-selection-item.component';
 import { FloatingPanelComponent } from './components/floating-panel/floating-panel.component';
+import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
+import { FlightCardComponent } from './components/flight-card/flight-card.component';
+import { PassengerLuggageComponent } from './components/passenger-luggage/passenger-luggage.component';
+import { TotalSumComponent } from './components/total-sum/total-sum.component';
 
 const routes: Routes = [
   {
@@ -20,7 +23,7 @@ const routes: Routes = [
     children: [
       { path: Path.Flights, component: FlightsSelectionComponent },
       { path: Path.Passengers, component: PassengersComponent },
-      { path: Path.Summary, component: SummaryComponent },
+      { path: Path.Summary, component: SummaryPageComponent },
       { path: Path.Empty, redirectTo: Path.Flights, pathMatch: 'full' },
     ],
   },
@@ -31,11 +34,14 @@ const routes: Routes = [
     BookingPageComponent,
     FlightsSelectionComponent,
     PassengersComponent,
-    SummaryComponent,
+    SummaryPageComponent,
     BookingHeaderComponent,
     TotalPassengersPipe,
     FlightsSelectionItemComponent,
     FloatingPanelComponent,
+    FlightCardComponent,
+    PassengerLuggageComponent,
+    TotalSumComponent,
   ],
   imports: [
     CommonModule,
@@ -44,4 +50,4 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
 })
-export class BookingModule { }
+export class BookingModule {}
