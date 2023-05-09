@@ -1,0 +1,25 @@
+<mat-card class="summary-maincard" >
+  <mat-card-title class="summary-title">
+    <mat-icon class="summary-title__image"></mat-icon>
+    Summary
+  </mat-card-title>
+  <div class="summary-flights__container">
+    <app-flight-card
+      *ngFor="let flight of currentFlight"
+      [flight]="flight"
+      [passengers]="passengers"
+    ></app-flight-card>
+  </div>
+  <app-total-sum [passengersTotalSum]="passengersTotalSum"></app-total-sum>
+  <div class="summary-maincard__buttons">
+    <button class="summary-button__back" mat-button color="primary">
+      Back
+    </button>
+    <button class="summary-button__addtocard" mat-button color="primary">
+      Add to order card
+    </button>
+    <button class="summary-button__buynow" mat-button color="primary">
+      Buy now
+    </button>
+  </div>
+</mat-card>
