@@ -1,0 +1,26 @@
+<mat-card class="card-totalsum">
+  <mat-card-content
+    *ngFor="let type of typesOfPassengers"
+    class="totalsum-main"
+  >
+    <mat-card-title class="totalsum-title">
+      <div>
+        {{ passengersTotalSum[type].length }} x {{ type.slice(0, 1) | uppercase
+        }}{{ type.slice(1) }} Fare
+      </div>
+      <div>{{ passengersTotalSum[type][0].cost * passengersTotalSum[type].length | currency }}</div>
+    </mat-card-title>
+    <mat-card-content class="totalsum-fare">
+      <div>Fare</div>
+      <div>{{ passengersTotalSum[type][0].cost * 0.8 * passengersTotalSum[type].length| currency }}</div>
+    </mat-card-content>
+    <mat-card-content class="totalsum-tax">
+      <div>Tax & Service Charge</div>
+      <div>{{ passengersTotalSum[type][0].cost * 0.2 * passengersTotalSum[type].length | currency }}</div>
+    </mat-card-content>
+  </mat-card-content>
+  <mat-card-content class="totalsum-result">
+    <div>TOTAL</div>
+    <div class="totalsum-result__amount">{{ calculateTotal() | currency }}</div>
+  </mat-card-content>
+</mat-card>
