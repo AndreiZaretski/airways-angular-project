@@ -3,58 +3,143 @@
   align-items: center;
   gap: 14px;
   margin-bottom: 16px;
-}
 
-.flight-icon {
-  line-height: 20px;
-  transform:rotate(90deg);
+  .flight-icon {
+    line-height: 20px;
+    transform:rotate(90deg);
+  }
 }
 
 .flight-card {
   margin-bottom: 32px;
-}
 
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
+  .content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 58px;
+    padding: 28px 40px;
 
-.flight-details-wrapper {
-  display: flex;
-  gap: 20px;
+    .flight-details-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+  }
 }
 
 .flight-details {
   display: flex;
+  justify-content: space-between;
   gap: 28px;
-}
+  width: 80%;
 
-.departure-wrapper,
-.arrival-wrapper {
-  display: flex;
-  flex-direction: column;
-}
+  .info-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 127px;
 
-.departure-wrapper {
-  display: flex;
-  flex-direction: column;
+    .day {
+      color: var(--gray);
+    }
+
+    .time {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .timezone {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 20px;
+      color: var(--gray);
+      font-size: 8px;
+    }
+
+    .airport {
+      color: var(--gray);
+      font-size: 12px;
+    }
+  }
+
+  .arrival {
+    text-align: right;
+
+    .timezone {
+      left: 20px;
+      right: unset;
+    }
+  }
 }
 
 .add-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+
+  .flight-duration,
+  .flight-type {
+    font-size: 12px;
+  }
+
+  .takeoff-icon {
+    height: 20px;
+    color: var(--blue-accent);
+  }
+}
+
+.flight-number {
+  font-size: 14px;
+
+  .number-label {
+    color: var(--gray);
+  }
 }
 
 .price-details {
   display: flex;
-}
+  gap: 32px;
 
-.availabilty-price {
-  display: flex;
-  flex-direction: column;
-}
+  .availability-price {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 
-.price-wrapper {
-  display: flex;
-  flex-direction: column;
+    .availability {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 4px 8px;
+      // height: 40px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      background-color: aquamarine;
+      border-radius: 2px;
+    }
+
+    .price-wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .price-label {
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .price {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--blue);
+      }
+    }
+  }
+
+  .select-btn {
+    border: 1px solid var(--blue);
+  }
 }
