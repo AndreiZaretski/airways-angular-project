@@ -1,11 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Actions, concatLatestFrom, createEffect, ofType,
+} from '@ngrx/effects';
+import {
+  Observable,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  concatMap,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  exhaustMap,
+  from,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  map, mergeAll, mergeMap, of, switchMap, tap, withLatestFrom,
+} from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GetAirDataService } from 'src/app/core/services/get-air-data.service';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Action, Store, select } from '@ngrx/store';
+import { v4 as uuidv4 } from 'uuid';
 import {
-  checkRequestUser, getRequestUser, updateAirsData, updateMainState, updatePassengersCount,
+  addOrderCart,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  checkRequestUser, chekCart, getRequestUser,
+  replaceOrderCart,
+  updateAirsData, updateMainState, updatePassengersCount,
 } from '../actions/state.actions';
+import { selectOrderId } from '../selectors/state.selector';
+// import { airStateReducer } from '../reducers/state.reduce';
+// import { AppState } from '../state/app.state';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +38,7 @@ export class UserEffects {
     private actions$: Actions,
     private checkUser: AuthService,
     private airData: GetAirDataService,
+    private store: Store,
   ) {}
 
   getUser$ = createEffect(() => this.actions$.pipe(
@@ -49,4 +73,42 @@ export class UserEffects {
     map((result) => updateAirsData({ newAirsData: result })),
 
   ));
+
+  checkCart$ = createEffect(() => this.actions$.pipe(
+    ofType(chekCart),
+    mergeMap(() => this.store.select(selectOrderId)),
+    map((result) => {
+      if (result) {
+        return replaceOrderCart({ OrderId: result });
+      }
+
+      return addOrderCart({ newOrderId: uuidv4() });
+    }),
+
+  ));
 }
+
+// chekCard
+
+// this.checkId$ = this.store.select(selectOrderId).pipe(
+
+//   tap((result) => {
+//     if (!result) {
+//       this.store.dispatch(addOrderCart({ newOrderId: uuidv4() }));
+//       console.log('no');
+//     } else {
+//       // this.store.dispatch(addOrderCart({ newOrderId: 'fff' }));
+//       this.store.dispatch(replaceOrderCart({ OrderId: result }));
+//       console.log(result);
+//     }
+//   }),
+// );
+
+// tap((result) => {
+//   if (result) {
+//     replaceOrderCart({ OrderId: result });
+//   }
+//   if (!result) {
+//     addOrderCart({ newOrderId: uuidv4() });
+//   }
+// }),

@@ -5,10 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/auth/pages/modal/modal.component';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Observable, Subscription } from 'rxjs';
+import {
+  Observable, Subscription,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
+import { chekCart } from 'src/app/redux/actions/state.actions';
 import { AuthResponseLight } from '../../models/interface';
 
 @Component({
@@ -43,6 +46,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   user$: Observable<AuthResponseLight | null>;
 
+  checkId$: Observable<string | null>;
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -51,11 +56,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // this.subscription = this.authService.getUser().subscribe((res) => {
-    //   this.store
-    //     .dispatch(getRequestUser({ currentUser: res }));
-    // });
-
     this.user$ = this.store.select(selectAuthCards);
   }
 
@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToMainPage() {
+    this.store.dispatch(chekCart());
     this.router.navigate([Path.Main]);
   }
 
