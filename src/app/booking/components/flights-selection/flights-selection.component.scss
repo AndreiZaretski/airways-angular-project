@@ -12,4 +12,22 @@
 
 .flights-selection-wrapper {
   padding-top: 48px;
+  padding-bottom: 20px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-end;
+}
+
+.back-btn {
+  color: var(--blue);
+  background-color: var(--bg-gray);
+}
+
+.back-btn,
+.continue-btn {
+  width: 136px;
+  height: 60px;
 }

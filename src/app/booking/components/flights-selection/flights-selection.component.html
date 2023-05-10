@@ -5,6 +5,10 @@
     <app-flights-selection-item *ngIf="(responseDetails$ | async)?.backWay" [response]="response"
       source="backway"></app-flights-selection-item>
   </ng-container>
+  <div class="buttons-wrapper">
+    <button class="back-btn" [routerLink]="['/']" mat-flat-button>Back</button>
+    <button class="continue-btn" mat-flat-button color="primary">Continue</button>
+  </div>
 </div>
 
 
