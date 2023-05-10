@@ -178,21 +178,23 @@ export const airStateReducer = createReducer(
     }),
   ),
 
-  // on(
-  //   addOrderCart,
-  //   (state) => ({
-  //     ...state,
-  //     bookingPage: {
-  //       orderId: null,
-  //       responseAir: null,
-  //       chooseData: null,
-  //       checkedFrom: false,
-  //       checkedTo: false,
-  //       passengersCount: null,
-  //       userPassengers: null,
-  //     },
-  //   }),
-  // ),
+  on(
+    addOrderCart,
+    (state) => ({
+      ...state,
+      bookingPage: {
+        orderId: null,
+        responseAir: null,
+        chooseData: null,
+        indexFrom: 0,
+        indexTo: 0,
+        checkedFrom: false,
+        checkedTo: false,
+        passengersCount: null,
+        userPassengers: null,
+      },
+    }),
+  ),
 
   on(
     replaceOrderCart,
