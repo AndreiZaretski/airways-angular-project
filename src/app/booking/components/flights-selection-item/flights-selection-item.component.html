@@ -30,7 +30,7 @@
         </div>
         <div class="info-wrapper arrival">
           <span class="day">{{ source !== 'backway' ? (response.startDate | date: 'EE, d MMMM y') : (response.endDate | date: 'EE, d MMMM y') }}</span>
-          <span class="time">{{ source !== 'backway' ? (response.startDate | date: 'shortTime')?.slice(0, -3) : (response.endDate | date: 'shortTime')?.slice(0, -3) }}</span>
+          <span class="time">{{ source !== 'backway' ? (response.thereWay[0].startTime | arrivalTime: response.thereWay[0].timeWay) : (response.backWay ? (response.backWay[0].startTime | arrivalTime: response.backWay[0].timeWay) : '') }}</span>
           <span class="timezone timezone-arrival">UTC +0</span>
           <span class="airport">{{ source !== 'backway' ?
             (response.to | airportName: 'city') + ' (' + response.to + ')' :
