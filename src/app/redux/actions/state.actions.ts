@@ -43,6 +43,18 @@ export const updateChooseData = createAction(
   }>(),
 );
 
+export const updateIndexFrom = createAction(
+  '[Passengers] update index from',
+  props<{ newIndexFrom: number,
+  }>(),
+);
+
+export const updateIndexTo = createAction(
+  '[Passengers] update index to',
+  props<{ newIndexTo: number,
+  }>(),
+);
+
 export const updateChooseChekedFrom = createAction(
   '[Passengers] update choose checked data from',
 
@@ -64,5 +76,21 @@ export const updateChooseChekedFromBack = createAction(
 export const updatePassengersInfo = createAction(
   '[Passengers] update passengers info',
   props<{ newPassengersInfo: IUserPassengers,
+  }>(),
+);
+
+export const addOrderCart = createAction(
+  '[Cart] add order',
+  props<{ newOrderId: string,
+  }>(),
+);
+
+export const chekCart = createAction(
+  '[Cart] check order',
+);
+
+export const replaceOrderCart = createAction(
+  '[Cart] replace order',
+  props<{ OrderId: string,
   }>(),
 );

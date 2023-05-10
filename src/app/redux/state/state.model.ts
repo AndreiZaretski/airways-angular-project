@@ -1,6 +1,7 @@
 import { AuthResponseLight } from 'src/app/core/models/interface';
 import { IPassengers } from 'src/app/main/model/search-form.model';
-import { IUserBooking } from 'src/app/shared/models/interface-user-booking';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ICartsData, IUserBooking } from 'src/app/shared/models/interface-user-booking';
 import { ISearchForm } from 'src/app/shared/models/interfaces';
 
 export interface ISearchMainState {
@@ -44,11 +45,16 @@ export const StateInit: IState = {
 };
 
 export const UserBookingStateInit: IUserBooking = {
-  orderId: null,
-  responseAir: null,
-  chooseData: null,
-  checkedFrom: false,
-  checkedTo: false,
-  passengersCount: null,
-  userPassengers: null,
+  bookingPage: {
+    orderId: null,
+    responseAir: null,
+    chooseData: null,
+    indexFrom: 0,
+    indexTo: 0,
+    checkedFrom: false,
+    checkedTo: false,
+    passengersCount: null,
+    userPassengers: null,
+  },
+  cartShoppings: [],
 };

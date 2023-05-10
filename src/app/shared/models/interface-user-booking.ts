@@ -1,22 +1,30 @@
 import { IAirResponse, IFlightInfo } from './interfaces';
 
 export interface IUserBooking {
+  bookingPage: IBookingPage,
+  cartShoppings: Array<IBookingPage>,
+}
+
+export interface IBookingPage {
   orderId: string | null
 
   responseAir: IAirResponse | null,
 
   chooseData: IChooseData | null,
 
+  indexFrom: number,
+  indexTo: number,
+
   checkedFrom: boolean,
   checkedTo: boolean,
 
   passengersCount: IPassengersCount | null,
 
-  userPassengers: IUserPassengers | null
+  userPassengers: IUserPassengers | null,
 }
 
 export interface ICartsData {
-  cartShoppings: Array<IUserBooking>
+  cartShoppings: Array<IUserBooking> | null,
 }
 
 export interface IPassengersData {

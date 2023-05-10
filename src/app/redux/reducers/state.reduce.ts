@@ -1,10 +1,24 @@
 import { createReducer, on } from '@ngrx/store';
-import { StateInit, UserBookingStateInit } from '../state/state.model';
+import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 import {
-  getRequestUser, updateAirsData, updateChooseChekedFrom,
+  StateInit, UserBookingStateInit,
+} from '../state/state.model';
+import {
+  addOrderCart,
+  getRequestUser, replaceOrderCart, updateAirsData, updateChooseChekedFrom,
   updateChooseChekedFromBack, updateChooseChekedTo, updateChooseChekedToBack,
-  updateChooseData, updateMainState, updatePassengersCount, updatePassengersInfo,
+  updateChooseData, updateIndexFrom, updateIndexTo, updateMainState,
+  updatePassengersCount, updatePassengersInfo,
 } from '../actions/state.actions';
+
+// function getIndex(array: IBookingPage[], id: string): number {
+//   return array.findIndex((el) => el.orderId === id);
+// }
+
+function replaceElemArray(array: IBookingPage[], id: string, element: IBookingPage) {
+  const index = array.findIndex((el) => el.orderId === id);
+  return [...array].splice(index, index === -1 ? 0 : 1, element);
+}
 
 export const authReducer = createReducer(
   StateInit,
@@ -37,21 +51,55 @@ export const airStateReducer = createReducer(
     updateAirsData,
     (state, { newAirsData }) => ({
       ...state,
-      responseAir: newAirsData,
+      bookingPage: {
+        ...state.bookingPage,
+        responseAir: newAirsData,
+      },
+
     }),
   ),
   on(
     updatePassengersCount,
     (state, { newPassengersCount }) => ({
       ...state,
-      passengersCount: newPassengersCount,
+      bookingPage: {
+        ...state.bookingPage,
+        passengersCount: newPassengersCount,
+      },
+
     }),
   ),
   on(
     updateChooseData,
     (state, { newChooseData }) => ({
       ...state,
-      chooseData: newChooseData,
+      bookingPage: {
+        ...state.bookingPage,
+        chooseData: newChooseData,
+      },
+
+    }),
+  ),
+
+  on(
+    updateIndexFrom,
+    (state, { newIndexFrom }) => ({
+      ...state,
+      bookingPage: {
+        ...state.bookingPage,
+        indexFrom: newIndexFrom,
+      },
+    }),
+  ),
+
+  on(
+    updateIndexTo,
+    (state, { newIndexTo }) => ({
+      ...state,
+      bookingPage: {
+        ...state.bookingPage,
+        indexTo: newIndexTo,
+      },
     }),
   ),
 
@@ -59,8 +107,10 @@ export const airStateReducer = createReducer(
     updateChooseChekedFrom,
     (state) => ({
       ...state,
-      checkedFrom: true,
-
+      bookingPage: {
+        ...state.bookingPage,
+        checkedFrom: true,
+      },
     }),
   ),
 
@@ -68,7 +118,11 @@ export const airStateReducer = createReducer(
     updateChooseChekedTo,
     (state) => ({
       ...state,
-      checkedTo: true,
+      bookingPage: {
+        ...state.bookingPage,
+        checkedTo: true,
+      },
+
     }),
   ),
 
@@ -76,7 +130,10 @@ export const airStateReducer = createReducer(
     updateChooseChekedFromBack,
     (state) => ({
       ...state,
-      checkedFrom: false,
+      bookingPage: {
+        ...state.bookingPage,
+        checkedFrom: false,
+      },
 
     }),
   ),
@@ -85,7 +142,10 @@ export const airStateReducer = createReducer(
     updateChooseChekedToBack,
     (state) => ({
       ...state,
-      checkedTo: false,
+      bookingPage: {
+        ...state.bookingPage,
+        checkedTo: false,
+      },
     }),
   ),
 
@@ -93,7 +153,71 @@ export const airStateReducer = createReducer(
     updatePassengersInfo,
     (state, { newPassengersInfo }) => ({
       ...state,
-      userPassengers: newPassengersInfo,
+      bookingPage: {
+        ...state.bookingPage,
+        userPassengers: newPassengersInfo,
+      },
     }),
   ),
+  on(
+    addOrderCart,
+    (state, { newOrderId }) => ({
+      ...state,
+      bookingPage: {
+        ...state.bookingPage,
+        orderId: newOrderId,
+      },
+    }),
+  ),
+
+  on(
+    addOrderCart,
+    (state) => ({
+      ...state,
+      cartShoppings: [...state.cartShoppings, state.bookingPage],
+    }),
+  ),
+
+  on(
+    addOrderCart,
+    (state) => ({
+      ...state,
+      bookingPage: {
+        orderId: null,
+        responseAir: null,
+        chooseData: null,
+        indexFrom: 0,
+        indexTo: 0,
+        checkedFrom: false,
+        checkedTo: false,
+        passengersCount: null,
+        userPassengers: null,
+      },
+    }),
+  ),
+
+  on(
+    replaceOrderCart,
+    (state, { OrderId }) => ({
+      ...state,
+      cartShoppings: [...replaceElemArray(state.cartShoppings, OrderId, state.bookingPage)],
+    }),
+  ),
+
 );
+
+// [...state.cartShoppings]
+//   .splice(getIndex(state.cartShoppings, OrderId), 1, state.bookingPage),
+// cartShoppings[getIndex(state.cartShoppings, OrderId)] = state.bookingPage
+
+// export const cartsDataStateReducer = createReducer(
+//   // appStateInit,
+//   UserBookingStateInit,
+//   on(
+//     addOrderCart,
+//     (state) => ({
+//       ...state,
+//       cartShoppings: [...state.cartShoppings, state.bookingPage],
+//     }),
+//   ),
+// );
