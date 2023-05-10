@@ -16,6 +16,7 @@ import { FlightCardComponent } from './components/flight-card/flight-card.compon
 import { PassengerLuggageComponent } from './components/passenger-luggage/passenger-luggage.component';
 import { TotalSumComponent } from './components/total-sum/total-sum.component';
 import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
+import { ArrivalTimePipe } from './pipes/arrival-time.pipe';
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
     PassengerLuggageComponent,
     TotalSumComponent,
     ConvertDurationPipe,
+    ArrivalTimePipe,
   ],
   imports: [
     CommonModule,
