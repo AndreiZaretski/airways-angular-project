@@ -21,9 +21,9 @@
         </div>
         <div class="add-info-wrapper">
           <div class="add-info">
-            <span class="flight-duration">{{ source !== 'backway' ? response.thereWay[0].timeWay : (response.backWay ?
-              response.backWay[0].timeWay : '')}}</span>
-            <mat-icon class="takeoff-icon">flight_takeoff</mat-icon>
+            <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[0].timeWay | convertDuration) : (response.backWay ?
+              (response.backWay[0].timeWay | convertDuration) : '')}}</span>
+            <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
             <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[0].direct.isDirect ? 'Direct' : 'Connected')
               : (response.backWay ? (response.backWay[0].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
           </div>
