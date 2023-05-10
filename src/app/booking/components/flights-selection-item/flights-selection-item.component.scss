@@ -105,6 +105,10 @@
       color: var(--blue-accent);
       background-color: var(--white);
     }
+
+    .backway-icon {
+      transform: scaleX(-1) translate(50%, -75%);
+    }
   }
 }
 
