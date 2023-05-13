@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IAirResponse, IFlightInfo } from 'src/app/shared/models/interfaces';
 
 @Component({
@@ -6,7 +6,7 @@ import { IAirResponse, IFlightInfo } from 'src/app/shared/models/interfaces';
   templateUrl: './flights-selection-item.component.html',
   styleUrls: ['./flights-selection-item.component.scss'],
 })
-export class FlightsSelectionItemComponent {
+export class FlightsSelectionItemComponent implements OnInit {
   @Input() index: number;
 
   @Input() response: IAirResponse;
@@ -50,7 +50,42 @@ export class FlightsSelectionItemComponent {
     ],
   };
 
-  slideConfigBack: any;
+  slideConfigBack = {
+    slidesToShow: 5,
+    slidesToScroll: 2,
+    initialSlide: 2,
+    infinite: false,
+    draggable: false,
+    arrows: true,
+    dots: false,
+    centerMode: true,
+    focusOnSelect: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  }
+
+  // slideConfigBack: any;
 
   // addSlide() {
   //   this.slides.push({ img: 'http://placehold.it/350x150/777777' });
@@ -77,41 +112,8 @@ export class FlightsSelectionItemComponent {
   }
 
   ngOnInit() {
-    this.slides = this.response.thereWay;
-
-    this.slideConfigBack = {
-      slidesToShow: 5,
-      slidesToScroll: 2,
-      initialSlide: this.slides.length - 3,
-      infinite: false,
-      draggable: false,
-      arrows: true,
-      dots: false,
-      centerMode: true,
-      focusOnSelect: true,
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-          },
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
-        },
-      ],
+    if (this.response.backWay) {
+      this.slideConfigBack.initialSlide = this.response.backWay.length - 3;
     }
   }
 }
