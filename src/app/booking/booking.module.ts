@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SharedModule } from '../shared/shared.module';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import BookingRoutingModule from './booking-routing.module';
@@ -17,6 +18,7 @@ import { PassengerLuggageComponent } from './components/passenger-luggage/passen
 import { TotalSumComponent } from './components/total-sum/total-sum.component';
 import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
 import { ArrivalTimePipe } from './pipes/arrival-time.pipe';
+import { SequenceDatePipe } from './pipes/sequence-date.pipe';
 
 const routes: Routes = [
   {
@@ -46,12 +48,14 @@ const routes: Routes = [
     TotalSumComponent,
     ConvertDurationPipe,
     ArrivalTimePipe,
+    SequenceDatePipe,
   ],
   imports: [
     CommonModule,
     SharedModule,
     BookingRoutingModule,
     RouterModule.forChild(routes),
+    SlickCarouselModule,
   ],
 })
 export class BookingModule {}
