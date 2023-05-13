@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
-// import { EditPanelService } from '../../services/edit-panel.service';
 
 @Component({
   selector: 'app-booking-header',

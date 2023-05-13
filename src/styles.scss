@@ -52,11 +52,18 @@ li {
 }
 
 .slick-slider .slick-track {
-  display: flex;
-  align-items: flex-end;
-  padding-top: 13px;
-  width: 100%;
-  height: 83px;
+    display: flex;
+    align-items: flex-end;
+    padding-top: 13px;
+    width: 100%;
+    height: 83px;
+  }
+
+.flight-carousel.slick-slider .slick-track,
+.backway-carousel.slick-slider .slick-track {
+  display: block;
+  padding-top: 0;
+  height: unset;
 }
 
 button.slick-prev,

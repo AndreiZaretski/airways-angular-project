@@ -187,7 +187,7 @@
   margin: 8px auto;
 }
 
-.slick-slide {
+.date-carousel .slick-slide {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -219,7 +219,7 @@
   }
 }
 
-.slick-center {
+.carousel .slick-center {
   position: relative;
   height: 83px;
   border-bottom: 4px solid var(--yellow);
