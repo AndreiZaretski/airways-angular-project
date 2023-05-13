@@ -21,7 +21,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { v4 as uuidv4 } from 'uuid';
 import {
   addOrderCart,
-  checkRequestUser, chekCart, deleteOrderCart, getRequestUser,
+  checkRequestUser, checkCart, deleteOrderCart, getRequestUser,
   replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
 } from '../actions/state.actions';
@@ -101,7 +101,7 @@ export class UserEffects {
   ));
 
   checkCart$ = createEffect(() => this.actions$.pipe(
-    ofType(chekCart),
+    ofType(checkCart),
     mergeMap(() => this.store.select(selectOrderId)),
     map((result) => {
       if (result) {

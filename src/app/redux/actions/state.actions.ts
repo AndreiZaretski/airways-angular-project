@@ -87,7 +87,7 @@ export const addOrderCart = createAction(
   }>(),
 );
 
-export const chekCart = createAction(
+export const checkCart = createAction(
   '[Cart] check order',
 );
 

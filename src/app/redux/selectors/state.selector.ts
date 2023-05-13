@@ -28,7 +28,7 @@ export const selectSearchPassengers = createSelector(
 
 export const selectAirResponseState = createFeatureSelector<IUserBooking>('userBooking');
 
-export const selectUserBoking = createSelector(
+export const selectUserBooking = createSelector(
   selectAirResponseState,
   (state) => state.bookingPage,
 );
@@ -39,36 +39,36 @@ export const selectCartPage = createSelector(
 );
 
 export const selectAirResponse = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.responseAir,
 );
 
 export const selectOrderId = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.orderId,
 );
 
 export const selectChooseData = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.chooseData,
 );
 
 export const selectIndexFrom = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.indexFrom,
 );
 
 export const selectIndexTo = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.indexTo,
 );
 
 export const selectPassengersInfo = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.userPassengers,
 );
 
 export const selectPassengersCount = createSelector(
-  selectUserBoking,
+  selectUserBooking,
   (state) => state.passengersCount,
 );
