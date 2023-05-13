@@ -13,6 +13,26 @@ export class FlightsSelectionItemComponent implements OnInit {
 
   @Input() source: string;
 
+  flightCardConfig = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 2,
+    infinite: false,
+    draggable: false,
+    arrows: false,
+    dots: false,
+  };
+
+  flightCardConfigBack = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 2,
+    infinite: false,
+    draggable: false,
+    arrows: false,
+    dots: false,
+  };
+
   slides: IFlightInfo[];
 
   slideConfig = {
@@ -25,6 +45,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     dots: false,
     centerMode: true,
     focusOnSelect: true,
+    asNavFor: '.flight-carousel',
     responsive: [
       {
         breakpoint: 1024,
@@ -60,6 +81,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     dots: false,
     centerMode: true,
     focusOnSelect: true,
+    asNavFor: '.backway-carousel',
     responsive: [
       {
         breakpoint: 1024,
@@ -114,6 +136,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   ngOnInit() {
     if (this.response.backWay) {
       this.slideConfigBack.initialSlide = this.response.backWay.length - 3;
+      // this.flightCardConfigBack.initialSlide = this.response.backWay.length;
     }
   }
 }
