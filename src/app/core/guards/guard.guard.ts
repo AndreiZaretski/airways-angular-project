@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
 import { checkRequestUser, getRequestUser } from 'src/app/redux/actions/state.actions';
-import { AuthResponseLight } from '../models/interface';
+import { AuthResponseLight } from '../../shared/models/interface-users';
 
 @Injectable({
   providedIn: 'root',
@@ -20,10 +20,12 @@ CanDeactivate<unknown>, CanLoad, CanMatch {
   constructor(private router: Router, private authServise: AuthService, private store: Store) {
     // this.store.dispatch(checkRequestUser());
     // eslint-disable-next-line @ngrx/no-store-subscription
-    this.store.select(selectAuthCards).subscribe((res) => this.currentUser = res);
+    //  this.store.select(selectAuthCards).subscribe((res) => this.currentUser = res);
+    this.currentUser = this.authServise.checkUser();
   }
 
-  currentUser: AuthResponseLight | null;
+  currentUser: boolean;
+  // AuthResponseLight | null;
 
   //= this.authServise.getCurrentUser;
 

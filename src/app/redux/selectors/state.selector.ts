@@ -9,6 +9,11 @@ export const selectAuthCards = createSelector(
   (state) => state.authState,
 );
 
+export const selectUserData = createSelector(
+  selectAuthState,
+  (state) => state.authState?.orders,
+);
+
 export const selectSearchMainState = createFeatureSelector<IState>('searchMainState');
 
 export const selectSearchMain = createSelector(

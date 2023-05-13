@@ -23,9 +23,9 @@ export interface IBookingPage {
   userPassengers: IUserPassengers | null,
 }
 
-export interface ICartsData {
-  cartShoppings: Array<IUserBooking> | null,
-}
+// export interface ICartsData {
+//   cartShoppings: Array<IUserBooking> | null,
+// }
 
 export interface IPassengersData {
   firstName: string,

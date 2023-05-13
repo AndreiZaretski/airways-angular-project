@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { chekCart } from 'src/app/redux/actions/state.actions';
-import { AuthResponseLight } from '../../models/interface';
+import { AuthResponseLight } from '../../../shared/models/interface-users';
 
 @Component({
   selector: 'app-header',
