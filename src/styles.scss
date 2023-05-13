@@ -5,6 +5,7 @@
 :root {
   --blue: #3f51b5;
   --blue-accent: #0090bd;;
+  --yellow: #f1c933;
   --bg-gray: #f5f5f5;
   --super-light-gray: #fafafa;
   --light-gray: #d0d9df;
@@ -48,6 +49,32 @@ li {
   font-size: 24px;
   font-weight: 700;
   color: var(--blue);
+}
+
+.slick-slider .slick-track {
+  display: flex;
+  align-items: flex-end;
+  padding-top: 13px;
+  width: 100%;
+  height: 83px;
+}
+
+button.slick-prev,
+button.slick-next {
+  line-height: unset;
+  transform: translate(0, -10%);
+}
+
+button.slick-next {
+  right: 0;
+}
+
+button.slick-prev {
+  left: 0;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: var(--blue-accent)!important;
 }
 
 

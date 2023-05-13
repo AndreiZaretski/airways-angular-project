@@ -7,6 +7,24 @@
   </span>
 </h2>
 
+<ngx-slick-carousel class="carousel"
+  #slickModal="slick-carousel"
+  [config]="source !== 'backway' ? slideConfig : slideConfigBack"
+  (init)="slickInit($event)"
+  (breakpoint)="breakpoint($event)"
+  (afterChange)="afterChange($event)"
+  (beforeChange)="beforeChange($event)">
+<div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index" class="slide" width="25%">
+  <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
+  <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
+  <span class="carousel-price">{{ item.price.eur | currency: 'EUR' }}</span>
+</div>
+</ngx-slick-carousel>
+<!-- <button (click)="addSlide()">Add</button>
+<button (click)="removeSlide()">Remove</button>
+<button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
+<button (click)="slickModal.unslick()">unslick</button> -->
+
 <mat-card class="flight-card">
   <mat-card-content class="content-wrapper">
     <div class="flight-details-wrapper">
