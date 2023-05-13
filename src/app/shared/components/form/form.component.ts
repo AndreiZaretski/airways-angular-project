@@ -13,6 +13,7 @@ import { IAirport, IPassengers } from '../../models/interface-locations-passenge
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import airports from '../../data/airports.json';
+import { EditPanelService } from '../../services/edit-panel.service';
 
 @Component({
   selector: 'app-form',
@@ -72,6 +73,7 @@ export class FormComponent implements OnInit, OnDestroy {
     private responsive: BreakpointObserver,
     private formBuilder: FormBuilder,
     private store: Store,
+    private editPanelService: EditPanelService,
   ) {}
 
   ngOnInit(): void {
@@ -197,6 +199,8 @@ export class FormComponent implements OnInit, OnDestroy {
         newSearchForm: searchFormValue,
         newPassengerOptions: this.passengerOptions,
       }));
+
+      this.editPanelService.editPanelShown = false;
 
       this.router.navigate([Path.Booking, Path.Flights]);
     }
