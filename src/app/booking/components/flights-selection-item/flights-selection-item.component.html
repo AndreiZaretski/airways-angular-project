@@ -20,9 +20,7 @@
   <span class="carousel-price">{{ item.price.eur | currency: 'EUR' }}</span>
 </div>
 </ngx-slick-carousel>
-<!-- <button (click)="addSlide()">Add</button>
-<button (click)="removeSlide()">Remove</button>
-<button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
+<!-- <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
 <button (click)="slickModal.unslick()">unslick</button> -->
 
 <ngx-slick-carousel class="carousel"
@@ -97,55 +95,4 @@
     </mat-card>
   </div>
 </ngx-slick-carousel>
-
-<!-- <mat-card class="flight-card">
-  <mat-card-content class="content-wrapper">
-    <div class="flight-details-wrapper">
-      <div class="flight-details">
-        <div class="info-wrapper">
-          <span class="day">{{ source !== 'backway' ? (response.startDate | date: 'EE, d MMMM y') : (response.endDate | date: 'EE, d MMMM y') }}</span>
-          <span class="time">{{ source !== 'backway' ? response.thereWay[0].startTime : (response.backWay ? response.backWay[0].startTime : '') }}</span>
-          <span class="timezone">UTC +0</span>
-          <span class="airport">{{ source === 'backway' ?
-            (response.to | airportName: 'city') + ' (' + response.to + ')' :
-            (response.from | airportName: 'city') + ' (' + response.from + ')'}}</span>
-        </div>
-        <div class="add-info-wrapper">
-          <div class="add-info">
-            <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[0].timeWay | convertDuration) : (response.backWay ?
-              (response.backWay[0].timeWay | convertDuration) : '')}}</span>
-            <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
-            <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[0].direct.isDirect ? 'Direct' : 'Connected')
-              : (response.backWay ? (response.backWay[0].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
-          </div>
-        </div>
-        <div class="info-wrapper arrival">
-          <span class="day">{{ source !== 'backway' ? (response.startDate | date: 'EE, d MMMM y') : (response.endDate | date: 'EE, d MMMM y') }}</span>
-          <span class="time">{{ source !== 'backway' ? (response.thereWay[0].startTime | arrivalTime: response.thereWay[0].timeWay) : (response.backWay ? (response.backWay[0].startTime | arrivalTime: response.backWay[0].timeWay) : '') }}</span>
-          <span class="timezone timezone-arrival">UTC +0</span>
-          <span class="airport">{{ source !== 'backway' ?
-            (response.to | airportName: 'city') + ' (' + response.to + ')' :
-            (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
-        </div>
-      </div>
-      <div class="flight-number">
-        <span class="number-label">Flight no.</span>
-        <span>{{ source !== 'backway' ? response.thereWay[0].flightNumber : (response.backWay ? response.backWay[0].flightNumber : '')}}</span>
-      </div>
-    </div>
-    <div class="price-details">
-      <div class="availability-price">
-        <div class="availability">
-          <span>{{ source !== 'backway' ? response.thereWay[0].available : (response.backWay ? response.backWay[0].available : '')}} seats</span>
-          <span>available</span>
-        </div>
-        <div class="price-wrapper">
-          <span class="price-label">Price</span>
-          <span class="price">{{ source !== 'backway' ? (response.thereWay[0].price.eur | currency:'EUR') : (response.backWay ? (response.backWay[0].price.eur | currency:'EUR') : '')}}</span>
-        </div>
-      </div>
-      <button class="select-btn" mat-flat-button>Select</button>
-    </div>
-  </mat-card-content>
-</mat-card> -->
 

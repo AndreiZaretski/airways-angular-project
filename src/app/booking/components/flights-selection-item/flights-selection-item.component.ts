@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IAirResponse, IFlightInfo } from 'src/app/shared/models/interfaces';
+import { IAirResponse } from 'src/app/shared/models/interfaces';
 
 @Component({
   selector: 'app-flights-selection-item',
@@ -32,8 +32,6 @@ export class FlightsSelectionItemComponent implements OnInit {
     arrows: false,
     dots: false,
   };
-
-  slides: IFlightInfo[];
 
   slideConfig = {
     slidesToShow: 5,
@@ -105,17 +103,7 @@ export class FlightsSelectionItemComponent implements OnInit {
         },
       },
     ],
-  }
-
-  // slideConfigBack: any;
-
-  // addSlide() {
-  //   this.slides.push({ img: 'http://placehold.it/350x150/777777' });
-  // }
-
-  // removeSlide() {
-  //   this.slides.length -= 1;
-  // }
+  };
 
   slickInit(event: any) {
     console.log('slick initialized', event);
