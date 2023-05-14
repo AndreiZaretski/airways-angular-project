@@ -1,5 +1,6 @@
 :host {
   position: relative;
+  min-height: 100%;
 }
 
 .panel {
@@ -8,4 +9,26 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
+}
+
+.flights-selection-wrapper {
+  padding-top: 48px;
+  padding-bottom: 20px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-end;
+}
+
+.back-btn {
+  color: var(--blue);
+  background-color: var(--bg-gray);
+}
+
+.back-btn,
+.continue-btn {
+  width: 136px;
+  height: 60px;
 }
