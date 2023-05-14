@@ -25,66 +25,77 @@
 <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
 <button (click)="slickModal.unslick()">unslick</button> -->
 
-<ngx-slick-carousel class="carousel" [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
+<ngx-slick-carousel class="carousel"
+  [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
   #slickModal="slick-carousel"
   [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack"
   (init)="slickInit($event)"
   (breakpoint)="breakpoint($event)"
   (afterChange)="afterChange($event)"
   (beforeChange)="beforeChange($event)">
-<div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index" class="slide">
-  Index {{i}}
-  <mat-card class="flight-card">
-    <mat-card-content class="content-wrapper">
-      <div class="flight-details-wrapper">
-        <div class="flight-details">
-          <div class="info-wrapper">
-            <span class="day">{{ source !== 'backway' ? (response.startDate | sequenceDate: i | date: 'EE, d MMMM y') : (response.endDate | sequenceDate: i | date: 'EE, d MMMM y') }}</span>
-            <span class="time">{{ source !== 'backway' ? response.thereWay[i].startTime : (response.backWay ? response.backWay[i].startTime : '') }}</span>
-            <span class="timezone">UTC +0</span>
-            <span class="airport">{{ source === 'backway' ?
-              (response.to | airportName: 'city') + ' (' + response.to + ')' :
-              (response.from | airportName: 'city') + ' (' + response.from + ')'}}</span>
-          </div>
-          <div class="add-info-wrapper">
-            <div class="add-info">
-              <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[i].timeWay | convertDuration) : (response.backWay ?
-                (response.backWay[i].timeWay | convertDuration) : '')}}</span>
-              <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
-              <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' : 'Connected')
-                : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+  <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
+    class="slide">
+    Index {{i}}
+    <mat-card class="flight-card">
+      <mat-card-content class="content-wrapper">
+        <div class="flight-details-wrapper">
+          <div class="flight-details">
+            <div class="info-wrapper">
+              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
+              <span class="time">{{ source !== 'backway' ? response.thereWay[i].startTime : (response.backWay ?
+                response.backWay[i].startTime : '') }}</span>
+              <span class="timezone">UTC +0</span>
+              <span class="airport">{{ source === 'backway' ?
+                (response.to | airportName: 'city') + ' (' + response.to + ')' :
+                (response.from | airportName: 'city') + ' (' + response.from + ')'}}</span>
+            </div>
+            <div class="add-info-wrapper">
+              <div class="add-info">
+                <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[i].timeWay | convertDuration)
+                  : (response.backWay ?
+                  (response.backWay[i].timeWay | convertDuration) : '')}}</span>
+                <mat-icon class="takeoff-icon"
+                  [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
+                <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
+                  'Connected')
+                  : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+              </div>
+            </div>
+            <div class="info-wrapper arrival">
+              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
+              <span class="time">{{ source !== 'backway' ? (response.thereWay[i].startTime | arrivalTime:
+                response.thereWay[i].timeWay) : (response.backWay ? (response.backWay[i].startTime | arrivalTime:
+                response.backWay[i].timeWay) : '') }}</span>
+              <span class="timezone timezone-arrival">UTC +0</span>
+              <span class="airport">{{ source !== 'backway' ?
+                (response.to | airportName: 'city') + ' (' + response.to + ')' :
+                (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
             </div>
           </div>
-          <div class="info-wrapper arrival">
-            <span class="day">{{ source !== 'backway' ? (response.startDate | sequenceDate: i | date: 'EE, d MMMM y') : (response.endDate | sequenceDate: i | date: 'EE, d MMMM y') }}</span>
-            <span class="time">{{ source !== 'backway' ? (response.thereWay[i].startTime | arrivalTime: response.thereWay[i].timeWay) : (response.backWay ? (response.backWay[i].startTime | arrivalTime: response.backWay[i].timeWay) : '') }}</span>
-            <span class="timezone timezone-arrival">UTC +0</span>
-            <span class="airport">{{ source !== 'backway' ?
-              (response.to | airportName: 'city') + ' (' + response.to + ')' :
-              (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
+          <div class="flight-number">
+            <span class="number-label">Flight no.</span>
+            <span>{{ source !== 'backway' ? response.thereWay[i].flightNumber : (response.backWay ?
+              response.backWay[i].flightNumber : '')}}</span>
           </div>
         </div>
-        <div class="flight-number">
-          <span class="number-label">Flight no.</span>
-          <span>{{ source !== 'backway' ? response.thereWay[i].flightNumber : (response.backWay ? response.backWay[i].flightNumber : '')}}</span>
-        </div>
-      </div>
-      <div class="price-details">
-        <div class="availability-price">
-          <div class="availability">
-            <span>{{ source !== 'backway' ? response.thereWay[i].available : (response.backWay ? response.backWay[i].available : '')}} seats</span>
-            <span>available</span>
+        <div class="price-details">
+          <div class="availability-price">
+            <div class="availability">
+              <span>{{ source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
+                response.backWay[i].available : '')}} seats</span>
+              <span>available</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="price-label">Price</span>
+              <span class="price">{{ source !== 'backway' ? (response.thereWay[i].price.eur | currency:'EUR') :
+                (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
+            </div>
           </div>
-          <div class="price-wrapper">
-            <span class="price-label">Price</span>
-            <span class="price">{{ source !== 'backway' ? (response.thereWay[i].price.eur | currency:'EUR') : (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
-          </div>
+          <button class="select-btn" mat-flat-button>Select</button>
         </div>
-        <button class="select-btn" mat-flat-button>Select</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </ngx-slick-carousel>
 
 <!-- <mat-card class="flight-card">

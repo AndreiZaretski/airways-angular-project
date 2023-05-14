@@ -136,7 +136,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   ngOnInit() {
     if (this.response.backWay) {
       this.slideConfigBack.initialSlide = this.response.backWay.length - 3;
-      // this.flightCardConfigBack.initialSlide = this.response.backWay.length;
+      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 3;
     }
   }
 }
