@@ -5,7 +5,7 @@ import { ValidatedForms } from 'src/app/shared/validators/custom-validate-forms'
 import { country } from 'src/app/shared/data/country';
 import { Subscription, catchError } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AuthResponse } from 'src/app/core/models/interface';
+import { AuthResponse } from 'src/app/shared/models/interface-users';
 import { getRequestUser } from 'src/app/redux/actions/state.actions';
 import { AuthService } from '../../../core/services/auth.service';
 

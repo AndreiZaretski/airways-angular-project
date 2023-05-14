@@ -1,7 +1,6 @@
-import { AuthResponseLight } from 'src/app/core/models/interface';
+import { AuthResponseLight } from 'src/app/shared/models/interface-users';
 import { IPassengers } from 'src/app/main/model/search-form.model';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ICartsData, IUserBooking } from 'src/app/shared/models/interface-user-booking';
+import { IUserBooking } from 'src/app/shared/models/interface-user-booking';
 import { ISearchForm } from 'src/app/shared/models/interfaces';
 
 export interface ISearchMainState {

@@ -1,8 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthResponseLight } from 'src/app/core/models/interface';
+import { AuthResponseLight } from 'src/app/shared/models/interface-users';
 import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
 import { IPassengers } from 'src/app/main/model/search-form.model';
-import { IChooseData, IPassengersCount, IUserPassengers } from 'src/app/shared/models/interface-user-booking';
+import {
+  IBookingPage, IChooseData, IPassengersCount, IUserPassengers,
+} from 'src/app/shared/models/interface-user-booking';
 // import { ISearchMainState } from '../state/state.model';
 
 export const getRequestUser = createAction(
@@ -85,12 +87,30 @@ export const addOrderCart = createAction(
   }>(),
 );
 
-export const chekCart = createAction(
+export const checkCart = createAction(
   '[Cart] check order',
 );
 
 export const replaceOrderCart = createAction(
   '[Cart] replace order',
   props<{ OrderId: string,
+  }>(),
+);
+
+export const deleteOrderCart = createAction(
+  '[Cart] delete order',
+  props<{ OrderId: string,
+  }>(),
+);
+
+export const editOrderCart = createAction(
+  '[Cart] edit order',
+  props<{ OrderId: string,
+  }>(),
+);
+
+export const updateOrderCart = createAction(
+  '[Cart] send orders',
+  props<{ newOrders: IBookingPage[],
   }>(),
 );

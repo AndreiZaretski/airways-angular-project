@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectUserBoking } from 'src/app/redux/selectors/state.selector';
+import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from '../../services/edit-panel.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { EditPanelService } from '../../services/edit-panel.service';
   styleUrls: ['./flights-selection.component.scss'],
 })
 export class FlightsSelectionComponent implements OnInit {
-  bookingDetails$ = this.store.select(selectUserBoking);
+  bookingDetails$ = this.store.select(selectUserBooking);
 
   // responseDetails$ = this.store.select(selectAirResponse);
 

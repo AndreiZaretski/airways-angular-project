@@ -21,12 +21,11 @@ import { Action, Store, select } from '@ngrx/store';
 import { v4 as uuidv4 } from 'uuid';
 import {
   addOrderCart,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkRequestUser, chekCart, getRequestUser,
-  replaceOrderCart,
+  checkRequestUser, checkCart, deleteOrderCart, getRequestUser,
+  replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
 } from '../actions/state.actions';
-import { selectOrderId } from '../selectors/state.selector';
+import { selectCartPage, selectOrderId, selectUserData } from '../selectors/state.selector';
 // import { airStateReducer } from '../reducers/state.reduce';
 // import { AppState } from '../state/app.state';
 
@@ -44,8 +43,35 @@ export class UserEffects {
   getUser$ = createEffect(() => this.actions$.pipe(
     ofType(checkRequestUser),
     mergeMap(() => this.checkUser.getUser()),
-    map((result) => getRequestUser({ currentUser: result })),
+    // updateOrderCart
+    // switchMap((result) => [
+    //   getRequestUser({ currentUser: result }),
+    //   updateOrderCart({ newOrders: result.orders }),
+    // ]),
+    // map((result) => updateOrderCart({ newOrders: result })),
+
+    switchMap((result) => {
+      if (result.orders) {
+        return of(
+          getRequestUser({ currentUser: result }),
+          updateOrderCart({ newOrders: result.orders }),
+        );
+      } // if orders do not exist
+      return of( // return an observable of one action
+        getRequestUser({ currentUser: result }), // only action
+      );
+    }),
   ));
+
+  updateCartUserAfterLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(getRequestUser),
+    map((result) => {
+      if (result.currentUser.orders) {
+        return updateOrderCart({ newOrders: result.currentUser.orders });
+      }
+      return { type: 'NO_ACTION' };
+    }),
+  ), { dispatch: true });
 
   writeCountPassengers$ = createEffect(() => this.actions$.pipe(
     ofType(updateMainState),
@@ -75,7 +101,7 @@ export class UserEffects {
   ));
 
   checkCart$ = createEffect(() => this.actions$.pipe(
-    ofType(chekCart),
+    ofType(checkCart),
     mergeMap(() => this.store.select(selectOrderId)),
     map((result) => {
       if (result) {
@@ -86,8 +112,25 @@ export class UserEffects {
     }),
 
   ));
+
+  // getUserData$ = createEffect(() => this.actions$.pipe(
+  //   ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
+  //   // tap(() => getOrderCart()),
+
+  // ));
+
+  sendUserData$ = createEffect(() => this.actions$.pipe(
+    ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
+    exhaustMap(() => this.store.select(selectCartPage)),
+    map((result) => {
+      // if (result) {
+      this.checkUser.updateUserData(result)?.subscribe();
+      // }
+    }),
+  ), { dispatch: false });
 }
 
+// map((result)=> this.checkUser.updateUserData(this.store.select(selectUserData)))
 // chekCard
 
 // this.checkId$ = this.store.select(selectOrderId).pipe(

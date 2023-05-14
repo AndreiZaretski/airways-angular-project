@@ -5,7 +5,7 @@ import { Subscription, catchError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getRequestUser } from 'src/app/redux/actions/state.actions';
 import { AuthService } from '../../../core/services/auth.service';
-import { AuthResponse } from '../../../core/models/interface';
+import { AuthResponse } from '../../../shared/models/interface-users';
 
 @Component({
   selector: 'app-login',

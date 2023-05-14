@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import {
   EMPTY, Observable, catchError, tap,
 } from 'rxjs';
+import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 import {
   AuthLogin, AuthRegistration, AuthResponse, AuthResponseLight,
-} from 'src/app/core/models/interface';
+} from 'src/app/shared/models/interface-users';
 
 @Injectable({
   providedIn: 'root',
@@ -46,9 +47,37 @@ export class AuthService {
         },
       })
         .pipe(
-          catchError(() => EMPTY),
+          catchError(() => {
+            localStorage.removeItem('auth-token');
+            localStorage.removeItem('auth-id');
+            return EMPTY;
+          }),
         );
     }
     return new Observable<AuthResponseLight>();
+  }
+
+  checkUser() {
+    return !!localStorage.getItem('auth-token');
+  }
+
+  updateUserData(userOrder: IBookingPage[]) {
+    if (localStorage.getItem('auth-id')) {
+      console.log('request');
+      const requestBody = { orders: userOrder };
+      return this.http.patch<AuthResponseLight>(`users/${localStorage.getItem('auth-id')}`, requestBody).pipe(
+        catchError(() => EMPTY),
+      );
+      // .pipe(
+      //   tap((data) => console.log('response', data)), // log the response data
+      //   catchError((error) => { // catch and log any errors
+      //     console.error('error', error);
+      //     return throwError(error);
+      //   }),
+      // );
+    }
+    // return new Observable<IBookingPage[]>();
+    // <AuthResponseLight>
+    return null;
   }
 }

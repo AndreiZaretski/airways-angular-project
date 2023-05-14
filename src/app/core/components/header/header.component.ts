@@ -11,8 +11,8 @@ import {
 import { Store } from '@ngrx/store';
 import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
-import { chekCart } from 'src/app/redux/actions/state.actions';
-import { AuthResponseLight } from '../../models/interface';
+import { checkCart } from 'src/app/redux/actions/state.actions';
+import { AuthResponseLight } from '../../../shared/models/interface-users';
 
 @Component({
   selector: 'app-header',
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToMainPage() {
-    this.store.dispatch(chekCart());
+    this.store.dispatch(checkCart());
     this.router.navigate([Path.Main]);
   }
 

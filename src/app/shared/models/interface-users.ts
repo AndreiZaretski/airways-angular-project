@@ -1,3 +1,5 @@
+import { IBookingPage } from './interface-user-booking';
+
 export interface AuthResponse {
   accessToken?: string,
   user: {
@@ -27,7 +29,8 @@ export interface AuthResponseLight {
   lastName: string,
   phoneNumber: number,
   termsUse: boolean,
-  id: number
+  id: number,
+  orders?: Array<IBookingPage>
 
 }
 
