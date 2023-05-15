@@ -12,11 +12,11 @@ export interface IBookingPage {
 
   chooseData: IChooseData | null,
 
-  indexFrom: number,
-  indexTo: number,
+  indexThereWay: number,
+  indexBackWay: number,
 
-  checkedFrom: boolean,
-  checkedTo: boolean,
+  checkedThereWay: boolean,
+  checkedBackWay: boolean,
 
   passengersCount: IPassengersCount | null,
 
@@ -32,7 +32,8 @@ export interface IPassengersData {
   lastName: string,
   gender: string,
   dateBirth: string,
-  bagage?: string,
+  commonLuggage?: string,
+  cabinLuggage?: string,
   specialAssistance?: boolean,
 }
 

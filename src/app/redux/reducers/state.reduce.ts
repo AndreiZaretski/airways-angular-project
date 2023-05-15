@@ -7,9 +7,9 @@ import {
   addOrderCart,
   deleteOrderCart,
   editOrderCart,
-  getRequestUser, replaceOrderCart, updateAirsData, updateChooseChekedFrom,
-  updateChooseChekedFromBack, updateChooseChekedTo, updateChooseChekedToBack,
-  updateChooseData, updateIndexFrom, updateIndexTo, updateMainState,
+  getRequestUser, replaceOrderCart, updateAirsData, updateChooseChekedThereWay,
+  updateChooseChekedThereWayEdit, updateChooseChekedBackWay, updateChooseChekedBackWayEdit,
+  updateChooseData, updateIndexThereWay, updateIndexBackWay, updateMainState,
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
 } from '../actions/state.actions';
@@ -94,69 +94,69 @@ export const airStateReducer = createReducer(
   ),
 
   on(
-    updateIndexFrom,
-    (state, { newIndexFrom }) => ({
+    updateIndexThereWay,
+    (state, { newIndexThereWay }) => ({
       ...state,
       bookingPage: {
         ...state.bookingPage,
-        indexFrom: newIndexFrom,
+        indexThereWay: newIndexThereWay,
       },
     }),
   ),
 
   on(
-    updateIndexTo,
-    (state, { newIndexTo }) => ({
+    updateIndexBackWay,
+    (state, { newIndexBackWay }) => ({
       ...state,
       bookingPage: {
         ...state.bookingPage,
-        indexTo: newIndexTo,
+        indexBackWay: newIndexBackWay,
       },
     }),
   ),
 
   on(
-    updateChooseChekedFrom,
+    updateChooseChekedThereWay,
     (state) => ({
       ...state,
       bookingPage: {
         ...state.bookingPage,
-        checkedFrom: true,
+        checkedThereWay: true,
       },
     }),
   ),
 
   on(
-    updateChooseChekedTo,
+    updateChooseChekedBackWay,
     (state) => ({
       ...state,
       bookingPage: {
         ...state.bookingPage,
-        checkedTo: true,
-      },
-
-    }),
-  ),
-
-  on(
-    updateChooseChekedFromBack,
-    (state) => ({
-      ...state,
-      bookingPage: {
-        ...state.bookingPage,
-        checkedFrom: false,
+        checkedBackWay: true,
       },
 
     }),
   ),
 
   on(
-    updateChooseChekedToBack,
+    updateChooseChekedThereWayEdit,
     (state) => ({
       ...state,
       bookingPage: {
         ...state.bookingPage,
-        checkedTo: false,
+        checkedThereWay: false,
+      },
+
+    }),
+  ),
+
+  on(
+    updateChooseChekedBackWayEdit,
+    (state) => ({
+      ...state,
+      bookingPage: {
+        ...state.bookingPage,
+        checkedBackWay: false,
       },
     }),
   ),
