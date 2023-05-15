@@ -53,14 +53,14 @@ export const selectChooseData = createSelector(
   (state) => state.chooseData,
 );
 
-export const selectIndexFrom = createSelector(
+export const selectIndexThereWay = createSelector(
   selectUserBooking,
-  (state) => state.indexFrom,
+  (state) => state.indexThereWay,
 );
 
-export const selectIndexTo = createSelector(
+export const selectIndexBackWay = createSelector(
   selectUserBooking,
-  (state) => state.indexTo,
+  (state) => state.indexBackWay,
 );
 
 export const selectPassengersInfo = createSelector(

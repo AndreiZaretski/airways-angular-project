@@ -45,33 +45,33 @@ export const updateChooseData = createAction(
   }>(),
 );
 
-export const updateIndexFrom = createAction(
-  '[Passengers] update index from',
-  props<{ newIndexFrom: number,
+export const updateIndexThereWay = createAction(
+  '[Passengers] update index There Way',
+  props<{ newIndexThereWay: number,
   }>(),
 );
 
-export const updateIndexTo = createAction(
-  '[Passengers] update index to',
-  props<{ newIndexTo: number,
+export const updateIndexBackWay = createAction(
+  '[Passengers] update index Back Way',
+  props<{ newIndexBackWay: number,
   }>(),
 );
 
-export const updateChooseChekedFrom = createAction(
-  '[Passengers] update choose checked data from',
+export const updateChooseChekedThereWay = createAction(
+  '[Passengers] update choose checked data There Way',
 
 );
 
-export const updateChooseChekedTo = createAction(
-  '[Passengers] update choose checked data to',
+export const updateChooseChekedBackWay = createAction(
+  '[Passengers] update choose checked data Back Way',
 );
 
-export const updateChooseChekedToBack = createAction(
-  '[Passengers] update choose checked data to back',
+export const updateChooseChekedBackWayEdit = createAction(
+  '[Passengers] update choose checked data to Back Way Edit',
 );
 
-export const updateChooseChekedFromBack = createAction(
-  '[Passengers] update choose checked data from back',
+export const updateChooseChekedThereWayEdit = createAction(
+  '[Passengers] update choose checked data from There Way Edit',
 
 );
 
