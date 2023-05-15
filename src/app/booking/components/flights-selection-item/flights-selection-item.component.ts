@@ -16,7 +16,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   flightCardConfig = {
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 2,
+    initialSlide: 3,
     infinite: false,
     draggable: false,
     arrows: false,
@@ -26,7 +26,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   flightCardConfigBack = {
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 2,
+    initialSlide: 3,
     infinite: false,
     draggable: false,
     arrows: false,
@@ -36,7 +36,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   slideConfig = {
     slidesToShow: 5,
     slidesToScroll: 2,
-    initialSlide: 2,
+    initialSlide: 3,
     infinite: false,
     draggable: false,
     arrows: true,
@@ -72,7 +72,7 @@ export class FlightsSelectionItemComponent implements OnInit {
   slideConfigBack = {
     slidesToShow: 5,
     slidesToScroll: 2,
-    initialSlide: 2,
+    initialSlide: 3,
     infinite: false,
     draggable: false,
     arrows: true,
@@ -123,8 +123,8 @@ export class FlightsSelectionItemComponent implements OnInit {
 
   ngOnInit() {
     if (this.response.backWay) {
-      this.slideConfigBack.initialSlide = this.response.backWay.length - 3;
-      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 3;
+      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
     }
   }
 }
