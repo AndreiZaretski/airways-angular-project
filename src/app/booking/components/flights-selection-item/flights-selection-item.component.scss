@@ -89,6 +89,9 @@
 
     .flight-duration,
     .flight-type {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-size: 12px;
     }
 
@@ -179,6 +182,10 @@
     color: var(--white);
     background: linear-gradient(108.75deg, var(--blue-accent) 59.91%, var(--blue) 95.36%);
     border: 1px solid var(--blue);
+  }
+
+  .edit-btn {
+    align-self: center;
   }
 }
 

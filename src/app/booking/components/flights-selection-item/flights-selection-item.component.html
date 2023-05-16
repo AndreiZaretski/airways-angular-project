@@ -7,7 +7,8 @@
   </span>
 </h2>
 
-<ngx-slick-carousel class="carousel date-carousel"
+<ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay"
+  class="carousel date-carousel"
   #slickModal="slick-carousel"
   [config]="source !== 'backway' ? slideConfig : slideConfigBack"
   (init)="slickInit($event)"
@@ -52,15 +53,26 @@
                 <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[i].timeWay | convertDuration)
                   : (response.backWay ?
                   (response.backWay[i].timeWay | convertDuration) : '')}}</span>
-                <mat-icon class="takeoff-icon"
-                  [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
-                <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
-                  'Connected')
-                  : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+                <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
+                <div class="flight-type">
+                  <span>{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
+                    'Connected')
+                    : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+                  <span
+                    *ngIf="(source !== 'backway' ? !response.thereWay[i].direct.isDirect : !(response.backWay ? response.backWay[i].direct.isDirect : ''))">
+                    {{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[1] : (response.backWay ?
+                    response.backWay[i].direct.airportRedirect[1] : '')}}
+                    ({{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[0] : (response.backWay ?
+                    response.backWay[i].direct.airportRedirect[0] : '')}})
+                  </span>
+                </div>
               </div>
             </div>
             <div class="info-wrapper arrival">
-              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
+              <span class="day">{{ response.startDate | nextDayArrival: (source !== 'backway' ? response.thereWay[i].startTime :
+                (response.backWay ? response.backWay[i].startTime : '')) : (source !== 'backway' ? response.thereWay[i].timeWay :
+                (response.backWay ? response.backWay[i].timeWay : 0)) | sequenceDate: i | date:
+                'EE, d MMMM y' }}</span>
               <span class="time">{{ source !== 'backway' ? (response.thereWay[i].startTime | arrivalTime:
                 response.thereWay[i].timeWay) : (response.backWay ? (response.backWay[i].startTime | arrivalTime:
                 response.backWay[i].timeWay) : '') }}</span>
@@ -69,7 +81,7 @@
                 (response.to | airportName: 'city') + ' (' + response.to + ')' :
                 (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
             </div>
-          </div>
+            </div>
           <div class="flight-number">
             <span class="number-label">Flight no.</span>
             <span>{{ source !== 'backway' ? response.thereWay[i].flightNumber : (response.backWay ?
@@ -89,7 +101,8 @@
                 (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
             </div>
           </div>
-          <button class="select-btn" mat-flat-button>Select</button>
+          <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>
+          <button class="edit-btn" *ngIf="source !== 'backway' ? checkedThereWay : checkedBackWay" mat-button color="primary" (click)="editSelection(i)">Edit</button>
         </div>
       </mat-card-content>
     </mat-card>
