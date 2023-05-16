@@ -12,7 +12,7 @@ import {
   updateIndexThereWay, updateIndexBackWay, updateMainState,
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
-  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings,
+  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, watchDetailsOrder,
 } from '../actions/state.actions';
 
 function getIndex(array: IBookingPage[], id: string): number {
@@ -287,6 +287,17 @@ export const airStateReducer = createReducer(
     (state, { OrderId }) => ({
       ...state,
       bookingPage: state.cartShoppings[getIndex(state.cartShoppings, OrderId)],
+    }),
+  ),
+
+  on(
+    watchDetailsOrder,
+    (state, { OrderId }) => ({
+      ...state,
+      bookingPage: {
+        ...state.cartShoppings[getIndex(state.cartShoppings, OrderId)],
+        orderId: null,
+      },
     }),
   ),
 

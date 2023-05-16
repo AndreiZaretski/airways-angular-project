@@ -133,6 +133,12 @@ export const editOrderCart = createAction(
   }>(),
 );
 
+export const watchDetailsOrder = createAction(
+  '[Cart] watch details order',
+  props<{ OrderId: string,
+  }>(),
+);
+
 export const updateOrderCart = createAction(
   '[Cart] send orders',
   props<{ newOrders: IBookingPage[],
