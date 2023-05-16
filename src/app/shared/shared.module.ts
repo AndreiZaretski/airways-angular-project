@@ -35,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { AirportNamePipe } from './pipes/airport-name.pipe';
 import { FormComponent } from './components/form/form.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { NextDayArrivalPipe } from './pipes/next-day-arrival.pipe';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -65,6 +66,7 @@ const materialModules = [
     AirportNamePipe,
     FormComponent,
     DropdownComponent,
+    NextDayArrivalPipe,
   ],
   imports: [
     CommonModule,
@@ -78,6 +80,7 @@ const materialModules = [
     AirportNamePipe,
     FormComponent,
     DropdownComponent,
+    NextDayArrivalPipe,
   ],
 })
 export class SharedModule { }

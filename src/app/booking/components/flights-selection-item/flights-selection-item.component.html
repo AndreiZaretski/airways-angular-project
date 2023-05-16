@@ -60,7 +60,10 @@
               </div>
             </div>
             <div class="info-wrapper arrival">
-              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
+              <span class="day">{{ response.startDate | nextDayArrival: (source !== 'backway' ? response.thereWay[i].startTime :
+                (response.backWay ? response.backWay[i].startTime : '')) : (source !== 'backway' ? response.thereWay[i].timeWay :
+                (response.backWay ? response.backWay[i].timeWay : 0)) | sequenceDate: i | date:
+                'EE, d MMMM y' }}</span>
               <span class="time">{{ source !== 'backway' ? (response.thereWay[i].startTime | arrivalTime:
                 response.thereWay[i].timeWay) : (response.backWay ? (response.backWay[i].startTime | arrivalTime:
                 response.backWay[i].timeWay) : '') }}</span>
@@ -69,7 +72,7 @@
                 (response.to | airportName: 'city') + ' (' + response.to + ')' :
                 (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
             </div>
-          </div>
+            </div>
           <div class="flight-number">
             <span class="number-label">Flight no.</span>
             <span>{{ source !== 'backway' ? response.thereWay[i].flightNumber : (response.backWay ?
