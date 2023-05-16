@@ -1,10 +1,12 @@
+import { Currency } from '../enums/currency.enum';
+import { DateFormat } from '../enums/date.enum';
 import { IBookingPage } from './interface-user-booking';
 
 export interface AuthResponse {
   accessToken?: string,
   user: {
     email: string,
-    birthDay: string | Date,
+    birthDay: string,
     citizenship: string,
     countryCode: number,
     password?: string,
@@ -13,14 +15,15 @@ export interface AuthResponse {
     lastName: string,
     phoneNumber: number,
     termsUse: boolean,
-    id: number
+    id: number,
+    orders?: Array<IBookingPage>
   }
 }
 
 export interface AuthResponseLight {
 
   email: string,
-  birthDay: string | Date,
+  birthDay: string | DateFormat,
   citizenship: string,
   countryCode: number,
   password?: string,
@@ -50,4 +53,9 @@ export interface AuthRegistration {
   lastName: string,
   phoneNumber: number,
   termsUse: boolean,
+}
+
+export interface IUserSettings {
+  currency: Currency,
+  dateFormat: DateFormat,
 }

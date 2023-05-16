@@ -12,6 +12,7 @@ import {
   updateChooseData, updateIndexThereWay, updateIndexBackWay, updateMainState,
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
+  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings,
 } from '../actions/state.actions';
 
 function getIndex(array: IBookingPage[], id: string): number {
@@ -34,11 +35,42 @@ function deleteElemArray(array: IBookingPage[], id: string) {
 
 export const authReducer = createReducer(
   StateInit,
+
   on(
     getRequestUser,
     (state, { currentUser }) => ({
       ...state,
       authState: currentUser,
+    }),
+  ),
+
+  on(
+    updateUserSettingCurrency,
+    (state, { newCurrency }) => ({
+      ...state,
+      userSettings: {
+        ...state.userSettings,
+        currency: newCurrency,
+      },
+    }),
+  ),
+
+  on(
+    updateUserSettingDateFormat,
+    (state, { newDateFormat }) => ({
+      ...state,
+      userSettings: {
+        ...state.userSettings,
+        dateFormat: newDateFormat,
+      },
+    }),
+  ),
+
+  on(
+    updateUserSettings,
+    (state, { newSettinggs }) => ({
+      ...state,
+      userSettings: newSettinggs,
     }),
   ),
 );

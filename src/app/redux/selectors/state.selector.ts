@@ -9,6 +9,21 @@ export const selectAuthCards = createSelector(
   (state) => state.authState,
 );
 
+export const selectUserSettings = createSelector(
+  selectAuthState,
+  (state) => state.userSettings,
+);
+
+export const selectUserSettingsCurrency = createSelector(
+  selectAuthState,
+  (state) => state.userSettings.currency,
+);
+
+export const selectUserSettingsDateFormat = createSelector(
+  selectAuthState,
+  (state) => state.userSettings.dateFormat,
+);
+
 export const selectUserData = createSelector(
   selectAuthState,
   (state) => state.authState?.orders,

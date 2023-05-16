@@ -1,10 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthResponseLight } from 'src/app/shared/models/interface-users';
+import { AuthResponseLight, IUserSettings } from 'src/app/shared/models/interface-users';
 import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
 import { IPassengers } from 'src/app/main/model/search-form.model';
 import {
   IBookingPage, IChooseData, IPassengersCount, IUserPassengers,
 } from 'src/app/shared/models/interface-user-booking';
+import { Currency } from 'src/app/shared/enums/currency.enum';
+import { DateFormat } from 'src/app/shared/enums/date.enum';
 // import { ISearchMainState } from '../state/state.model';
 
 export const getRequestUser = createAction(
@@ -15,6 +17,24 @@ export const getRequestUser = createAction(
 
 export const checkRequestUser = createAction(
   '[USER] Check get user',
+);
+
+export const updateUserSettingCurrency = createAction(
+  '[USER Settings] update User Setting Currency',
+  props<{ newCurrency: Currency,
+  }>(),
+);
+
+export const updateUserSettingDateFormat = createAction(
+  '[USER Settings] update User Setting Date Format',
+  props<{ newDateFormat: DateFormat,
+  }>(),
+);
+
+export const updateUserSettings = createAction(
+  '[USER Settings] update User Settings',
+  props<{ newSettinggs: IUserSettings,
+  }>(),
 );
 
 export const updateMainState = createAction(

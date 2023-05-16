@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Date } from 'src/app/shared/enums/date.enum';
+import { DateFormat } from 'src/app/shared/enums/date.enum';
 import { Currency } from 'src/app/shared/enums/currency.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/auth/pages/modal/modal.component';
@@ -9,9 +9,10 @@ import {
   Observable, Subscription,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectAuthCards } from 'src/app/redux/selectors/state.selector';
+import { selectAuthCards, selectUserSettingsCurrency, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
-import { checkCart } from 'src/app/redux/actions/state.actions';
+import { checkCart, updateUserSettingCurrency, updateUserSettingDateFormat } from 'src/app/redux/actions/state.actions';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthResponseLight } from '../../../shared/models/interface-users';
 
 @Component({
@@ -24,13 +25,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   str: string;
 
-  mdy = Date.MDY;
+  mdy = DateFormat.MDY;
 
-  dmy = Date.DMY;
+  dmy = DateFormat.DMY;
 
-  ymd = Date.YMD;
+  ymd = DateFormat.YMD;
 
-  ydm = Date.YDM;
+  ydm = DateFormat.YDM;
 
   euro = Currency.EUR;
 
@@ -40,6 +41,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   pln = Currency.PLN;
 
+  private currentCurrency$: Subscription;
+
+  private currentDateFormat$: Subscription;
+
+  currentDateFormat: DateFormat;
+
+  currentCurrency: Currency;
+
   private subscription: Subscription;
 
   user: AuthResponseLight;
@@ -48,19 +57,53 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   checkId$: Observable<string | null>;
 
+  formCurrency: FormGroup;
+
+  formDateFormat: FormGroup;
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
     public authService: AuthService,
     private store: Store,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.user$ = this.store.select(selectAuthCards);
+
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.currentDateFormat$ = this.store.select(selectUserSettingsDateFormat).subscribe(
+      (res) => this.currentDateFormat = res,
+    );
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.currentCurrency$ = this.store.select(selectUserSettingsCurrency).subscribe(
+      (res) => this.currentCurrency = res,
+    );
+
+    this.formCurrency = this.formBuilder.group({
+      currency: [this.currentCurrency],
+    });
+
+    this.formDateFormat = this.formBuilder.group({
+      dateFormat: [this.currentDateFormat],
+    });
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.currentCurrency$?.unsubscribe();
+    this.currentDateFormat$?.unsubscribe();
+  }
+
+  sendCurrencyValue(value: Currency) {
+    this.store.dispatch(updateUserSettingCurrency({ newCurrency: value }));
+    console.log('somethig do');
+  }
+
+  sendDateFormatValue(value: DateFormat) {
+    this.store.dispatch(updateUserSettingDateFormat({ newDateFormat: value }));
+    console.log('somethig do date');
   }
 
   goToMainPage() {

@@ -1,7 +1,9 @@
-import { AuthResponseLight } from 'src/app/shared/models/interface-users';
+import { AuthResponseLight, IUserSettings } from 'src/app/shared/models/interface-users';
 import { IPassengers } from 'src/app/main/model/search-form.model';
 import { IUserBooking } from 'src/app/shared/models/interface-user-booking';
 import { ISearchForm } from 'src/app/shared/models/interfaces';
+import { Currency } from 'src/app/shared/enums/currency.enum';
+import { DateFormat } from 'src/app/shared/enums/date.enum';
 
 export interface ISearchMainState {
   searchForm: ISearchForm,
@@ -10,6 +12,7 @@ export interface ISearchMainState {
 
 export interface IState {
   authState: AuthResponseLight | null,
+  userSettings: IUserSettings,
   searchMainState: {
     searchForm: ISearchForm,
     passengerOptions: IPassengers[]
@@ -18,6 +21,10 @@ export interface IState {
 
 export const StateInit: IState = {
   authState: null,
+  userSettings: {
+    currency: Currency.EUR,
+    dateFormat: DateFormat.MDY,
+  },
   searchMainState: {
     searchForm: {
       startDate: '',
