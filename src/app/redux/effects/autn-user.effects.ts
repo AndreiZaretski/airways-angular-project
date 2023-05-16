@@ -70,7 +70,7 @@ export class UserEffects {
     }),
   ), { dispatch: true });
 
-  updateUserSittingsAfterLogin$ = createEffect(() => this.actions$.pipe(
+  updateUserSettingsAfterLogin$ = createEffect(() => this.actions$.pipe(
     ofType(getRequestUser),
     map((result) => {
       if (result.currentUser.userSettings) {
