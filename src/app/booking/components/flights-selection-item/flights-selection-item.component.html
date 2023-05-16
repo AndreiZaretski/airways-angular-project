@@ -7,7 +7,8 @@
   </span>
 </h2>
 
-<ngx-slick-carousel class="carousel date-carousel"
+<ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay"
+  class="carousel date-carousel"
   #slickModal="slick-carousel"
   [config]="source !== 'backway' ? slideConfig : slideConfigBack"
   (init)="slickInit($event)"
@@ -100,7 +101,8 @@
                 (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
             </div>
           </div>
-          <button class="select-btn" mat-flat-button>Select</button>
+          <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>
+          <button class="edit-btn" *ngIf="source !== 'backway' ? checkedThereWay : checkedBackWay" mat-button color="primary" (click)="editSelection(i)">Edit</button>
         </div>
       </mat-card-content>
     </mat-card>
