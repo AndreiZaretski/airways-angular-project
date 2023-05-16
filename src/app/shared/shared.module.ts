@@ -36,6 +36,8 @@ import { AirportNamePipe } from './pipes/airport-name.pipe';
 import { FormComponent } from './components/form/form.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NextDayArrivalPipe } from './pipes/next-day-arrival.pipe';
+import { ArrivalTimePipe } from './pipes/arrival-time.pipe';
+import { SequenceDatePipe } from './pipes/sequence-date.pipe';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -67,6 +69,8 @@ const materialModules = [
     FormComponent,
     DropdownComponent,
     NextDayArrivalPipe,
+    ArrivalTimePipe,
+    SequenceDatePipe,
   ],
   imports: [
     CommonModule,
@@ -81,6 +85,8 @@ const materialModules = [
     FormComponent,
     DropdownComponent,
     NextDayArrivalPipe,
+    ArrivalTimePipe,
+    SequenceDatePipe,
   ],
 })
 export class SharedModule { }
