@@ -72,22 +72,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.store.select(selectAuthCards);
 
-    // eslint-disable-next-line @ngrx/no-store-subscription
-    this.currentDateFormat$ = this.store.select(selectUserSettingsDateFormat).subscribe(
-      (res) => this.currentDateFormat = res,
-    );
-    // eslint-disable-next-line @ngrx/no-store-subscription
-    this.currentCurrency$ = this.store.select(selectUserSettingsCurrency).subscribe(
-      (res) => this.currentCurrency = res,
-    );
-
     this.formCurrency = this.formBuilder.group({
-      currency: [this.currentCurrency],
+      currency: [''],
     });
 
     this.formDateFormat = this.formBuilder.group({
-      dateFormat: [this.currentDateFormat],
+      dateFormat: [''],
     });
+
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.currentDateFormat$ = this.store.select(selectUserSettingsDateFormat).subscribe(
+      (res) => {
+        this.currentDateFormat = res;
+        this.formDateFormat.controls['dateFormat'].setValue(this.currentDateFormat);
+      },
+    );
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.currentCurrency$ = this.store.select(selectUserSettingsCurrency).subscribe(
+      (res) => {
+        const copyRes = res;
+        this.currentCurrency = copyRes;
+        this.formCurrency.controls['currency'].setValue(this.currentCurrency);
+      },
+    );
   }
 
   ngOnDestroy(): void {
@@ -98,12 +105,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   sendCurrencyValue(value: Currency) {
     this.store.dispatch(updateUserSettingCurrency({ newCurrency: value }));
-    console.log('somethig do');
   }
 
   sendDateFormatValue(value: DateFormat) {
     this.store.dispatch(updateUserSettingDateFormat({ newDateFormat: value }));
-    console.log('somethig do date');
   }
 
   goToMainPage() {
@@ -112,6 +117,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToCartPage() {
+    this.router.navigate([Path.Cart]);
+  }
+
+  goToCartPageHistory() {
     this.router.navigate([Path.Cart]);
   }
 

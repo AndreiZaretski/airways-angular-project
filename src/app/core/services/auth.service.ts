@@ -5,7 +5,7 @@ import {
 } from 'rxjs';
 import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 import {
-  AuthLogin, AuthRegistration, AuthResponse, AuthResponseLight,
+  AuthLogin, AuthRegistration, AuthResponse, AuthResponseLight, IUserSettings,
 } from 'src/app/shared/models/interface-users';
 
 @Injectable({
@@ -63,7 +63,6 @@ export class AuthService {
 
   updateUserData(userOrder: IBookingPage[]) {
     if (localStorage.getItem('auth-id')) {
-      console.log('request');
       const requestBody = { orders: userOrder };
       return this.http.patch<AuthResponseLight>(`users/${localStorage.getItem('auth-id')}`, requestBody).pipe(
         catchError(() => EMPTY),
@@ -78,6 +77,15 @@ export class AuthService {
     }
     // return new Observable<IBookingPage[]>();
     // <AuthResponseLight>
+    return null;
+  }
+
+  updateUserSettings(userSettings: IUserSettings) {
+    if (localStorage.getItem('auth-id')) {
+      return this.http.patch<AuthResponseLight>(`users/${localStorage.getItem('auth-id')}`, { userSettings }).pipe(
+        catchError(() => EMPTY),
+      );
+    }
     return null;
   }
 }

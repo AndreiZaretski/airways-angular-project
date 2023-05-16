@@ -16,6 +16,7 @@ export interface AuthResponse {
     phoneNumber: number,
     termsUse: boolean,
     id: number,
+    userSettings?: IUserSettings,
     orders?: Array<IBookingPage>
   }
 }
@@ -33,6 +34,7 @@ export interface AuthResponseLight {
   phoneNumber: number,
   termsUse: boolean,
   id: number,
+  userSettings?: IUserSettings,
   orders?: Array<IBookingPage>
 
 }

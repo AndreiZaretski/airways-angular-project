@@ -3,7 +3,7 @@ import { AuthResponseLight, IUserSettings } from 'src/app/shared/models/interfac
 import { IAirResponse, ISearchForm } from 'src/app/shared/models/interfaces';
 import { IPassengers } from 'src/app/main/model/search-form.model';
 import {
-  IBookingPage, IChooseData, IPassengersCount, IUserPassengers,
+  IBookingPage, IPassengersCount, IUserPassengers,
 } from 'src/app/shared/models/interface-user-booking';
 import { Currency } from 'src/app/shared/enums/currency.enum';
 import { DateFormat } from 'src/app/shared/enums/date.enum';
@@ -53,17 +53,21 @@ export const updateAirsData = createAction(
   }>(),
 );
 
+export const updateBookingPageToInitState = createAction(
+  '[Passengers] update Booking Page To Init State',
+);
+
 export const updatePassengersCount = createAction(
   '[Passengers] update passengers',
   props<{ newPassengersCount: IPassengersCount,
   }>(),
 );
 
-export const updateChooseData = createAction(
-  '[Passengers] update choose data',
-  props<{ newChooseData: IChooseData,
-  }>(),
-);
+// export const updateChooseData = createAction(
+//   '[Passengers] update choose data',
+//   props<{ newChooseData: IChooseData,
+//   }>(),
+// );
 
 export const updateIndexThereWay = createAction(
   '[Passengers] update index There Way',

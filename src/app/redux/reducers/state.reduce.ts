@@ -9,7 +9,7 @@ import {
   editOrderCart,
   getRequestUser, replaceOrderCart, updateAirsData, updateChooseChekedThereWay,
   updateChooseChekedThereWayEdit, updateChooseChekedBackWay, updateChooseChekedBackWayEdit,
-  updateChooseData, updateIndexThereWay, updateIndexBackWay, updateMainState,
+  updateIndexThereWay, updateIndexBackWay, updateMainState,
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
   updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings,
@@ -113,17 +113,17 @@ export const airStateReducer = createReducer(
 
     }),
   ),
-  on(
-    updateChooseData,
-    (state, { newChooseData }) => ({
-      ...state,
-      bookingPage: {
-        ...state.bookingPage,
-        chooseData: newChooseData,
-      },
+  // on(
+  //   updateChooseData,
+  //   (state, { newChooseData }) => ({
+  //     ...state,
+  //     bookingPage: {
+  //       ...state.bookingPage,
+  //       chooseData: newChooseData,
+  //     },
 
-    }),
-  ),
+  //   }),
+  // ),
 
   on(
     updateIndexThereWay,
