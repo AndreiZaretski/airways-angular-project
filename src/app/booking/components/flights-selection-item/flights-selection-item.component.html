@@ -52,11 +52,19 @@
                 <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[i].timeWay | convertDuration)
                   : (response.backWay ?
                   (response.backWay[i].timeWay | convertDuration) : '')}}</span>
-                <mat-icon class="takeoff-icon"
-                  [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
-                <span class="flight-type">{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
-                  'Connected')
-                  : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+                <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
+                <div class="flight-type">
+                  <span>{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
+                    'Connected')
+                    : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+                  <span
+                    *ngIf="(source !== 'backway' ? !response.thereWay[i].direct.isDirect : !(response.backWay ? response.backWay[i].direct.isDirect : ''))">
+                    {{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[1] : (response.backWay ?
+                    response.backWay[i].direct.airportRedirect[1] : '')}}
+                    ({{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[0] : (response.backWay ?
+                    response.backWay[i].direct.airportRedirect[0] : '')}})
+                  </span>
+                </div>
               </div>
             </div>
             <div class="info-wrapper arrival">
