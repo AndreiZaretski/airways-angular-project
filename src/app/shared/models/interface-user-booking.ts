@@ -1,8 +1,9 @@
 import { IAirResponse, IFlightInfo } from './interfaces';
 
 export interface IUserBooking {
-  bookingPage: IBookingPage,
-  cartShoppings: Array<IBookingPage>,
+  bookingPage: IBookingPage;
+  cartShoppings: Array<IBookingPage>;
+  flightsHistory: Array<IBookingPage>;
 }
 
 export interface IBookingPage {
@@ -28,16 +29,18 @@ export interface IBookingPage {
 // }
 
 export interface IPassengersData {
-  firstName: string,
-  lastName: string,
-  gender: string,
-  dateBirth: string,
-  commonLuggage?: string,
-  cabinLuggage?: string,
-  specialAssistance?: boolean,
+  firstName: string;
+  lastName: string;
+  gender: string;
+  dateBirth: string;
+  commonLuggage: string[];
+  cabinLuggage: string[];
+  seat: string[];
+  specialAssistance?: boolean;
 }
 
 export interface IPassengersCount {
+  [key: string]: number,
   adult: number,
   child: number,
   infant: number,
