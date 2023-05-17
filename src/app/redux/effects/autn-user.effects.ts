@@ -1,33 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Actions, concatLatestFrom, createEffect, ofType,
-} from '@ngrx/effects';
-import {
-  Observable,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  concatMap,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  exhaustMap,
-  from,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  map, mergeAll, mergeMap, of, switchMap, tap, withLatestFrom,
+  exhaustMap, map, mergeMap, of, switchMap,
 } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GetAirDataService } from 'src/app/core/services/get-air-data.service';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Action, Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { v4 as uuidv4 } from 'uuid';
 import {
   addOrderCart,
   checkRequestUser, checkCart, deleteOrderCart, getRequestUser,
   replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
+  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings,
 } from '../actions/state.actions';
-import { selectCartPage, selectOrderId, selectUserData } from '../selectors/state.selector';
-// import { airStateReducer } from '../reducers/state.reduce';
-// import { AppState } from '../state/app.state';
+import {
+  selectCartPage, selectOrderId, selectUserSettings,
+} from '../selectors/state.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -43,22 +32,30 @@ export class UserEffects {
   getUser$ = createEffect(() => this.actions$.pipe(
     ofType(checkRequestUser),
     mergeMap(() => this.checkUser.getUser()),
-    // updateOrderCart
-    // switchMap((result) => [
-    //   getRequestUser({ currentUser: result }),
-    //   updateOrderCart({ newOrders: result.orders }),
-    // ]),
-    // map((result) => updateOrderCart({ newOrders: result })),
-
     switchMap((result) => {
-      if (result.orders) {
+      if (result.orders && result.userSettings) {
+        return of(
+          getRequestUser({ currentUser: result }),
+          updateOrderCart({ newOrders: result.orders }),
+          updateUserSettings({ newSettinggs: result.userSettings }),
+        );
+      }
+
+      if (result.orders && !result.userSettings) {
         return of(
           getRequestUser({ currentUser: result }),
           updateOrderCart({ newOrders: result.orders }),
         );
-      } // if orders do not exist
-      return of( // return an observable of one action
-        getRequestUser({ currentUser: result }), // only action
+      }
+
+      if (!result.orders && result.userSettings) {
+        return of(
+          getRequestUser({ currentUser: result }),
+          updateUserSettings({ newSettinggs: result.userSettings }),
+        );
+      }
+      return of(
+        getRequestUser({ currentUser: result }),
       );
     }),
   ));
@@ -68,6 +65,16 @@ export class UserEffects {
     map((result) => {
       if (result.currentUser.orders) {
         return updateOrderCart({ newOrders: result.currentUser.orders });
+      }
+      return { type: 'NO_ACTION' };
+    }),
+  ), { dispatch: true });
+
+  updateUserSettingsAfterLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(getRequestUser),
+    map((result) => {
+      if (result.currentUser.userSettings) {
+        return updateUserSettings({ newSettinggs: result.currentUser.userSettings });
       }
       return { type: 'NO_ACTION' };
     }),
@@ -113,45 +120,17 @@ export class UserEffects {
 
   ));
 
-  // getUserData$ = createEffect(() => this.actions$.pipe(
-  //   ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
-  //   // tap(() => getOrderCart()),
-
-  // ));
-
   sendUserData$ = createEffect(() => this.actions$.pipe(
     ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
     exhaustMap(() => this.store.select(selectCartPage)),
     map((result) => {
-      // if (result) {
       this.checkUser.updateUserData(result)?.subscribe();
-      // }
     }),
   ), { dispatch: false });
+
+  sendUserSettings$ = createEffect(() => this.actions$.pipe(
+    ofType(updateUserSettingCurrency, updateUserSettingDateFormat),
+    exhaustMap(() => this.store.select(selectUserSettings)),
+    map((result) => this.checkUser.updateUserSettings(result)?.subscribe()),
+  ), { dispatch: false });
 }
-
-// map((result)=> this.checkUser.updateUserData(this.store.select(selectUserData)))
-// chekCard
-
-// this.checkId$ = this.store.select(selectOrderId).pipe(
-
-//   tap((result) => {
-//     if (!result) {
-//       this.store.dispatch(addOrderCart({ newOrderId: uuidv4() }));
-//       console.log('no');
-//     } else {
-//       // this.store.dispatch(addOrderCart({ newOrderId: 'fff' }));
-//       this.store.dispatch(replaceOrderCart({ OrderId: result }));
-//       console.log(result);
-//     }
-//   }),
-// );
-
-// tap((result) => {
-//   if (result) {
-//     replaceOrderCart({ OrderId: result });
-//   }
-//   if (!result) {
-//     addOrderCart({ newOrderId: uuidv4() });
-//   }
-// }),

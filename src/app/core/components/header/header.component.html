@@ -7,20 +7,29 @@
 
 <div class="header__user-pannel">
 <p class="header__settings-text">Book flight</p>
-<mat-select [(value)]="mdy" class="header__date">
+
+<form [formGroup]="formDateFormat">
+<mat-select formControlName="dateFormat" class="header__date"
+(selectionChange)="sendDateFormatValue(formDateFormat.value.dateFormat)">
   <mat-option [value]="mdy">MM/DD/YYYY</mat-option>
   <mat-option [value]="dmy">DD/MM/YYYY</mat-option>
   <mat-option [value]="ydm">YYYY/DD/MM</mat-option>
   <mat-option [value]="ymd">YYYY/MM/DD</mat-option>
 </mat-select>
+</form>
 
 
-<mat-select [(value)]="euro" class="header__curr">
+<form [formGroup]="formCurrency">
+<mat-select 
+(selectionChange)="sendCurrencyValue(formCurrency.value.currency)"
+formControlName="currency"
+class="header__curr">
   <mat-option [value]="euro">{{euro}}</mat-option>
   <mat-option [value]="usa">{{usa}}</mat-option>
   <mat-option [value]="rub">{{rub}}</mat-option>
   <mat-option [value]="pln">{{pln}}</mat-option>
 </mat-select>
+</form>
 
 <button mat-button class="header__button-user" *ngIf="(user$ |async) === null"
 (click)="openDialog()">

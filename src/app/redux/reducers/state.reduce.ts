@@ -9,9 +9,10 @@ import {
   editOrderCart,
   getRequestUser, replaceOrderCart, updateAirsData, updateChooseChekedThereWay,
   updateChooseChekedThereWayEdit, updateChooseChekedBackWay, updateChooseChekedBackWayEdit,
-  updateChooseData, updateIndexThereWay, updateIndexBackWay, updateMainState,
+  updateIndexThereWay, updateIndexBackWay, updateMainState,
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
+  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, watchDetailsOrder,
 } from '../actions/state.actions';
 
 function getIndex(array: IBookingPage[], id: string): number {
@@ -34,11 +35,42 @@ function deleteElemArray(array: IBookingPage[], id: string) {
 
 export const authReducer = createReducer(
   StateInit,
+
   on(
     getRequestUser,
     (state, { currentUser }) => ({
       ...state,
       authState: currentUser,
+    }),
+  ),
+
+  on(
+    updateUserSettingCurrency,
+    (state, { newCurrency }) => ({
+      ...state,
+      userSettings: {
+        ...state.userSettings,
+        currency: newCurrency,
+      },
+    }),
+  ),
+
+  on(
+    updateUserSettingDateFormat,
+    (state, { newDateFormat }) => ({
+      ...state,
+      userSettings: {
+        ...state.userSettings,
+        dateFormat: newDateFormat,
+      },
+    }),
+  ),
+
+  on(
+    updateUserSettings,
+    (state, { newSettinggs }) => ({
+      ...state,
+      userSettings: newSettinggs,
     }),
   ),
 );
@@ -81,17 +113,17 @@ export const airStateReducer = createReducer(
 
     }),
   ),
-  on(
-    updateChooseData,
-    (state, { newChooseData }) => ({
-      ...state,
-      bookingPage: {
-        ...state.bookingPage,
-        chooseData: newChooseData,
-      },
+  // on(
+  //   updateChooseData,
+  //   (state, { newChooseData }) => ({
+  //     ...state,
+  //     bookingPage: {
+  //       ...state.bookingPage,
+  //       chooseData: newChooseData,
+  //     },
 
-    }),
-  ),
+  //   }),
+  // ),
 
   on(
     updateIndexThereWay,
@@ -255,6 +287,17 @@ export const airStateReducer = createReducer(
     (state, { OrderId }) => ({
       ...state,
       bookingPage: state.cartShoppings[getIndex(state.cartShoppings, OrderId)],
+    }),
+  ),
+
+  on(
+    watchDetailsOrder,
+    (state, { OrderId }) => ({
+      ...state,
+      bookingPage: {
+        ...state.cartShoppings[getIndex(state.cartShoppings, OrderId)],
+        orderId: null,
+      },
     }),
   ),
 
