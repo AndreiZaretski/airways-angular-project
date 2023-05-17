@@ -63,4 +63,5 @@ export const UserBookingStateInit: IUserBooking = {
     userPassengers: null,
   },
   cartShoppings: [],
+  flightsHistory: [],
 };

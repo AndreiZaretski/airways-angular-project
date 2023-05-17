@@ -13,6 +13,7 @@ import {
   updateOrderCart,
   updatePassengersCount, updatePassengersInfo,
   updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, watchDetailsOrder,
+  addToFlightsHistory,
 } from '../actions/state.actions';
 
 function getIndex(array: IBookingPage[], id: string): number {
@@ -311,4 +312,9 @@ export const airStateReducer = createReducer(
 
   // updateOrderCart
 
-);
+  on(addToFlightsHistory, (state, { newBoughtFlights }) => ({
+    ...state,
+    flightsHistory: [...state.flightsHistory, ...newBoughtFlights],
+  })),
+
+  );

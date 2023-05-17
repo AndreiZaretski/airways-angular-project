@@ -3,10 +3,17 @@ import { SelectionModel } from '@angular/cdk/collections';
 import {
   AfterViewInit, Component, DoCheck, EventEmitter, OnInit, Output, ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { BehaviorSubject, ObjectUnsubscribedError, Observable } from 'rxjs';
+import { checkCart, deleteOrderCart } from 'src/app/redux/actions/state.actions';
+import { selectOrderId } from 'src/app/redux/selectors/state.selector';
+import { selectCartPage } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
+import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 
 export interface PeriodicElement {
   position: string;
@@ -17,184 +24,13 @@ export interface PeriodicElement {
   price: number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 'FR 1925',
-    flight: 'Dublin - Warsaw',
-    typeTrip: 'Round trip',
-    dataType: '1 Mar 2023, 8:40 - 12:00',
-    passengers: '1 x Adult',
-    price: 234.55,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 205.78,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-  {
-    position: 'FR 1936',
-    flight: 'Gdansk - Warsaw',
-    typeTrip: 'One way',
-    dataType: '21 Mar 2023, 15:40 - 16:40',
-    passengers: '1 x Adult',
-    price: 200,
-  },
-];
-
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, DoCheck, AfterViewInit {
-  @Output() selectedFlights = new EventEmitter<PeriodicElement[]>();
+  @Output() selectedFlights = new EventEmitter<IBookingPage[]>();
 
   flightsInCart: string[] = [
     'select',
@@ -216,9 +52,7 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
     'price',
   ];
 
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<IBookingPage>(true, []);
 
   flightsColumns: string[] = [];
 
@@ -226,18 +60,30 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   path = Path;
 
+  @ViewChild(MatSort) sort: MatSort = new MatSort();
+
+  cart$: IBookingPage[] = [];
+
+  dataSource = new MatTableDataSource(this.cart$);
+
+
   constructor(
     private liveAnnouncer: LiveAnnouncer,
     private router: Router,
-  ) {}
-
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
+    private store: Store,
+  ) {
+    this.store.pipe(select(selectCartPage)).subscribe(cart => {
+      this.cart$ = cart
+      this.selection.clear();
+    })
+  }
 
   ngOnInit(): void {
+
     this.isVisibleInCart = this.isVisibleColumnInCart();
     this.flightsColumns = this.isVisibleInCart
-      ? this.flightsInCart
-      : this.flightsHistory;
+    ? this.flightsInCart
+    : this.flightsHistory;
   }
 
   isVisibleColumnInCart() {
@@ -245,7 +91,9 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   ngDoCheck(): void {
+    this.dataSource = new MatTableDataSource(this.cart$);
     this.selectedFlights.emit(this.selection.selected);
+
   }
 
   ngAfterViewInit() {
@@ -276,5 +124,9 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   editFlightDetails() {
     this.router.navigateByUrl(`${Path.Booking}`);
+  }
+
+  deleteFlight(id: string): void {
+    this.store.dispatch(deleteOrderCart({ OrderId: id }));
   }
 }

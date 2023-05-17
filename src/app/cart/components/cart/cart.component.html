@@ -44,7 +44,7 @@
         <div class="cart-selected">
           {{ this.selectedFlights.length || "none" }} selected
         </div>
-        <button class="cart-button_payment" mat-button color="primary">
+        <button class="cart-button_payment" mat-button color="primary" (click)="payForOrder()">
           Payment
         </button>
       </div>
