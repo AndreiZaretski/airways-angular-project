@@ -6,9 +6,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { Store } from '@ngrx/store';
-import { updateMainState } from 'src/app/redux/actions/state.actions';
+import { updateChooseChekedBackWayEdit, updateChooseChekedThereWayEdit, updateMainState } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
+import { selectSearchMain, selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -24,6 +24,10 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() source: string;
 
   airportsList: IAirport[] = airports;
+
+  checkedThereWay = false;
+
+  checkedBackWay = false;
 
   isBookingFormVertical = false;
 
@@ -57,6 +61,8 @@ export class FormComponent implements OnInit, OnDestroy {
     }, { validator: createDateValidator() }),
     passengers: [[], Validators.required],
   });
+
+  userBooking$ = this.store.select(selectUserBooking);
 
   private locationFrom = '';
 
@@ -108,6 +114,11 @@ export class FormComponent implements OnInit, OnDestroy {
     });
     //
     // this.startDate?.setValue(this.minDate.toString());
+
+    this.userBooking$.subscribe((res) => {
+      this.checkedThereWay = res.checkedThereWay;
+      this.checkedBackWay = res.checkedBackWay;
+    });
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -199,6 +210,13 @@ export class FormComponent implements OnInit, OnDestroy {
         newSearchForm: searchFormValue,
         newPassengerOptions: this.passengerOptions,
       }));
+
+      if (this.checkedThereWay) {
+        this.store.dispatch(updateChooseChekedThereWayEdit());
+      }
+      if (this.checkedBackWay) {
+        this.store.dispatch(updateChooseChekedBackWayEdit());
+      }
 
       this.editPanelService.editPanelShown = false;
 
