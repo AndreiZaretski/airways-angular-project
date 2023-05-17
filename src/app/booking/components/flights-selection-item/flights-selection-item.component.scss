@@ -5,6 +5,8 @@
   margin-bottom: 16px;
 
   .flight-icon {
+    position: relative;
+    z-index: 0;
     line-height: 20px;
     transform:rotate(90deg);
   }
@@ -215,6 +217,7 @@
 }
 
 .slick-slider {
+  z-index: 0;
   width: 100%;
   margin: 8px auto;
 }
