@@ -7,4 +7,5 @@ export enum Path {
   Flights = 'flights',
   Passengers = 'passengers',
   Summary = 'summary',
+  FlightsHistory = 'flights-history',
 }
