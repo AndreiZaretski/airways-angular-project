@@ -20,13 +20,13 @@ import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
 
 const routes: Routes = [
   {
-    path: Path.Empty,
+    path: Path.Booking,
     component: BookingPageComponent,
     children: [
       { path: Path.Flights, component: FlightsSelectionComponent },
       { path: Path.Passengers, component: PassengersComponent },
       { path: Path.Summary, component: SummaryPageComponent },
-      { path: Path.Empty, redirectTo: Path.Flights, pathMatch: 'full' },
+      { path: '**', redirectTo: Path.Flights, pathMatch: 'full' },
     ],
   },
 ];
