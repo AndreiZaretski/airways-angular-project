@@ -144,8 +144,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     });
   }
 
-  editSelection(i: number) {
-    console.log('flight to edit', i);
+  editSelection(): void {
     if (this.source !== 'backway') {
       this.store.dispatch(updateChooseChekedThereWayEdit());
     } else {
@@ -153,8 +152,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     }
   }
 
-  selectFlight(i: number) {
-    console.log('flight selected', i);
+  selectFlight(i: number): void {
     if (this.source !== 'backway') {
       this.store.dispatch(updateChooseChekedThereWay());
       this.store.dispatch(updateIndexThereWay({ newIndexThereWay: i }));
