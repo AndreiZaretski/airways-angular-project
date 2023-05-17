@@ -1,4 +1,4 @@
   <div class="passenger-name">{{passenger.firstName | uppercase}} {{passenger.lastName | uppercase}}</div>
-  <div class="passenger-commonluggage">{{passenger.commonLuggage}}</div>
-  <div class="passenger-cabinluggage">{{passenger.cabinLuggage}}</div>
-  <div class="passenger-seat">{{passenger.seat}}</div>
+  <div class="passenger-commonluggage">{{passenger.commonLuggage[indexOfFlight]}}</div>
+  <div class="passenger-cabinluggage">{{passenger.cabinLuggage[indexOfFlight]}}</div>
+  <div class="passenger-seat">{{passenger.seat[indexOfFlight]}}</div>

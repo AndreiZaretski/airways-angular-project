@@ -1,126 +1,137 @@
-import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import {
+  IBookingPage,
+  IPassengersData,
+  IUserPassengers,
+  IPassengersCount,
+} from 'src/app/shared/models/interface-user-booking';
+import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import { IFlightInfo } from 'src/app/shared/models/interfaces';
+import { addOrderCart } from 'src/app/redux/actions/state.actions';
+import { Router } from '@angular/router';
+import { Path } from 'src/app/shared/enums/router.enum';
+import { filter, pairwise } from 'rxjs';
+import { RoutesRecognized } from '@angular/router';
 
-export interface PeriodicElement {
-  position: string;
-  flight: string;
-  typeTrip: string;
-  dataType: string;
-  passengers: string;
-  price: number;
+export interface ICurrentFlightSummary {
+  from: string;
+  to: string;
+  flightData?: IFlightInfo;
 }
-
-export interface Passenger {
-  firstName: string;
-  lastName: string;
-  commonLuggage: string;
-  cabinLuggage: string;
-  seat: string;
-  cost: number;
-}
-
-export interface IPassengersTotalSum {
-  [key: string]: Passenger[];
-  adult: Passenger[];
-  child: Passenger[];
-  infant: Passenger[];
-}
-
-const DATA: PeriodicElement[] = [
-  {
-    position: 'FR 1925',
-    flight: 'Dublin - Warsaw Modlin',
-    typeTrip: 'Round trip',
-    dataType: '1 Mar 2023, 8:40 - 12:00',
-    passengers: '1 x Adult',
-    price: 234.55,
-  },
-  {
-    position: 'FR 4658',
-    flight: 'Warsaw Modlin - Dublin',
-    typeTrip: 'Round trip',
-    dataType: '11 Mar 2023, 20:40 - 23:00',
-    passengers: '1 x Adult',
-    price: 150.55,
-  },
-];
-
-const PASSENGERS: Passenger[] = [
-  {
-    firstName: 'Harry',
-    lastName: 'Potter',
-    commonLuggage: '1checked bag (total 23 kg) included',
-    cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-    seat: 'Seat 19E',
-    cost: 166,
-  },
-  {
-    firstName: 'Lilly',
-    lastName: 'Potter',
-    commonLuggage: '1checked bag (total 23 kg) included',
-    cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-    seat: 'Seat 20E',
-    cost: 106,
-  },
-  {
-    firstName: 'James',
-    lastName: 'Potter',
-    commonLuggage: '1checked bag (total 23 kg) included',
-    cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-    seat: '',
-    cost: 88,
-  },
-];
-
-const PASSENGERSTOTALSUM: IPassengersTotalSum = {
-  adult: [
-    {
-      firstName: 'Harry',
-      lastName: 'Potter',
-      commonLuggage: '1checked bag (total 23 kg) included',
-      cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-      seat: 'Seat 19E',
-      cost: 166,
-    },
-    {
-      firstName: 'Henry',
-      lastName: 'Potter',
-      commonLuggage: '1checked bag (total 23 kg) included',
-      cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-      seat: 'Seat 19E',
-      cost: 166,
-    },
-  ],
-  child: [
-    {
-      firstName: 'Lilly',
-      lastName: 'Potter',
-      commonLuggage: '1checked bag (total 23 kg) included',
-      cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-      seat: 'Seat 20E',
-      cost: 106,
-    },
-  ],
-  infant: [
-    {
-      firstName: 'James',
-      lastName: 'Potter',
-      commonLuggage: '1checked bag (total 23 kg) included',
-      cabinLuggage: '1 cabin bag + 1 personal item (max. 8 kg) included',
-      seat: '',
-      cost: 88,
-    },
-  ],
-};
-
 @Component({
   selector: 'app-summary-page',
   templateUrl: './summary-page.component.html',
   styleUrls: ['./summary-page.component.scss'],
 })
-export class SummaryPageComponent {
-  currentFlight = DATA;
+export class SummaryPageComponent implements OnInit {
+  currentFlight: ICurrentFlightSummary[] = [];
 
-  passengers = PASSENGERS;
+  passengers: IPassengersData[] = [];
 
-  passengersTotalSum = PASSENGERSTOTALSUM;
+  passengersCountWithTypes$: IPassengersCount;
+
+  bookingFlight$: IBookingPage;
+
+  previousUrl: string = '';
+
+  isFromFlightsHistory: boolean = false;
+
+  constructor(
+    private location: Location,
+    private store: Store,
+    private router: Router
+  ) {
+    this.store.pipe(select(selectUserBooking)).subscribe((bookingData) => {
+      if (bookingData.passengersCount)
+        this.passengersCountWithTypes$ = bookingData.passengersCount;
+      this.bookingFlight$ = bookingData;
+    });
+  }
+
+  ngOnInit() {
+    // this.isPreviousUrlFromFlightsHistory();
+
+    if (
+      this.bookingFlight$.responseAir?.thereWay[
+        this.bookingFlight$.indexThereWay
+      ]
+    ) {
+      this.currentFlight = this.bookingFlight$.responseAir?.backWay?.length
+        ? [
+            {
+              from: this.bookingFlight$.responseAir?.from,
+              to: this.bookingFlight$.responseAir?.to,
+              flightData:
+                this.bookingFlight$.responseAir?.thereWay[
+                  this.bookingFlight$.indexThereWay
+                ],
+            },
+            {
+              from: this.bookingFlight$.responseAir?.to,
+              to: this.bookingFlight$.responseAir?.from,
+              flightData:
+                this.bookingFlight$.responseAir?.backWay[
+                  this.bookingFlight$.indexBackWay
+                ],
+            },
+          ]
+        : [
+            {
+              from: this.bookingFlight$.responseAir?.from,
+              to: this.bookingFlight$.responseAir?.to,
+              flightData:
+                this.bookingFlight$.responseAir?.thereWay[
+                  this.bookingFlight$.indexThereWay
+                ],
+            },
+          ];
+    }
+
+    if (this.bookingFlight$.userPassengers) {
+      const passengersArray: IPassengersData[] = Object.values(
+        this.bookingFlight$.userPassengers
+      ).reduce((acc, rec) => {
+        if (Array.isArray(rec)) {
+          return [...acc, ...rec];
+        }
+        return acc;
+      }, []);
+      this.passengers = [...passengersArray];
+    }
+  }
+
+  addOrderToCard(id: string | null) {
+    if (id) {
+      this.store.dispatch(addOrderCart({ newOrderId: id }));
+    }
+  }
+
+  goToCart() {
+    this.router.navigateByUrl(`/${Path.Cart}`);
+  }
+
+  backClicked() {
+    this.location.back();
+  }
+
+  backToAccount() {
+    this.router.navigateByUrl(`/${Path.Cart}/${Path.FlightsHistory}`);
+  }
+
+  // isPreviousUrlFromFlightsHistory() {
+  //   this.router.events
+  //     .pipe(
+  //       filter((evt: any) => evt instanceof RoutesRecognized),
+  //       pairwise()
+  //     )
+  //     .subscribe((events: RoutesRecognized[]) => {
+  //       this.previousUrl = events[0].urlAfterRedirects;
+  //       this.isFromFlightsHistory = this.previousUrl.includes(
+  //         '/cart/flights-history'
+  //       )
+  //       console.log('isFromFlightsHistory', this.isFromFlightsHistory);
+  //     });
+  // }
 }

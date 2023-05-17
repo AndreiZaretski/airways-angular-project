@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Passenger } from '../../pages/summary-page/summary-page.component';
+import { IPassengersData } from 'src/app/shared/models/interface-user-booking';
 
 @Component({
   selector: 'app-passenger-luggage',
@@ -7,5 +7,6 @@ import { Passenger } from '../../pages/summary-page/summary-page.component';
   styleUrls: ['./passenger-luggage.component.scss'],
 })
 export class PassengerLuggageComponent {
-  @Input() passenger: Passenger;
+  @Input() passenger: IPassengersData;
+  @Input() indexOfFlight: number;
 }
