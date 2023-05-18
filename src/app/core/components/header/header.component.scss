@@ -113,3 +113,61 @@ p {
 
 }
 
+@media screen and (max-width: 1300px) {
+  .header {
+   
+    &__logo {
+      
+      margin-left: 3%;
+  
+    }
+
+    &__user-pannel {
+      
+      margin-right: 3%;
+      
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header {
+    flex-wrap: wrap;
+   
+    &__user-pannel {
+      
+      width: 60%;
+    }
+    &__stepper {
+      order:1;
+    }
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .header {
+   
+    &__user-pannel {
+      
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header {
+    //flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+   
+    &__user-pannel {
+      
+      width: 100%;
+    }
+    // &__stepper {
+    //   order:1;
+    // }
+  }
+}
+
