@@ -4,6 +4,8 @@
 <p class="header__logo-text">AIRWAYS</p>
 </div>
 
+<app-stepper></app-stepper>
+
 
 <div class="header__user-pannel">
 <p class="header__settings-text">Book flight</p>
@@ -50,6 +52,11 @@ Sign in</button>
   <mat-icon class="header__button-basket-icon" aria-hidden="false" aria-label="Example shopping_basket icon" fontIcon="shopping_basket">shopping_basket</mat-icon>
 </button>
 </div>
+
+<button mat-raised-button color="primary"
+(click)="onPrevious()">back</button>
+<button mat-raised-button color="primary"
+(click)="onNext()">next</button>
 
 </header>
 

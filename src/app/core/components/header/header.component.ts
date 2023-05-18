@@ -14,6 +14,7 @@ import { Path } from 'src/app/shared/enums/router.enum';
 import { checkCart, updateUserSettingCurrency, updateUserSettingDateFormat } from 'src/app/redux/actions/state.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthResponseLight } from '../../../shared/models/interface-users';
+import { StepperService } from '../../services/stepper-service.service';
 
 @Component({
   selector: 'app-header',
@@ -67,7 +68,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private store: Store,
     private formBuilder: FormBuilder,
+    private stepperService: StepperService,
   ) { }
+
+  onNext() {
+    this.stepperService.nextStep();
+  }
+
+  onPrevious() {
+    // if (this.stepperService.hasPrevious()) {
+    this.stepperService.previousStep();
+    // }
+  }
 
   ngOnInit() {
     this.user$ = this.store.select(selectAuthCards);
