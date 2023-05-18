@@ -1,4 +1,5 @@
-  <mat-stepper #stepper class="header-stepper">
+  <mat-stepper #stepper class="header-stepper"
+    [orientation]="(stepperOrientation$ | async)!">
     <mat-step>
       <ng-template matStepLabel>Flights</ng-template>
     </mat-step>

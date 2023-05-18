@@ -5,7 +5,9 @@ import {
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 import { FormBuilder } from '@angular/forms';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS, StepperOrientation } from '@angular/cdk/stepper';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Observable, map } from 'rxjs';
 import { StepperService } from '../../services/stepper-service.service';
 
 @Component({
@@ -22,11 +24,18 @@ import { StepperService } from '../../services/stepper-service.service';
 export class StepperComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper: MatStepper;
 
+  stepperOrientation$: Observable<StepperOrientation>;
+
   constructor(
     private router: Router,
     private stepperService: StepperService,
     private formBuilder: FormBuilder,
-  ) { }
+    breakpointObserver: BreakpointObserver,
+  ) {
+    this.stepperOrientation$ = breakpointObserver
+      .observe('(min-width: 500px)')
+      .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
+  }
 
   ngOnInit(): void {
   }

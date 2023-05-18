@@ -11,41 +11,44 @@ class="header__stepper"></app-stepper>
 
 
 <div class="header__user-pannel">
-<p class="header__settings-text"
-[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">Book flight</p>
+  <div class="header__user-pannel-settings">
+    <p class="header__settings-text"
+       [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">Book flight
+    </p>
 
-<form [formGroup]="formDateFormat">
-<mat-select formControlName="dateFormat" class="header__date"
-(selectionChange)="sendDateFormatValue(formDateFormat.value.dateFormat)">
-<mat-select-trigger 
-[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
-[ngClass]="router.url === main || router.url === empty ? 'white-arrow.mat-mdc-select-arrow' : 'black-arrow.mat-mdc-select-arrow'"
->
-{{formDateFormat.value.dateFormat}}</mat-select-trigger>
-  <mat-option [value]="mdy">MM/DD/YYYY</mat-option>
-  <mat-option [value]="dmy">DD/MM/YYYY</mat-option>
-  <mat-option [value]="ydm">YYYY/DD/MM</mat-option>
-  <mat-option [value]="ymd">YYYY/MM/DD</mat-option>
-</mat-select>
-</form>
+  <form [formGroup]="formDateFormat">
+    <mat-select formControlName="dateFormat" class="header__date"
+        (selectionChange)="sendDateFormatValue(formDateFormat.value.dateFormat)">
+    <mat-select-trigger 
+       [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
+       [ngClass]="router.url === main || router.url === empty ? 'white-arrow.mat-mdc-select-arrow' : 'black-arrow.mat-mdc-select-arrow'">
+          {{formDateFormat.value.dateFormat}}</mat-select-trigger>
+    <mat-option [value]="mdy">MM/DD/YYYY</mat-option>
+    <mat-option [value]="dmy">DD/MM/YYYY</mat-option>
+    <mat-option [value]="ydm">YYYY/DD/MM</mat-option>
+    <mat-option [value]="ymd">YYYY/MM/DD</mat-option>
+    </mat-select>
+  </form>
 
 
-<form [formGroup]="formCurrency">
-<mat-select 
-(selectionChange)="sendCurrencyValue(formCurrency.value.currency)"
-formControlName="currency"
-class="header__curr">
-<mat-select-trigger 
-[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
->
-{{formCurrency.value.currency}}</mat-select-trigger>
-  <mat-option [value]="euro">{{euro}}</mat-option>
-  <mat-option [value]="usa">{{usa}}</mat-option>
-  <mat-option [value]="rub">{{rub}}</mat-option>
-  <mat-option [value]="pln">{{pln}}</mat-option>
-</mat-select>
-</form>
+  <form [formGroup]="formCurrency">
+    <mat-select 
+        (selectionChange)="sendCurrencyValue(formCurrency.value.currency)"
+        formControlName="currency"
+         class="header__curr">
+      <mat-select-trigger 
+         [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">
+        {{formCurrency.value.currency}}</mat-select-trigger>
+      <mat-option [value]="euro">{{euro}}</mat-option>
+      <mat-option [value]="usa">{{usa}}</mat-option>
+      <mat-option [value]="rub">{{rub}}</mat-option>
+      <mat-option [value]="pln">{{pln}}</mat-option>
+    </mat-select>
+  </form>
 
+</div>
+
+<div class="header__user-auth">
 <button mat-button class="header__button-user" *ngIf="(user$ |async) === null"
 (click)="openDialog()"
 [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">
@@ -70,6 +73,7 @@ Sign in</button>
   [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
   >shopping_basket</mat-icon>
 </button>
+</div>
 </div>
 
 <!-- <button mat-raised-button color="primary"

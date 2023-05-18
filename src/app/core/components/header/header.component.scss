@@ -53,6 +53,11 @@ p {
     width: 42%;
   }
 
+  &__user-pannel-settings {
+    display: flex;
+    align-items: center;
+  }
+
   &__date {
     width: 162px;
     height: 40px;
@@ -113,7 +118,7 @@ p {
 
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1330px) {
   .header {
    
     &__logo {
@@ -156,18 +161,38 @@ p {
 
 @media screen and (max-width: 700px) {
   .header {
-    //flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+    &__logo {
+      margin: 0 auto;
+    }
+   
+    &__user-pannel {
+      
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header {
     flex-direction: column;
     justify-content: center;
     height: 100%;
    
     &__user-pannel {
       
-      width: 100%;
+      flex-direction: column;
+      justify-content: center;
     }
+
     // &__stepper {
-    //   order:1;
+    //   display: none;
     // }
+  
   }
 }
 
