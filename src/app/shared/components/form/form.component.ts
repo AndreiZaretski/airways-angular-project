@@ -107,13 +107,13 @@ export class FormComponent implements OnInit, OnDestroy {
 
       this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
 
-      // console.log(res.searchForm.startDate, res.searchForm.endDate);
-      // this.startDate?.setValue(res.searchForm.startDate);
-      // this.endDate?.setValue(res.searchForm.endDate);
-      // console.log(this.startDate, this.endDate);
+      this.dates?.setValue(
+        {
+          startDate: new Date(res.searchForm.startDate),
+          endDate: new Date(res.searchForm.endDate),
+        },
+      );
     });
-    //
-    // this.startDate?.setValue(this.minDate.toString());
 
     this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
