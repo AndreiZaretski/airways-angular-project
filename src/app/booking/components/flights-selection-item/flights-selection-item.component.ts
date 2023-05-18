@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
@@ -9,12 +10,15 @@ import { IAirResponse } from 'src/app/shared/models/interfaces';
   templateUrl: './flights-selection-item.component.html',
   styleUrls: ['./flights-selection-item.component.scss'],
 })
-export class FlightsSelectionItemComponent implements OnInit {
+export class FlightsSelectionItemComponent implements OnInit, OnChanges {
   @Input() index: number;
 
   @Input() response: IAirResponse;
 
   @Input() source: string;
+
+  @ViewChild('slickModalDate')
+    slickModal: SlickCarouselComponent;
 
   checkedThereWay = false;
 
@@ -132,7 +136,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     console.log('beforeChange', event);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.response.backWay) {
       this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
       this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
@@ -149,6 +153,14 @@ export class FlightsSelectionItemComponent implements OnInit {
       this.store.dispatch(updateChooseChekedThereWayEdit());
     } else {
       this.store.dispatch(updateChooseChekedBackWayEdit());
+    }
+  }
+
+  ngOnChanges(): void {
+    if (this.slickModal && !this.slickModal.initialized) {
+      this.slickModal.initSlick();
+    } else if (this.slickModal) {
+      this.slickModal.unslick();
     }
   }
 

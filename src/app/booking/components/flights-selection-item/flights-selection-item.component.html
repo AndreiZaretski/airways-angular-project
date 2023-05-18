@@ -9,7 +9,7 @@
 
 <ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay"
   class="carousel date-carousel"
-  #slickModal="slick-carousel"
+  #slickModalDate="slick-carousel"
   [config]="source !== 'backway' ? slideConfig : slideConfigBack"
   (init)="slickInit($event)"
   (breakpoint)="breakpoint($event)"
