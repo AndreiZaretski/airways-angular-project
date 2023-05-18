@@ -22,8 +22,6 @@ export class FlightsSelectionComponent implements OnInit {
   constructor(private store: Store, public editPanelService: EditPanelService) {}
 
   ngOnInit() {
-    console.log('response', this.responseDetails$);
-
     this.responseDetails$.subscribe((res) => console.log(res));
 
     this.userBooking$.subscribe((res) => {

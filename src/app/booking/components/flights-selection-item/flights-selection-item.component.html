@@ -10,11 +10,11 @@
 <ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay"
   class="carousel date-carousel"
   #slickModalDate="slick-carousel"
-  [config]="source !== 'backway' ? slideConfig : slideConfigBack"
-  (init)="slickInit($event)"
+  [config]="source !== 'backway' ? slideConfig : slideConfigBack">
+  <!-- (init)="slickInit($event)"
   (breakpoint)="breakpoint($event)"
   (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)">
+  (beforeChange)="beforeChange($event)"> -->
 <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index" class="slide" width="25%">
   <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
   <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
@@ -27,11 +27,7 @@
 <ngx-slick-carousel class="carousel"
   [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
   #slickModal="slick-carousel"
-  [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack"
-  (init)="slickInit($event)"
-  (breakpoint)="breakpoint($event)"
-  (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)">
+  [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
   <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
     Index {{i}}

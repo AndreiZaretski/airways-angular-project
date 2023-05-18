@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { Subscription } from 'rxjs';
 import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
@@ -10,7 +11,7 @@ import { IAirResponse } from 'src/app/shared/models/interfaces';
   templateUrl: './flights-selection-item.component.html',
   styleUrls: ['./flights-selection-item.component.scss'],
 })
-export class FlightsSelectionItemComponent implements OnInit, OnChanges {
+export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input() index: number;
 
   @Input() response: IAirResponse;
@@ -118,29 +119,28 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges {
 
   userBooking$ = this.store.select(selectUserBooking);
 
+  userBookingSubscription: Subscription;
+
   constructor(private store: Store) {}
 
-  slickInit(event: any) {
-    console.log('slick initialized', event);
-  }
+  // slickInit(event: any) {
+  //   console.log('slick initialized', event);
+  // }
 
-  breakpoint(event: any) {
-    console.log('breakpoint', event);
-  }
+  // breakpoint(event: any) {
+  //   console.log('breakpoint', event);
+  // }
 
-  afterChange(event: any) {
-    console.log('afterChange', event);
-  }
+  // afterChange(event: any) {
+  //   console.log('afterChange', event);
+  // }
 
-  beforeChange(event: any) {
-    console.log('beforeChange', event);
-  }
+  // beforeChange(event: any) {
+  //   console.log('beforeChange', event);
+  // }
 
   ngOnInit(): void {
-    if (this.response.backWay) {
-      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
-      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
-    }
+    this.setBackCarouselIndex();
 
     this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
@@ -162,6 +162,12 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges {
     } else if (this.slickModal) {
       this.slickModal.unslick();
     }
+
+    this.setBackCarouselIndex();
+  }
+
+  ngOnDestroy(): void {
+    this.userBookingSubscription?.unsubscribe();
   }
 
   selectFlight(i: number): void {
@@ -171,6 +177,13 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges {
     } else {
       this.store.dispatch(updateChooseChekedBackWay());
       this.store.dispatch(updateIndexBackWay({ newIndexBackWay: i }));
+    }
+  }
+
+  private setBackCarouselIndex(): void {
+    if (this.response.backWay) {
+      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
     }
   }
 }
