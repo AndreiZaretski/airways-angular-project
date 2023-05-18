@@ -4,8 +4,6 @@ p {
 
 .header {
   height: 88px;
-  background-color: rgba(116, 118, 122, 0.2);
-  // background-color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,6 +46,7 @@ p {
 
   &__user-pannel {
     display: flex;
+    // color:aqua;
     justify-content: space-between;
     align-items: center;
     margin-right: 9%;
@@ -69,15 +68,35 @@ p {
     padding-top: 7px;
     text-align: center;
     padding-left: 16px;
-  }
-  
- &__curr::-ms-expand {
-    display: none;
+
+    ::ng-deep .mat-mdc-select-arrow-wrapper {
+      display: none;
+    }
   }
 
-  &__curr svg.ng-tns-c7-1 {
-    display: none;
-  }
+  ::ng-deep .white-arrow .mat-mdc-select-arrow {
+    color: white;
+    }
+    
+    ::ng-deep .black-arrow .mat-mdc-select-arrow {
+    color: black;
+    }
+
+  // :host-context(.white-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: white;
+  //   }
+    
+  //   :host-context(.black-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: black;
+  //   }
+  
+//  &__curr::-ms-expand {
+//     display: none;
+//   }
+
+//   &__curr svg.ng-tns-c7-1 {
+//     display: none;
+//   }
 
   &__button-user {
     width: 114px;
@@ -88,9 +107,9 @@ p {
     color: #11397E;
   }
 
-  &__button-basket-icon {
-    color: black;
-  }
+  // &__button-basket-icon {
+  //   color: black;
+  // }
 
 }
 
