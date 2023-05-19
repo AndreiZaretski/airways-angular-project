@@ -14,6 +14,6 @@
           <mat-icon class="passenger-icon">person</mat-icon>
         </div>
       </div>
-      <button class="edit-btn" mat-button color="primary" (click)="editPanelService.openEditPanel()">Edit</button>
+      <button *ngIf="router.url.endsWith('flights')" class="edit-btn" mat-button color="primary" (click)="editPanelService.openEditPanel()">Edit</button>
     </ng-container>
 </div>
