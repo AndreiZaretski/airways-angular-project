@@ -17,6 +17,7 @@ import { FlightCardComponent } from './components/flight-card/flight-card.compon
 import { PassengerLuggageComponent } from './components/passenger-luggage/passenger-luggage.component';
 import { TotalSumComponent } from './components/total-sum/total-sum.component';
 import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
+import { ColorSeatsDirective } from './directives/color-seats.directive';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     FlightCardComponent,
     PassengerLuggageComponent,
     TotalSumComponent,
-    ConvertDurationPipe
+    ConvertDurationPipe,
+    ColorSeatsDirective,
   ],
   imports: [
     CommonModule,
