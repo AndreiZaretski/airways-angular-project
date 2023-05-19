@@ -222,6 +222,7 @@
 }
 
 .date-carousel .slick-slide {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -251,6 +252,15 @@
     line-height: 20px;
     color: var(--blue);
   }
+
+  .colourful-border {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: none;
+    width: 100%;
+    height: 4px;
+  }
 }
 
 .carousel .slick-center {
@@ -276,5 +286,15 @@
     font-size: 30px;
     line-height: 36px;
     color: var(--blue);
+  }
+
+  .colourful-border {
+    // position: absolute;
+    // left: 0;
+    // bottom: 0;
+    display: block;
+    // width: 100%;
+    // height: 4px;
+    background-color: red;
   }
 }
