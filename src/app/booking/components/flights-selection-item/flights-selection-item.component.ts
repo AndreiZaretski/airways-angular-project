@@ -19,6 +19,9 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   @Input() source: string;
 
   @ViewChild('slickModalDate')
+    slickModalDate: SlickCarouselComponent;
+
+  @ViewChild('slickModal')
     slickModal: SlickCarouselComponent;
 
   checkedThereWay = false;
@@ -157,6 +160,12 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnChanges(): void {
+    if (this.slickModalDate && !this.slickModalDate.initialized) {
+      this.slickModalDate.initSlick();
+    } else if (this.slickModalDate) {
+      this.slickModalDate.unslick();
+    }
+
     if (this.slickModal && !this.slickModal.initialized) {
       this.slickModal.initSlick();
     } else if (this.slickModal) {
