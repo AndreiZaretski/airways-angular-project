@@ -20,9 +20,9 @@ export class StepperService {
   nextStep(): void {
     if (this.hasNext()) {
       if (this.stepper.selected) {
-        this.stepper.selected.completed = true; // отметить текущий шаг как выполненный
-        this.stepper.next(); // перейти к следующему шагу
-        this.stepper.selected.editable = true; // сделать следующий шаг редактируемым
+        this.stepper.selected.completed = true;
+        this.stepper.next();
+        this.stepper.selected.editable = true;
       }
     }
   }
@@ -30,10 +30,10 @@ export class StepperService {
   previousStep(): void {
     if (this.hasPrevious()) {
       if (this.stepper.selected) {
-        this.stepper.selected.editable = true; // сделать текущий шаг редактируемым
-        this.stepper.selected.completed = false;// снять отметку о выполнении с текущего шага
-        this.stepper.previous(); // перейти к предыдущему шагу
-        this.stepper.selected.completed = false; // снять отметку о выполнении с предыдущего шага
+        this.stepper.selected.editable = true;
+        this.stepper.selected.completed = false;
+        this.stepper.previous();
+        this.stepper.selected.completed = false;
       }
     }
   }

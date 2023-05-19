@@ -9,7 +9,9 @@ import {
   Observable, Subscription, filter, map, startWith,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectAuthCards, selectUserSettingsCurrency, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
+import {
+  selectAuthCards, selectCartPageLength, selectUserSettingsCurrency, selectUserSettingsDateFormat,
+} from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { checkCart, updateUserSettingCurrency, updateUserSettingDateFormat } from 'src/app/redux/actions/state.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -67,6 +69,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   formCurrency: FormGroup;
 
   formDateFormat: FormGroup;
+
+  orderLength$ = this.store.select(selectCartPageLength);
 
   constructor(
     public dialog: MatDialog,

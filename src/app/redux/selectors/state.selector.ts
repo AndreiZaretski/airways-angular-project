@@ -53,6 +53,11 @@ export const selectCartPage = createSelector(
   (state) => state.cartShoppings,
 );
 
+export const selectCartPageLength = createSelector(
+  selectAirResponseState,
+  (state) => state.cartShoppings.length,
+);
+
 export const selectCartPageHistory = createSelector(
   selectAirResponseState,
   (state) => state.flightsHistory,
