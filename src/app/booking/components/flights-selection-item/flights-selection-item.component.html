@@ -9,12 +9,12 @@
 
 <ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay"
   class="carousel date-carousel"
-  #slickModal="slick-carousel"
-  [config]="source !== 'backway' ? slideConfig : slideConfigBack"
-  (init)="slickInit($event)"
+  #slickModalDate="slick-carousel"
+  [config]="source !== 'backway' ? slideConfig : slideConfigBack">
+  <!-- (init)="slickInit($event)"
   (breakpoint)="breakpoint($event)"
   (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)">
+  (beforeChange)="beforeChange($event)"> -->
 <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index" class="slide" width="25%">
   <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
   <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
@@ -27,15 +27,11 @@
 <ngx-slick-carousel class="carousel"
   [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
   #slickModal="slick-carousel"
-  [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack"
-  (init)="slickInit($event)"
-  (breakpoint)="breakpoint($event)"
-  (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)">
+  [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
   <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
     Index {{i}}
-    <mat-card class="flight-card">
+    <mat-card class="flight-card" [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
       <mat-card-content class="content-wrapper">
         <div class="flight-details-wrapper">
           <div class="flight-details">
@@ -90,19 +86,19 @@
         </div>
         <div class="price-details">
           <div class="availability-price">
-            <div class="availability">
+            <div class="availability" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">
               <span>{{ source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
                 response.backWay[i].available : '')}} seats</span>
               <span>available</span>
             </div>
             <div class="price-wrapper">
-              <span class="price-label">Price</span>
+              <span class="price-label" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">Price</span>
               <span class="price">{{ source !== 'backway' ? (response.thereWay[i].price.eur | currency:'EUR') :
                 (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
             </div>
           </div>
           <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>
-          <button class="edit-btn" *ngIf="source !== 'backway' ? checkedThereWay : checkedBackWay" mat-button color="primary" (click)="editSelection(i)">Edit</button>
+          <button class="edit-btn" *ngIf="source !== 'backway' ? checkedThereWay : checkedBackWay" mat-button color="primary" (click)="editSelection()">Edit</button>
         </div>
       </mat-card-content>
     </mat-card>

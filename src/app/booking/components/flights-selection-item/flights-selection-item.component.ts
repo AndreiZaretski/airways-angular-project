@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { Subscription } from 'rxjs';
 import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
@@ -9,12 +11,18 @@ import { IAirResponse } from 'src/app/shared/models/interfaces';
   templateUrl: './flights-selection-item.component.html',
   styleUrls: ['./flights-selection-item.component.scss'],
 })
-export class FlightsSelectionItemComponent implements OnInit {
+export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input() index: number;
 
   @Input() response: IAirResponse;
 
   @Input() source: string;
+
+  @ViewChild('slickModalDate')
+    slickModalDate: SlickCarouselComponent;
+
+  @ViewChild('slickModal')
+    slickModal: SlickCarouselComponent;
 
   checkedThereWay = false;
 
@@ -114,29 +122,28 @@ export class FlightsSelectionItemComponent implements OnInit {
 
   userBooking$ = this.store.select(selectUserBooking);
 
+  userBookingSubscription: Subscription;
+
   constructor(private store: Store) {}
 
-  slickInit(event: any) {
-    console.log('slick initialized', event);
-  }
+  // slickInit(event: any) {
+  //   console.log('slick initialized', event);
+  // }
 
-  breakpoint(event: any) {
-    console.log('breakpoint', event);
-  }
+  // breakpoint(event: any) {
+  //   console.log('breakpoint', event);
+  // }
 
-  afterChange(event: any) {
-    console.log('afterChange', event);
-  }
+  // afterChange(event: any) {
+  //   console.log('afterChange', event);
+  // }
 
-  beforeChange(event: any) {
-    console.log('beforeChange', event);
-  }
+  // beforeChange(event: any) {
+  //   console.log('beforeChange', event);
+  // }
 
-  ngOnInit() {
-    if (this.response.backWay) {
-      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
-      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
-    }
+  ngOnInit(): void {
+    this.setBackCarouselIndex();
 
     this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
@@ -144,8 +151,7 @@ export class FlightsSelectionItemComponent implements OnInit {
     });
   }
 
-  editSelection(i: number) {
-    console.log('flight to edit', i);
+  editSelection(): void {
     if (this.source !== 'backway') {
       this.store.dispatch(updateChooseChekedThereWayEdit());
     } else {
@@ -153,14 +159,40 @@ export class FlightsSelectionItemComponent implements OnInit {
     }
   }
 
-  selectFlight(i: number) {
-    console.log('flight selected', i);
+  ngOnChanges(): void {
+    if (this.slickModalDate && !this.slickModalDate.initialized) {
+      this.slickModalDate.initSlick();
+    } else if (this.slickModalDate) {
+      this.slickModalDate.unslick();
+    }
+
+    if (this.slickModal && !this.slickModal.initialized) {
+      this.slickModal.initSlick();
+    } else if (this.slickModal) {
+      this.slickModal.unslick();
+    }
+
+    this.setBackCarouselIndex();
+  }
+
+  ngOnDestroy(): void {
+    this.userBookingSubscription?.unsubscribe();
+  }
+
+  selectFlight(i: number): void {
     if (this.source !== 'backway') {
       this.store.dispatch(updateChooseChekedThereWay());
       this.store.dispatch(updateIndexThereWay({ newIndexThereWay: i }));
     } else {
       this.store.dispatch(updateChooseChekedBackWay());
       this.store.dispatch(updateIndexBackWay({ newIndexBackWay: i }));
+    }
+  }
+
+  private setBackCarouselIndex(): void {
+    if (this.response.backWay) {
+      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
     }
   }
 }
