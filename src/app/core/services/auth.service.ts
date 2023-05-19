@@ -61,12 +61,22 @@ export class AuthService {
     return !!localStorage.getItem('auth-token');
   }
 
-  updateUserData(userOrder: IBookingPage[]) {
+  updateUserData(userOrder: IBookingPage[], userOrdersHistory: IBookingPage[]) {
     if (localStorage.getItem('auth-id')) {
-      const requestBody = { orders: userOrder };
+      const requestBody = {
+        orders: {
+          cartShoppings: userOrder,
+          flightsHistory: userOrdersHistory,
+        },
+      };
       return this.http.patch<AuthResponseLight>(`users/${localStorage.getItem('auth-id')}`, requestBody).pipe(
         catchError(() => EMPTY),
       );
+
+      // export interface IOrders {
+      // cartShoppings: Array<IBookingPage>;
+      // flightsHistory: Array<IBookingPage>;
+      // }
       // .pipe(
       //   tap((data) => console.log('response', data)), // log the response data
       //   catchError((error) => { // catch and log any errors

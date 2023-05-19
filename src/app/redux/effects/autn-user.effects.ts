@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  Actions, concatLatestFrom, createEffect, ofType,
+} from '@ngrx/effects';
+import {
+  debounceTime,
   exhaustMap, map, mergeMap, of, switchMap,
 } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -12,10 +15,10 @@ import {
   checkRequestUser, checkCart, deleteOrderCart, getRequestUser,
   replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
-  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings,
+  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, addToFlightsHistory,
 } from '../actions/state.actions';
 import {
-  selectCartPage, selectOrderId, selectUserSettings,
+  selectCartPage, selectCartPageHistory, selectOrderId, selectUserSettings,
 } from '../selectors/state.selector';
 
 @Injectable({
@@ -36,7 +39,8 @@ export class UserEffects {
       if (result.orders && result.userSettings) {
         return of(
           getRequestUser({ currentUser: result }),
-          updateOrderCart({ newOrders: result.orders }),
+          updateOrderCart({ newOrders: result.orders.cartShoppings }),
+          addToFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
           updateUserSettings({ newSettinggs: result.userSettings }),
         );
       }
@@ -44,7 +48,8 @@ export class UserEffects {
       if (result.orders && !result.userSettings) {
         return of(
           getRequestUser({ currentUser: result }),
-          updateOrderCart({ newOrders: result.orders }),
+          updateOrderCart({ newOrders: result.orders.cartShoppings }),
+          addToFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
         );
       }
 
@@ -64,7 +69,17 @@ export class UserEffects {
     ofType(getRequestUser),
     map((result) => {
       if (result.currentUser.orders) {
-        return updateOrderCart({ newOrders: result.currentUser.orders });
+        return updateOrderCart({ newOrders: result.currentUser.orders.cartShoppings });
+      }
+      return { type: 'NO_ACTION' };
+    }),
+  ), { dispatch: true });
+
+  updateCartUserHistoryAfterLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(getRequestUser),
+    map((result) => {
+      if (result.currentUser.orders) {
+        return addToFlightsHistory({ newBoughtFlights: result.currentUser.orders.flightsHistory });
       }
       return { type: 'NO_ACTION' };
     }),
@@ -120,11 +135,23 @@ export class UserEffects {
 
   ));
 
+  // sendUserData$ = createEffect(() => this.actions$.pipe(
+  //   ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
+  //   exhaustMap(() => this.store.select(selectCartPage)),
+  //   map((result) => {
+  //     this.checkUser.updateUserData(result)?.subscribe();
+  //   }),
+  // ), { dispatch: false });
+
   sendUserData$ = createEffect(() => this.actions$.pipe(
     ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
-    exhaustMap(() => this.store.select(selectCartPage)),
-    map((result) => {
-      this.checkUser.updateUserData(result)?.subscribe();
+    debounceTime(1000),
+    concatLatestFrom(() => [
+      this.store.select(selectCartPage),
+      this.store.select(selectCartPageHistory),
+    ]),
+    map(([, cartPage, cartPageHistory]) => {
+      this.checkUser.updateUserData(cartPage, cartPageHistory)?.subscribe();
     }),
   ), { dispatch: false });
 

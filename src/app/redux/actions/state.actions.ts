@@ -147,5 +147,5 @@ export const updateOrderCart = createAction(
 
 export const addToFlightsHistory = createAction(
   '[FlightsHistory] add flights to history',
-  props<{ newBoughtFlights: IBookingPage[] }>()
+  props<{ newBoughtFlights: IBookingPage[] }>(),
 );
