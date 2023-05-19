@@ -6,7 +6,6 @@ enum Colors {
   MoreThanHalfAvailable = '#7f8906',
   LessThanHalfAvailable = '#f1c933',
   FewSeatsAvailable = '#b3261e',
-
 }
 
 @Directive({
@@ -17,9 +16,9 @@ export class ColorSeatsDirective implements OnChanges {
 
   private color = Colors.MoreThanHalfAvailable;
 
-  private totalSeats = 200;
-
   private minSeats = 10;
+
+  private totalSeats = 200;
 
   constructor(private elementRef: ElementRef, private renderer2: Renderer2) {}
 
