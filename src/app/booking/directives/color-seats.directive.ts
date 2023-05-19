@@ -25,11 +25,11 @@ export class ColorSeatsDirective implements OnChanges {
   ngOnChanges(): void {
     this.setColor();
 
-    if (this.elementRef.nativeElement.classList.contains('slide')) {
+    if (this.elementRef.nativeElement.classList.contains('colourful-border')) {
       this.renderer2.setStyle(
         this.elementRef.nativeElement,
-        'border-bottom',
-        `4px solid ${this.color}`,
+        'background-color',
+        `${this.color}`,
       );
     } else {
       this.renderer2.setStyle(
