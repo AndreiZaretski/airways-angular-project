@@ -14,9 +14,10 @@
   (afterChange)="afterChange($event)"
   (beforeChange)="beforeChange($event)"> -->
   <div ngxSlickItem
-
-    *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
-    class="slide"
+    appColorSeats
+    [seatsCount]="source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
+    response.backWay[i].available : 0)"
+    *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index" class="slide"
     width="25%">
     <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
