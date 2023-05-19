@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
@@ -17,6 +18,7 @@ export class BookingHeaderComponent implements OnInit {
   constructor(
     private responsive: BreakpointObserver,
     private store: Store,
+    public router: Router,
     public editPanelService: EditPanelService,
   ) {}
 
