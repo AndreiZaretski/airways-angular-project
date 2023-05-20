@@ -4,8 +4,6 @@ p {
 
 .header {
   height: 88px;
-  background-color: rgba(116, 118, 122, 0.2);
-  // background-color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,10 +46,16 @@ p {
 
   &__user-pannel {
     display: flex;
+    // color:aqua;
     justify-content: space-between;
     align-items: center;
     margin-right: 9%;
     width: 42%;
+  }
+
+  &__user-pannel-settings {
+    display: flex;
+    align-items: center;
   }
 
   &__date {
@@ -69,28 +73,135 @@ p {
     padding-top: 7px;
     text-align: center;
     padding-left: 16px;
-  }
-  
- &__curr::-ms-expand {
-    display: none;
+
+    ::ng-deep .mat-mdc-select-arrow-wrapper {
+      display: none;
+    }
   }
 
-  &__curr svg.ng-tns-c7-1 {
-    display: none;
-  }
+  ::ng-deep .white-arrow .mat-mdc-select-arrow {
+    color: white;
+    }
+    
+    ::ng-deep .black-arrow .mat-mdc-select-arrow {
+    color: black;
+    }
+
+  // :host-context(.white-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: white;
+  //   }
+    
+  //   :host-context(.black-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: black;
+  //   }
+  
+//  &__curr::-ms-expand {
+//     display: none;
+//   }
+
+//   &__curr svg.ng-tns-c7-1 {
+//     display: none;
+//   }
 
   &__button-user {
     width: 114px;
     height: 40px;
   }
 
-  &__button-user-icon {
-    color: #11397E;
+  // &__button-user-icon {
+  //   color: #11397E;
+  // }
+
+  // &__button-basket-icon {
+  //   color: black;
+  // }
+
+  &__button-order-count {
+    margin-bottom: 10px;
   }
 
-  &__button-basket-icon {
-    color: black;
-  }
+}
 
+@media screen and (max-width: 1330px) {
+  .header {
+   
+    &__logo {
+      
+      margin-left: 3%;
+  
+    }
+
+    &__user-pannel {
+      
+      margin-right: 3%;
+      
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header {
+    flex-wrap: wrap;
+   
+    &__user-pannel {
+      
+      width: 60%;
+    }
+    &__stepper {
+      order:1;
+    }
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .header {
+   
+    &__user-pannel {
+      
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+    height: 114px;
+    //height: 100%;
+
+    &__logo {
+      margin: 0 auto;
+    }
+   
+    &__user-pannel {
+      
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    &__stepper {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header {
+    // flex-direction: column;
+    // justify-content: center;
+    
+   
+    &__user-pannel {
+      
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    // &__stepper {
+    //   display: none;
+    // }
+  
+  }
 }
 

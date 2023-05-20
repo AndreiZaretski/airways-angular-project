@@ -296,7 +296,7 @@ export const airStateReducer = createReducer(
     (state, { OrderId }) => ({
       ...state,
       bookingPage: {
-        ...state.cartShoppings[getIndex(state.cartShoppings, OrderId)],
+        ...state.flightsHistory[getIndex(state.flightsHistory, OrderId)],
         orderId: null,
       },
     }),
@@ -317,4 +317,4 @@ export const airStateReducer = createReducer(
     flightsHistory: [...state.flightsHistory, ...newBoughtFlights],
   })),
 
-  );
+);

@@ -63,3 +63,39 @@ p {
     background-image: url('../../../../assets/icons/pay-systems/visa.svg');
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .footer {
+    flex-wrap: wrap;
+  &__author {
+    margin-left: 2%;
+  }
+
+  &__pay-systems {
+    
+    margin-right: 2%;
+
+    width: 40%;
+  }
+}
+}
+
+@media screen and (max-width: 780px) {
+  .footer {
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+  &__author {
+    margin: 0 auto;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__pay-systems {
+    
+    margin-right: 0%;
+
+    width: 100%;
+  }
+}
+}

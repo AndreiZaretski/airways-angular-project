@@ -17,8 +17,13 @@ export interface AuthResponse {
     termsUse: boolean,
     id: number,
     userSettings?: IUserSettings,
-    orders?: Array<IBookingPage>
+    orders?: IOrders,
   }
+}
+
+export interface IOrders {
+  cartShoppings: Array<IBookingPage>;
+  flightsHistory: Array<IBookingPage>;
 }
 
 export interface AuthResponseLight {
@@ -35,7 +40,7 @@ export interface AuthResponseLight {
   termsUse: boolean,
   id: number,
   userSettings?: IUserSettings,
-  orders?: Array<IBookingPage>
+  orders?: IOrders,
 
 }
 

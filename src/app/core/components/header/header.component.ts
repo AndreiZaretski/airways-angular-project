@@ -3,17 +3,20 @@ import { DateFormat } from 'src/app/shared/enums/date.enum';
 import { Currency } from 'src/app/shared/enums/currency.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/auth/pages/modal/modal.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import {
-  Observable, Subscription,
+  Observable, Subscription, filter, map, startWith,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectAuthCards, selectUserSettingsCurrency, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
+import {
+  selectAuthCards, selectCartPageLength, selectUserSettingsCurrency, selectUserSettingsDateFormat,
+} from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { checkCart, updateUserSettingCurrency, updateUserSettingDateFormat } from 'src/app/redux/actions/state.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthResponseLight } from '../../../shared/models/interface-users';
+import { StepperService } from '../../services/stepper-service.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +25,12 @@ import { AuthResponseLight } from '../../../shared/models/interface-users';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   // Date: Date;
+
+  // Path: Path;
+
+  main = `/${Path.Main}`;
+
+  empty = `/${Path.Empty}`;
 
   str: string;
 
@@ -61,13 +70,38 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   formDateFormat: FormGroup;
 
+  orderLength$ = this.store.select(selectCartPageLength);
+
   constructor(
     public dialog: MatDialog,
-    private router: Router,
+    public router: Router,
     public authService: AuthService,
     private store: Store,
     private formBuilder: FormBuilder,
+    private stepperService: StepperService,
   ) { }
+
+  readonly showContainer$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    map((event) => this.canShowContainer((event as NavigationEnd).urlAfterRedirects)),
+    startWith(this.canShowContainer(this.router.url)),
+  );
+
+  canShowContainer(url: string): boolean {
+    return [`/${Path.Booking}/${Path.Flights}`, `/${Path.Booking}/${Path.Passengers}`, `/${Path.Booking}/${Path.Summary}`, `/${Path.Booking}`].some(
+      (path) => url.startsWith(path),
+    );
+  }
+
+  // onNext() {
+  //   this.stepperService.nextStep();
+  // }
+
+  // onPrevious() {
+  //   // if (this.stepperService.hasPrevious()) {
+  //   this.stepperService.previousStep();
+  //   // }
+  // }
 
   ngOnInit() {
     this.user$ = this.store.select(selectAuthCards);
