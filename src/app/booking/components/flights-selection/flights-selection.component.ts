@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { StepperService } from 'src/app/core/services/stepper-service.service';
 import { selectAirResponse, selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
 
@@ -19,7 +20,11 @@ export class FlightsSelectionComponent implements OnInit {
 
   userBooking$ = this.store.select(selectUserBooking);
 
-  constructor(private store: Store, public editPanelService: EditPanelService) {}
+  constructor(
+    private store: Store,
+    public editPanelService: EditPanelService,
+    public stepper: StepperService,
+  ) {}
 
   ngOnInit() {
     this.responseDetails$.subscribe((res) => console.log(res));

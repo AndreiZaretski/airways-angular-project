@@ -6,8 +6,15 @@
       source="backway"></app-flights-selection-item>
   </ng-container>
   <div class="buttons-wrapper">
-    <button class="back-btn" [routerLink]="['/']" mat-flat-button>Back</button>
-    <button class="continue-btn" routerLink="/booking/passengers" [disabled]="(responseDetails$ | async)?.backWay ? !(checkedThereWay && checkedBackWay) : !checkedThereWay" mat-flat-button color="primary">Continue</button>
+    <button class="back-btn"
+      [routerLink]="['/']"
+      mat-flat-button
+      (click)="stepper.resetStepper()">Back</button>
+    <button class="continue-btn"
+      routerLink="/booking/passengers"
+      [disabled]="(responseDetails$ | async)?.backWay ? !(checkedThereWay && checkedBackWay) : !checkedThereWay"
+      mat-flat-button color="primary"
+      (click)="stepper.nextStep()">Continue</button>
   </div>
 </div>
 
