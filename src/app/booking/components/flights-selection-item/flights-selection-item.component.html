@@ -14,14 +14,21 @@
   (afterChange)="afterChange($event)"
   (beforeChange)="beforeChange($event)"> -->
   <div ngxSlickItem
-
     *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide"
     width="25%">
     <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
-    <span class="carousel-price">{{ item.price.eur | currency: 'EUR' }}</span>
+    <span class="carousel-price"
+      *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')">
+      {{ item.price.eur | currency: 'EUR' }}
+    </span>
+    <div class="no-flight-icon-bg"
+      *ngIf="source !== 'backway' ? !response.thereWay[i].isFlight : !(response.backWay ? response.backWay[i].isFlight : '')">
+      <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+    </div>
     <div class="colourful-border"
+    *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')"
     appColorSeats
     [seatsCount]="source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
     response.backWay[i].available : 0)"></div>
@@ -37,7 +44,9 @@
   <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
     Index {{i}}
-    <mat-card class="flight-card" [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
+    <mat-card *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')"
+      class="flight-card"
+      [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
       <mat-card-content class="content-wrapper">
         <div class="flight-details-wrapper">
           <div class="flight-details">
@@ -112,6 +121,12 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <div class="no-flight-wrapper" *ngIf="source !== 'backway' ? !response.thereWay[i].isFlight : !(response.backWay ? response.backWay[i].isFlight : '')">
+      <div class="no-flight-icon-bg">
+        <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+      </div>
+      <span class="no-flight-text">Sorry, there are no flights available on this day</span>
+    </div>
   </div>
 </ngx-slick-carousel>
 

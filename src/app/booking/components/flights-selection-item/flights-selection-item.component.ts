@@ -57,6 +57,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     arrows: true,
     dots: false,
     centerMode: true,
+    centerPadding: '0px',
     focusOnSelect: true,
     asNavFor: '.flight-carousel',
     responsive: [
@@ -70,7 +71,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 2,
         },
       },
@@ -93,6 +94,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     arrows: true,
     dots: false,
     centerMode: true,
+    centerPadding: '0px',
     focusOnSelect: true,
     asNavFor: '.backway-carousel',
     responsive: [
@@ -106,7 +108,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 2,
         },
       },
