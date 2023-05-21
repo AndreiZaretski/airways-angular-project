@@ -12,7 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule,
+} from '@angular/material/core';
 
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -32,12 +34,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { AirportNamePipe } from './pipes/airport-name.pipe';
 import { FormComponent } from './components/form/form.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NextDayArrivalPipe } from './pipes/next-day-arrival.pipe';
 import { ArrivalTimePipe } from './pipes/arrival-time.pipe';
 import { SequenceDatePipe } from './pipes/sequence-date.pipe';
+import { MyFormat } from './services/format-date';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -87,6 +91,17 @@ const materialModules = [
     NextDayArrivalPipe,
     ArrivalTimePipe,
     SequenceDatePipe,
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS, useClass: MyFormat,
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+  // { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { strict: true } },
   ],
 })
 export class SharedModule { }
