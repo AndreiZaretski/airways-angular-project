@@ -1,11 +1,16 @@
+:host{
+    ::ng-deep .cdk-overlay-container {
+    overflow: auto;
+    pointer-events: auto;
+  }
+}
 
 .auth-modal {
   width: 494px;
   
   border-radius: 8px;
   
-  display: inline-table; 
-  box-sizing: border-box;
+  display: inline-table;
 }
 
 
