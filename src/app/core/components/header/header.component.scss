@@ -183,25 +183,21 @@ p {
     &__stepper {
       display: none;
     }
+
+    &__settings-text {
+      display: none;
+    }
   }
 }
 
 @media screen and (max-width: 500px) {
   .header {
-    // flex-direction: column;
-    // justify-content: center;
     
-   
     &__user-pannel {
       
       flex-direction: column;
       justify-content: center;
-    }
-
-    // &__stepper {
-    //   display: none;
-    // }
-  
+    }  
   }
 }
 

@@ -39,6 +39,10 @@ p {
     margin-right: 6%;
   }
 
+  &__pay-text-min {
+    display: none;
+  }
+
   &__pay-icons {
     background-size: 26px 26px;
     background-repeat: no-repeat;
@@ -96,6 +100,14 @@ p {
     margin-right: 0%;
 
     width: 100%;
+  }
+  
+  &__pay-text {
+    display: none;
+  }
+
+  &__pay-text-min {
+    display: block;
   }
 }
 }
