@@ -59,7 +59,8 @@ Sign in</button>
 
 <ng-container *ngIf="(user$ |async) as user">
 <button mat-button class="header__button-user" *ngIf="(user$ |async) as user"
-[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">
+[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
+(click)="goToCartPageHistory()">
   <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
   <mat-icon class="header__button-user-icon"
   [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">account_circle</mat-icon>
