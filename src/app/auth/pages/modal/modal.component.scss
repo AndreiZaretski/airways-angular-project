@@ -1,9 +1,9 @@
-:host{
+//:host{
     ::ng-deep .cdk-overlay-container {
     overflow: auto;
     pointer-events: auto;
   }
-}
+//}
 
 .auth-modal {
   width: 494px;
