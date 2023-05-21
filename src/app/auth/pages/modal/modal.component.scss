@@ -3,6 +3,10 @@
     overflow: auto;
     pointer-events: auto;
   }
+
+  ::ng-deep .cdk-overlay-backdrop {
+    height: 172vh;
+  }
 //}
 
 .auth-modal {
