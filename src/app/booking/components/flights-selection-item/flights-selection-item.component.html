@@ -1,5 +1,6 @@
 <h2 class="page-title flight-selection-title">
-  <mat-icon class="flight-icon">flight</mat-icon>
+  <mat-icon class="flight-icon"
+  [ngClass]="{'is-xsmall': isFlightDetailsVertical}">flight</mat-icon>
   <span>
     {{ source === 'backway' ?
     (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name') + ' to ' + (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name'):
@@ -19,7 +20,7 @@
     [ngClass]="{'no-flight': !flight.isFlight || (response.startDate | sequenceDate: i) < today }"
     width="25%"
     (click)="clickSlider($event, response.startDate, i)">
-    <span #dateSlide class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
+    <span #dateSlide class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
     <span class="carousel-price" *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)">{{ flight.price.eur | currency: 'EUR' }}</span>
     <div class="no-flight-icon-bg" *ngIf="!flight.isFlight || (response.startDate | sequenceDate: i) < today">
@@ -44,11 +45,13 @@
     <mat-card *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
       class="flight-card"
       [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
-      <mat-card-content class="content-wrapper">
-        <div class="flight-details-wrapper">
+      <mat-card-content class="content-wrapper"
+        [ngClass]="{'is-small': isFlightCardVertical}">
+        <div class="flight-details-wrapper"
+          [ngClass]="{'is-xsmall': isFlightDetailsVertical}">
           <div class="flight-details">
             <div class="info-wrapper">
-              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
+              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMM y' }}</span>
               <span class="time">{{ flight.startTime }}</span>
               <span class="timezone">UTC +0</span>
               <span class="airport">{{ source === 'backway' ?
@@ -70,7 +73,7 @@
             </div>
             <div class="info-wrapper arrival">
               <span class="day">{{ response.startDate | nextDayArrival: flight.startTime : flight.timeWay | sequenceDate: i | date:
-                'EE, d MMMM y' }}</span>
+                'EE, d MMM y' }}</span>
               <span class="time">{{ flight.startTime | arrivalTime: flight.timeWay }}</span>
               <span class="timezone timezone-arrival">UTC +0</span>
               <span class="airport">{{ source !== 'backway' ?
@@ -83,7 +86,7 @@
             <span>{{ flight.flightNumber}}</span>
           </div>
         </div>
-        <div class="price-details">
+        <div class="price-details" [ngClass]="{'is-xsmall': isFlightDetailsVertical}">
           <div class="availability-price">
             <div class="availability"
               appColorSeats

@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
@@ -49,6 +50,10 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     dots: false,
   };
 
+  isFlightCardVertical = false;
+
+  isFlightDetailsVertical = false;
+
   slideConfig = {
     slidesToShow: 5,
     slidesToScroll: 2,
@@ -63,24 +68,17 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     asNavFor: '.flight-carousel',
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 960,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-        },
-      },
-      {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
         },
       },
     ],
@@ -100,24 +98,17 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     asNavFor: '.backway-carousel',
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 960,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-        },
-      },
-      {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
         },
       },
     ],
@@ -127,9 +118,11 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
 
   userBooking$ = this.store.select(selectUserBooking);
 
-  userBookingSubscription: Subscription;
+  private subscriptionBreakpoints: Subscription;
 
-  constructor(private store: Store) {}
+  private subscriptionUserBooking: Subscription;
+
+  constructor(private store: Store, private responsive: BreakpointObserver) {}
 
   // slickInit(event: any) {
   //   console.log('slick initialized', event);
@@ -148,17 +141,40 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   // }
 
   ngOnInit(): void {
-    console.log(this.today);
-
     this.setBackCarouselIndex();
 
-    this.userBooking$.subscribe((res) => {
+    this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
+
+    // this.subscriptionBreakpoints = this.responsive
+    //   .observe(Breakpoints.Small).subscribe((result) => {
+    //     this.isFlightCardVertical = false;
+    //     if (result.matches) {
+    //       this.isFlightCardVertical = true;
+    //     }
+    //   });
+
+    this.subscriptionBreakpoints = this.responsive.observe(
+      [Breakpoints.XSmall, Breakpoints.Small],
+    ).subscribe((result) => {
+      const { breakpoints } = result;
+      this.isFlightCardVertical = false;
+      this.isFlightDetailsVertical = false;
+
+      if (breakpoints[Breakpoints.Small] || breakpoints[Breakpoints.XSmall]) {
+        this.isFlightCardVertical = true;
+      }
+
+      if (breakpoints[Breakpoints.XSmall]) {
+        // this.isFlightCardVertical = true;
+        this.isFlightDetailsVertical = true;
+      }
+    });
   }
 
-  clickSlider(e: Event, startDate: string, index: number) {
+  clickSlider(e: Event, startDate: string, index: number): void {
     const sequencePipe = new SequenceDatePipe();
     const slideDate = sequencePipe.transform(startDate, index);
 
@@ -192,7 +208,8 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnDestroy(): void {
-    this.userBookingSubscription?.unsubscribe();
+    this.subscriptionUserBooking.unsubscribe();
+    this.subscriptionBreakpoints.unsubscribe();
   }
 
   selectFlight(i: number): void {
