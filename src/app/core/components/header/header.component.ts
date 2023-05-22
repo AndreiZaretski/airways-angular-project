@@ -155,7 +155,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToCartPageHistory() {
-    this.router.navigate([Path.Cart]);
+    this.router.navigate([`${Path.Cart}/${Path.FlightsHistory}`]);
   }
 
   openDialog() {

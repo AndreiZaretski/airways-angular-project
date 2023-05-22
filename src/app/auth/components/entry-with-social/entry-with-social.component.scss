@@ -31,3 +31,36 @@ margin-bottom: 16px;
         font-size: 12px;
       }
 }
+
+@media screen and (max-width: 680px) {
+  :host {
+    .entry-social {
+      padding-right: 0%;
+      //background-size: 18px 18px;
+      background-position: 20%;
+      background-repeat: no-repeat;
+    }
+  }
+
+  
+}
+
+@media screen and (max-width: 510px) {
+  :host {
+    .entry-social {
+      text-align: center;
+      padding-right: 0%;
+      //background-size: 18px 18px;
+      background-position: 12%;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+@media screen and (max-width: 430px) {
+  :host {
+    .entry-social {
+      background-position: 3%;
+    }
+  }
+}
