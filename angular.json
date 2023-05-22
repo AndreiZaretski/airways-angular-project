@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["moment"],
             "outputPath": "dist/airways-angular-project",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -38,7 +39,7 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/slick-carousel/slick/slick.scss",
               "node_modules/slick-carousel/slick/slick-theme.scss",
-              "src/styles.scss",
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
