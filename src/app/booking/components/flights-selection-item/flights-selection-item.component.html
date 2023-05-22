@@ -14,24 +14,20 @@
   (afterChange)="afterChange($event)"
   (beforeChange)="beforeChange($event)"> -->
   <div ngxSlickItem
-    *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
+    *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide"
+    [ngClass]="{'no-flight': !flight.isFlight}"
     width="25%">
     <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
-    <span class="carousel-price"
-      *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')">
-      {{ item.price.eur | currency: 'EUR' }}
-    </span>
-    <div class="no-flight-icon-bg"
-      *ngIf="source !== 'backway' ? !response.thereWay[i].isFlight : !(response.backWay ? response.backWay[i].isFlight : '')">
+    <span class="carousel-price" *ngIf="flight.isFlight">{{ flight.price.eur | currency: 'EUR' }}</span>
+    <div class="no-flight-icon-bg" *ngIf="!flight.isFlight">
       <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
     </div>
     <div class="colourful-border"
-    *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')"
+    *ngIf="flight.isFlight"
     appColorSeats
-    [seatsCount]="source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
-    response.backWay[i].available : 0)"></div>
+    [seatsCount]="flight.available"></div>
   </div>
 </ngx-slick-carousel>
 <!-- <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>

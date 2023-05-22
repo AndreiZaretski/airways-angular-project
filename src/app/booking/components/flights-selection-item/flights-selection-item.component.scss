@@ -313,6 +313,12 @@
   }
 }
 
+.date-carousel .slick-slide.no-flight {
+  .carousel-date {
+    color: var(--gray);
+  }
+}
+
 .carousel .slick-center {
   position: relative;
   height: 83px;
