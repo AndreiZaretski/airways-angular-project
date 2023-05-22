@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
+import { SequenceDatePipe } from 'src/app/shared/pipes/sequence-date.pipe';
 
 @Component({
   selector: 'app-flights-selection-item',
@@ -122,6 +123,8 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     ],
   };
 
+  today = new Date(new Date().setHours(0, 0, 0, 0));
+
   userBooking$ = this.store.select(selectUserBooking);
 
   userBookingSubscription: Subscription;
@@ -145,12 +148,23 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   // }
 
   ngOnInit(): void {
+    console.log(this.today);
+
     this.setBackCarouselIndex();
 
     this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
+  }
+
+  clickSlider(e: Event, startDate: string, index: number) {
+    const sequencePipe = new SequenceDatePipe();
+    const slideDate = sequencePipe.transform(startDate, index);
+
+    if (slideDate < this.today) {
+      e.stopImmediatePropagation();
+    }
   }
 
   editSelection(): void {

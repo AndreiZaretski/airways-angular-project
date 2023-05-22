@@ -16,16 +16,17 @@
   <div ngxSlickItem
     *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide"
-    [ngClass]="{'no-flight': !flight.isFlight}"
-    width="25%">
-    <span class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
+    [ngClass]="{'no-flight': !flight.isFlight || (response.startDate | sequenceDate: i) < today }"
+    width="25%"
+    (click)="clickSlider($event, response.startDate, i)">
+    <span #dateSlide class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
-    <span class="carousel-price" *ngIf="flight.isFlight">{{ flight.price.eur | currency: 'EUR' }}</span>
-    <div class="no-flight-icon-bg" *ngIf="!flight.isFlight">
+    <span class="carousel-price" *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)">{{ flight.price.eur | currency: 'EUR' }}</span>
+    <div class="no-flight-icon-bg" *ngIf="!flight.isFlight || (response.startDate | sequenceDate: i) < today">
       <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
     </div>
     <div class="colourful-border"
-    *ngIf="flight.isFlight"
+    *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
     appColorSeats
     [seatsCount]="flight.available"></div>
   </div>
@@ -39,8 +40,8 @@
   [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
   <div ngxSlickItem *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
-    Index {{i}}
-    <mat-card *ngIf="flight.isFlight"
+    <!-- Index {{i}} -->
+    <mat-card *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
       class="flight-card"
       [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
       <mat-card-content class="content-wrapper">
@@ -101,11 +102,17 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <div class="no-flight-wrapper" *ngIf="!flight.isFlight">
+    <div class="no-flight-wrapper" *ngIf="!flight.isFlight && !((response.startDate | sequenceDate: i) < today)">
       <div class="no-flight-icon-bg">
         <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
       </div>
       <span class="no-flight-text">Sorry, there are no flights available on this day</span>
+    </div>
+    <div class="no-flight-wrapper" *ngIf="(response.startDate | sequenceDate: i) < today">
+      <div class="no-flight-icon-bg">
+        <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+      </div>
+      <span class="no-flight-text">Sorry, flights are not available for past dates</span>
     </div>
   </div>
 </ngx-slick-carousel>

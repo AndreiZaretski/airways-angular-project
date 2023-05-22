@@ -221,6 +221,7 @@
   justify-content: center;
   align-items: center;
   gap: 16px;
+  padding-top: 20px;
   color: var(--gray);
 
   .no-flight-icon-bg {
@@ -295,6 +296,7 @@
 
     .no-flight-icon {
       padding-left: 1px;
+      padding-top: 1px;
       width: 18px;
       height: 18px;
       font-size: 16px;
