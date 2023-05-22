@@ -37,10 +37,10 @@
   [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
   #slickModal="slick-carousel"
   [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
-  <div ngxSlickItem *ngFor="let item of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
+  <div ngxSlickItem *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
     Index {{i}}
-    <mat-card *ngIf="source !== 'backway' ? response.thereWay[i].isFlight : (response.backWay ? response.backWay[i].isFlight : '')"
+    <mat-card *ngIf="flight.isFlight"
       class="flight-card"
       [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
       <mat-card-content class="content-wrapper">
@@ -48,8 +48,7 @@
           <div class="flight-details">
             <div class="info-wrapper">
               <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMMM y' }}</span>
-              <span class="time">{{ source !== 'backway' ? response.thereWay[i].startTime : (response.backWay ?
-                response.backWay[i].startTime : '') }}</span>
+              <span class="time">{{ flight.startTime }}</span>
               <span class="timezone">UTC +0</span>
               <span class="airport">{{ source === 'backway' ?
                 (response.to | airportName: 'city') + ' (' + response.to + ')' :
@@ -57,32 +56,21 @@
             </div>
             <div class="add-info-wrapper">
               <div class="add-info">
-                <span class="flight-duration">{{ source !== 'backway' ? (response.thereWay[i].timeWay | convertDuration)
-                  : (response.backWay ?
-                  (response.backWay[i].timeWay | convertDuration) : '')}}</span>
+                <span class="flight-duration">{{ flight.timeWay | convertDuration }}</span>
                 <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
                 <div class="flight-type">
-                  <span>{{ source !== 'backway' ? (response.thereWay[i].direct.isDirect ? 'Direct' :
-                    'Connected')
-                    : (response.backWay ? (response.backWay[i].direct.isDirect ? 'Direct' : 'Connected') : '')}}</span>
+                  <span>{{ flight.direct.isDirect ? 'Direct' : 'Connected'}}</span>
                   <span
-                    *ngIf="(source !== 'backway' ? !response.thereWay[i].direct.isDirect : !(response.backWay ? response.backWay[i].direct.isDirect : ''))">
-                    {{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[1] : (response.backWay ?
-                    response.backWay[i].direct.airportRedirect[1] : '')}}
-                    ({{ source !== 'backway' ? response.thereWay[i].direct.airportRedirect[0] : (response.backWay ?
-                    response.backWay[i].direct.airportRedirect[0] : '')}})
+                    *ngIf="!flight.direct.isDirect">
+                    {{ flight.direct.airportRedirect[1]}} ({{ flight.direct.airportRedirect[0] }})
                   </span>
                 </div>
               </div>
             </div>
             <div class="info-wrapper arrival">
-              <span class="day">{{ response.startDate | nextDayArrival: (source !== 'backway' ? response.thereWay[i].startTime :
-                (response.backWay ? response.backWay[i].startTime : '')) : (source !== 'backway' ? response.thereWay[i].timeWay :
-                (response.backWay ? response.backWay[i].timeWay : 0)) | sequenceDate: i | date:
+              <span class="day">{{ response.startDate | nextDayArrival: flight.startTime : flight.timeWay | sequenceDate: i | date:
                 'EE, d MMMM y' }}</span>
-              <span class="time">{{ source !== 'backway' ? (response.thereWay[i].startTime | arrivalTime:
-                response.thereWay[i].timeWay) : (response.backWay ? (response.backWay[i].startTime | arrivalTime:
-                response.backWay[i].timeWay) : '') }}</span>
+              <span class="time">{{ flight.startTime | arrivalTime: flight.timeWay }}</span>
               <span class="timezone timezone-arrival">UTC +0</span>
               <span class="airport">{{ source !== 'backway' ?
                 (response.to | airportName: 'city') + ' (' + response.to + ')' :
@@ -91,25 +79,21 @@
             </div>
           <div class="flight-number">
             <span class="number-label">Flight no.</span>
-            <span>{{ source !== 'backway' ? response.thereWay[i].flightNumber : (response.backWay ?
-              response.backWay[i].flightNumber : '')}}</span>
+            <span>{{ flight.flightNumber}}</span>
           </div>
         </div>
         <div class="price-details">
           <div class="availability-price">
             <div class="availability"
               appColorSeats
-              [seatsCount]="source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
-                response.backWay[i].available : 0)"
+              [seatsCount]="flight.available"
               *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">
-              <span>{{ source !== 'backway' ? response.thereWay[i].available : (response.backWay ?
-                response.backWay[i].available : '')}} seats</span>
+              <span>{{ flight.available }} seats</span>
               <span>available</span>
             </div>
             <div class="price-wrapper">
               <span class="price-label" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">Price</span>
-              <span class="price">{{ source !== 'backway' ? (response.thereWay[i].price.eur | currency:'EUR') :
-                (response.backWay ? (response.backWay[i].price.eur | currency:'EUR') : '')}}</span>
+              <span class="price">{{ flight.price.eur | currency:'EUR' }}</span>
             </div>
           </div>
           <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>
@@ -117,7 +101,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <div class="no-flight-wrapper" *ngIf="source !== 'backway' ? !response.thereWay[i].isFlight : !(response.backWay ? response.backWay[i].isFlight : '')">
+    <div class="no-flight-wrapper" *ngIf="!flight.isFlight">
       <div class="no-flight-icon-bg">
         <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
       </div>
@@ -125,4 +109,3 @@
     </div>
   </div>
 </ngx-slick-carousel>
-
