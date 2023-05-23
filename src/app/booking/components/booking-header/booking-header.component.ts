@@ -1,6 +1,8 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { selectSearchMain } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
 
@@ -9,23 +11,31 @@ import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
   templateUrl: './booking-header.component.html',
   styleUrls: ['./booking-header.component.scss'],
 })
-export class BookingHeaderComponent implements OnInit {
+export class BookingHeaderComponent implements OnInit, OnDestroy {
   isHeaderVertical = false;
 
   headerDetails$ = this.store.select(selectSearchMain);
 
+  private subscriptionBreakpoints: Subscription;
+
   constructor(
     private responsive: BreakpointObserver,
     private store: Store,
+    public router: Router,
     public editPanelService: EditPanelService,
   ) {}
 
   ngOnInit(): void {
-    this.responsive.observe(Breakpoints.XSmall).subscribe((result) => {
-      this.isHeaderVertical = false;
-      if (result.matches) {
-        this.isHeaderVertical = true;
-      }
-    });
+    this.subscriptionBreakpoints = this.responsive
+      .observe(Breakpoints.XSmall).subscribe((result) => {
+        this.isHeaderVertical = false;
+        if (result.matches) {
+          this.isHeaderVertical = true;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionBreakpoints.unsubscribe();
   }
 }
