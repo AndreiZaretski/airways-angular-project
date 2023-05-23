@@ -29,12 +29,13 @@ export interface IBookingPage {
 // }
 
 export interface IPassengersData {
+  type: string;
   firstName: string;
   lastName: string;
   gender: string;
-  dateBirth: string;
-  commonLuggage: string[];
-  cabinLuggage: string[];
+  birthDay: string;
+  commonLuggage: boolean;
+  cabinLuggage: boolean;
   seat: string[];
   specialAssistance?: boolean;
 }
@@ -47,14 +48,12 @@ export interface IPassengersCount {
 }
 
 export interface IUserPassengers {
-  adult: Array<IPassengersData>,
-  child: Array<IPassengersData>,
-  infant: Array<IPassengersData>,
+  passengers: Array<IPassengersData>;
   contactsDetail: {
-    countriCode: string,
-    phoneNumber: string,
-    email: string,
-  }
+    countriCode: string;
+    phoneNumber: string;
+    email: string;
+  };
 }
 
 export interface IChooseData {
