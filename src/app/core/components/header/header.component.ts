@@ -13,6 +13,7 @@ import {
   selectAuthCards, selectCartPageLength, selectUserSettingsCurrency, selectUserSettingsDateFormat,
 } from 'src/app/redux/selectors/state.selector';
 import { Path } from 'src/app/shared/enums/router.enum';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { checkCart, updateUserSettingCurrency, updateUserSettingDateFormat } from 'src/app/redux/actions/state.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthResponseLight } from '../../../shared/models/interface-users';
@@ -146,7 +147,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToMainPage() {
-    this.store.dispatch(checkCart());
+    // this.store.dispatch(checkCart());
     this.router.navigate([Path.Main]);
   }
 
@@ -155,7 +156,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToCartPageHistory() {
-    this.router.navigate([`${Path.Cart}/${Path.FlightsHistory}`]);
+    this.router.navigate([Path.Cart, Path.FlightsHistory]);
+    // this.router.navigate([`${Path.Cart}/${Path.FlightsHistory}`]);
   }
 
   openDialog() {
