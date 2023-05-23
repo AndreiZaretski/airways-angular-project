@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import { Path } from '../shared/enums/router.enum';
-import { PassengersComponent } from './components/passengers/passengers.component';
 import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
 import { FlightsSelectionComponent } from './components/flights-selection/flights-selection.component';
 import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
