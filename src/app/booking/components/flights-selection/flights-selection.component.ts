@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
 import { selectAirResponse, selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
+import { Path } from 'src/app/shared/enums/router.enum';
 
 @Component({
   selector: 'app-flights-selection',
@@ -15,6 +16,8 @@ export class FlightsSelectionComponent implements OnInit {
   checkedBackWay = false;
 
   index = 0;
+
+  path = Path;
 
   responseDetails$ = this.store.select(selectAirResponse);
 
