@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { SharedModule } from '../shared/shared.module';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import BookingRoutingModule from './booking-routing.module';
 import { FlightsSelectionComponent } from './components/flights-selection/flights-selection.component';
 import { PassengersComponent } from './components/passengers/passengers.component';
-import { Path } from '../shared/enums/router.enum';
 import { BookingHeaderComponent } from './components/booking-header/booking-header.component';
 import { TotalPassengersPipe } from './pipes/total-passengers.pipe';
 import { FlightsSelectionItemComponent } from './components/flights-selection-item/flights-selection-item.component';
@@ -18,19 +16,6 @@ import { PassengerLuggageComponent } from './components/passenger-luggage/passen
 import { TotalSumComponent } from './components/total-sum/total-sum.component';
 import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
 import { ColorSeatsDirective } from './directives/color-seats.directive';
-
-const routes: Routes = [
-  {
-    path: Path.Booking,
-    component: BookingPageComponent,
-    children: [
-      { path: Path.Flights, component: FlightsSelectionComponent },
-      { path: Path.Passengers, component: PassengersComponent },
-      { path: Path.Summary, component: SummaryPageComponent },
-      { path: '**', redirectTo: Path.Flights, pathMatch: 'full' },
-    ],
-  },
-];
 
 @NgModule({
   declarations: [
@@ -52,7 +37,6 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     BookingRoutingModule,
-    RouterModule.forChild(routes),
     SlickCarouselModule,
   ],
 })
