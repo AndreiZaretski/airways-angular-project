@@ -43,6 +43,8 @@ export class StepperService {
   }
 
   lastStep() {
+    // eslint-disable-next-line no-param-reassign
+    this.stepper.steps.forEach((step) => step.completed = true);
     this.stepper.selectedIndex = this.stepper.steps.length - 1;
   }
 
