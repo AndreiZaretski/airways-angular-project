@@ -5,6 +5,7 @@ import { Path } from '../shared/enums/router.enum';
 import { PassengersComponent } from './components/passengers/passengers.component';
 import { SummaryPageComponent } from './pages/summary-page/summary-page.component';
 import { FlightsSelectionComponent } from './components/flights-selection/flights-selection.component';
+import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: BookingPageComponent,
     children: [
       { path: Path.Flights, component: FlightsSelectionComponent },
-      { path: Path.Passengers, component: PassengersComponent },
+      { path: Path.Passengers, component: PassengersPageComponent },
       { path: Path.Summary, component: SummaryPageComponent },
       { path: '**', redirectTo: Path.Flights, pathMatch: 'full' },
     ],
