@@ -5,7 +5,6 @@ import { SharedModule } from '../shared/shared.module';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import BookingRoutingModule from './booking-routing.module';
 import { FlightsSelectionComponent } from './components/flights-selection/flights-selection.component';
-import { PassengersComponent } from './components/passengers/passengers.component';
 import { BookingHeaderComponent } from './components/booking-header/booking-header.component';
 import { TotalPassengersPipe } from './pipes/total-passengers.pipe';
 import { FlightsSelectionItemComponent } from './components/flights-selection-item/flights-selection-item.component';
@@ -16,12 +15,13 @@ import { PassengerLuggageComponent } from './components/passenger-luggage/passen
 import { TotalSumComponent } from './components/total-sum/total-sum.component';
 import { ConvertDurationPipe } from './pipes/convert-duration.pipe';
 import { ColorSeatsDirective } from './directives/color-seats.directive';
+import { PassengerCardComponent } from './components/passenger-card/passenger-card.component';
+import { PassengersPageComponent } from './pages/passengers-page/passengers-page.component';
 
 @NgModule({
   declarations: [
     BookingPageComponent,
     FlightsSelectionComponent,
-    PassengersComponent,
     SummaryPageComponent,
     BookingHeaderComponent,
     TotalPassengersPipe,
@@ -32,6 +32,8 @@ import { ColorSeatsDirective } from './directives/color-seats.directive';
     TotalSumComponent,
     ConvertDurationPipe,
     ColorSeatsDirective,
+    PassengerCardComponent,
+    PassengersPageComponent,
   ],
   imports: [
     CommonModule,

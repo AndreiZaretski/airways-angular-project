@@ -1,0 +1,251 @@
+<mat-card class="passengers-maincard">
+  <mat-card-title class="list-title">
+    <mat-icon class="passengers-list-image"></mat-icon>
+    Passengers
+  </mat-card-title>
+  <mat-card-subtitle class="list-subtitle"
+    >Enter the passenger's names as they appear on document (passport or
+    ID).</mat-card-subtitle
+  >
+
+  <form
+    class="passengers-form"
+    [formGroup]="formPassengers"
+    (ngSubmit)="submitForm()"
+  >
+    <ng-container formArrayName="passengers">
+      <mat-card
+        class="passenger-card"
+        *ngFor="let passenger of allPassengers.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <mat-card-title class="passenger-title">
+          {{ i + 1 }}. {{ passenger.get("type")?.value | titlecase }}
+        </mat-card-title>
+        <div class="card-top">
+          <mat-form-field appearance="outline" class="passenger-firstname">
+            <mat-label>First name</mat-label>
+            <input
+              matInput
+              placeholder="First name"
+              formControlName="firstName"
+            />
+            <mat-icon
+              matSuffix
+              *ngIf="
+                passenger.get('firstName')?.valid ||
+                passenger.get('firstName')?.untouched
+              "
+              >info_outline
+            </mat-icon>
+            <mat-icon
+              matSuffix
+              class="passenger-form-icon"
+              *ngIf="
+                passenger.get('firstName')?.invalid &&
+                passenger.get('firstName')?.touched
+              "
+              >info</mat-icon
+            >
+            <mat-error
+              *ngIf="
+                passenger.get('firstName')?.hasError('required') &&
+                !passenger.get('firstName')?.hasError('pattern')
+              "
+            >
+              Please enter <strong>first name</strong>
+            </mat-error>
+            <mat-error *ngIf="passenger.get('firstName')?.hasError('pattern')">
+              Invalid character
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="passenger-lastname"
+          >
+            <mat-label>Last name</mat-label>
+            <input
+              matInput
+              placeholder="Last name"
+              formControlName="lastName"
+            />
+            <mat-icon
+              matSuffix
+              *ngIf="
+                passenger.get('lastName')?.valid ||
+                passenger.get('lastName')?.untouched
+              "
+              >info_outline</mat-icon
+            >
+            <mat-icon
+              matSuffix
+              class="passenger-form-icon"
+              *ngIf="
+                passenger.get('lastName')?.invalid &&
+                passenger.get('lastName')?.touched
+              "
+              >info</mat-icon
+            >
+            <mat-error
+              *ngIf="
+                passenger.get('lastName')?.hasError('required') &&
+                !passenger.get('lastName')?.hasError('pattern')
+              "
+            >
+              Please enter<strong> last name</strong>
+            </mat-error>
+            <mat-error *ngIf="passenger.get('lastName')?.hasError('pattern')">
+              Invalid character
+            </mat-error>
+          </mat-form-field>
+
+          <mat-button-toggle-group
+            formControlName="gender"
+            required
+            class="form-gender"
+          >
+            <mat-button-toggle value="male" class="form-gender-item"
+              >Male</mat-button-toggle
+            >
+            <mat-button-toggle value="female" class="form-gender-item"
+              >Female</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+
+          <mat-form-field appearance="outline" class="passenger-birthday">
+            <mat-label>Date of birth</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="birthDay"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error
+              *ngIf="
+                passenger.get('birthDay')?.hasError('invalidDate') &&
+                !passenger.get('birthDay')?.hasError('required')
+              "
+            >
+              Please enter valid date of birth. The date must not be in the
+              future
+            </mat-error>
+            <mat-error *ngIf="passenger.get('birthDay')?.hasError('required')">
+              Please enter<strong> date of birth</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="card-bottom">
+          <div class="special-assistance-container">
+            <mat-slide-toggle
+              class="special-assistance"
+              formControlName="specialAssistance"
+              color="primary"
+              ><mat-icon class="special-assistance-image"></mat-icon>
+              </mat-slide-toggle
+              >
+              <span>Need special assistance?</span>
+            </div>
+            <mat-checkbox formControlName="commonLuggage" color="primary"
+              >Include common luggage</mat-checkbox
+            >
+            <mat-checkbox formControlName="cabinLuggage" color="primary"
+              >Include cabin luggage</mat-checkbox
+            >
+        </div>
+      </mat-card>
+    </ng-container>
+
+    <div formGroupName="contact">
+      <mat-card-title class="contact-title">
+        <mat-icon class="passenger-contact-icon"></mat-icon>
+        Contact details
+      </mat-card-title>
+      <mat-card-subtitle class="list-subtitle"
+        >We need contact details to be able to deliver the latest information
+        regarding your flight.
+      </mat-card-subtitle>
+      <mat-card class="contact-card">
+        <div class="contact-phone">
+          <mat-form-field appearance="outline" class="contact-phone-country">
+            <mat-label>Country code</mat-label>
+            <mat-select formControlName="countryCode">
+              <mat-option
+                *ngFor="let country of countries"
+                [value]="country.calling_code"
+              >
+                {{ country.country }} (+{{ country.calling_code }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="contact-phone-number">
+            <mat-label>Phone number</mat-label>
+            <input
+              matInput
+              type="number"
+              placeholder="e.g. 1111111111"
+              formControlName="phoneNumber"
+            />
+            <mat-error
+              *ngIf="
+                formPassengers
+                  .get('contact.phoneNumber')
+                  ?.hasError('required') &&
+                !formPassengers.get('contact.phoneNumber')?.hasError('pattern')
+              "
+            >
+              Please enter a phone number
+            </mat-error>
+            <mat-error
+              *ngIf="
+                formPassengers.get('contact.phoneNumber')?.hasError('pattern')
+              "
+            >
+              Please enter a correct number
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field
+          appearance="outline"
+          class="contact-email"
+          custom-width
+        >
+          <mat-label>Enter your email</mat-label>
+          <input
+            class="contact-email-input"
+            matInput
+            type="email"
+            placeholder="e.g. example@email.com"
+            formControlName="email"
+
+          />
+          <mat-error *ngIf="formPassengers.get('contact.email')?.invalid">{{
+            getErrorMessageEmail()
+          }}</mat-error>
+        </mat-form-field>
+      </mat-card>
+    </div>
+
+    <div class="passengers-buttons">
+      <button mat-button class="button-back" color="primary" (click)="goBack()">
+        Back
+      </button>
+      <button
+        mat-button
+        class="button-continue"
+        type="submit"
+        color="primary"
+        [disabled]="!formPassengers.valid"
+      >
+        Continue
+      </button>
+    </div>
+  </form>
+</mat-card>

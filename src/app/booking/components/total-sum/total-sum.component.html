@@ -3,6 +3,9 @@
     *ngFor="let type of typesOfPassengers"
     class="totalsum-main"
   >
+  <div *ngIf="passengersCountWithTypes[type] > 0">
+
+
     <mat-card-title class="totalsum-title">
       <div>
         {{ passengersCountWithTypes[type] }} x {{ type | uppercase }}
@@ -17,6 +20,7 @@
       <div>Tax & Service Charge</div>
       <div>{{ calculateFare(type) * passengersCountWithTypes[type] * 0.2 | currency }}</div>
     </mat-card-content>
+  </div>
   </mat-card-content>
   <mat-card-content class="totalsum-result">
     <div>TOTAL</div>

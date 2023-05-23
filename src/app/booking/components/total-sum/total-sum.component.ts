@@ -1,6 +1,9 @@
 import { Component, DoCheck, Input } from '@angular/core';
 import { ICurrentFlightSummary } from '../../pages/summary-page/summary-page.component';
-import { IPassengersCount, IPassengersData } from 'src/app/shared/models/interface-user-booking';
+import {
+  IPassengersCount,
+  IPassengersData,
+} from 'src/app/shared/models/interface-user-booking';
 
 @Component({
   selector: 'app-total-sum',
@@ -22,11 +25,10 @@ export class TotalSumComponent implements DoCheck {
   typesOfPassengers = Object.keys(this.passengersCountWithTypes);
 
   ngDoCheck() {
-    if (
-      this.currentFlight[0]?.flightData?.price?.usd &&
-      this.currentFlight[1]?.flightData?.price?.usd
-    ) {
+    if (this.currentFlight[0]?.flightData?.price?.usd) {
       this.fareThere = this.currentFlight[0]?.flightData?.price?.usd;
+    }
+    if (this.currentFlight[1]?.flightData?.price?.usd) {
       this.fareBack = this.currentFlight[1]?.flightData?.price?.usd;
     }
   }

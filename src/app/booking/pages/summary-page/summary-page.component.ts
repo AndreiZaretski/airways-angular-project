@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { filter, pairwise } from 'rxjs';
 import { RoutesRecognized } from '@angular/router';
+import { StepperService } from 'src/app/core/services/stepper-service.service';
 
 export interface ICurrentFlightSummary {
   from: string;
@@ -39,9 +40,10 @@ export class SummaryPageComponent implements OnInit {
   isFromFlightsHistory: boolean = false;
 
   constructor(
+    public stepper: StepperService,
     private location: Location,
     private store: Store,
-    private router: Router
+    private router: Router,
   ) {
     this.store.pipe(select(selectUserBooking)).subscribe((bookingData) => {
       if (bookingData.passengersCount)
@@ -89,16 +91,19 @@ export class SummaryPageComponent implements OnInit {
           ];
     }
 
-    if (this.bookingFlight$.userPassengers) {
-      const passengersArray: IPassengersData[] = Object.values(
-        this.bookingFlight$.userPassengers
-      ).reduce((acc, rec) => {
-        if (Array.isArray(rec)) {
-          return [...acc, ...rec];
-        }
-        return acc;
-      }, []);
-      this.passengers = [...passengersArray];
+    // if (this.bookingFlight$.userPassengers) {
+    //   const passengersArray: IPassengersData[] = Object.values(
+    //     this.bookingFlight$.userPassengers
+    //   ).reduce((acc, rec) => {
+    //     if (Array.isArray(rec)) {
+    //       return [...acc, ...rec];
+    //     }
+    //     return acc;
+    //   }, []);
+    //   this.passengers = [...passengersArray];
+    // }
+    if (this.bookingFlight$.userPassengers?.passengers) {
+      this.passengers = this.bookingFlight$.userPassengers.passengers;
     }
   }
 
@@ -106,13 +111,17 @@ export class SummaryPageComponent implements OnInit {
     if (id) {
       this.store.dispatch(addOrderCart({ newOrderId: id }));
     }
+    this.stepper.resetStepper();
+    this.router.navigateByUrl(`/${Path.Main}`);
   }
 
   goToCart() {
+    this.stepper.resetStepper();
     this.router.navigateByUrl(`/${Path.Cart}`);
   }
 
   backClicked() {
+    this.stepper.previousStep();
     this.location.back();
   }
 
