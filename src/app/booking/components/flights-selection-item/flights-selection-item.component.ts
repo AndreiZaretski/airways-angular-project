@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { Subscription } from 'rxjs';
 import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
-import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import { selectUserBooking, selectUserSettings } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
 import { SequenceDatePipe } from 'src/app/shared/pipes/sequence-date.pipe';
 
@@ -118,9 +118,15 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
 
   userBooking$ = this.store.select(selectUserBooking);
 
+  userCurrency: string;
+
+  userSettings$ = this.store.select(selectUserSettings);
+
   private subscriptionBreakpoints: Subscription;
 
   private subscriptionUserBooking: Subscription;
+
+  private subscriptionUserSettings: Subscription;
 
   constructor(private store: Store, private responsive: BreakpointObserver) {}
 
@@ -148,13 +154,8 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       this.checkedBackWay = res.checkedBackWay;
     });
 
-    // this.subscriptionBreakpoints = this.responsive
-    //   .observe(Breakpoints.Small).subscribe((result) => {
-    //     this.isFlightCardVertical = false;
-    //     if (result.matches) {
-    //       this.isFlightCardVertical = true;
-    //     }
-    //   });
+    this.subscriptionUserSettings = this.userSettings$
+      .subscribe((res) => this.userCurrency = res.currency);
 
     this.subscriptionBreakpoints = this.responsive.observe(
       [Breakpoints.XSmall, Breakpoints.Small],
@@ -209,6 +210,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
 
   ngOnDestroy(): void {
     this.subscriptionUserBooking.unsubscribe();
+    this.subscriptionUserSettings.unsubscribe();
     this.subscriptionBreakpoints.unsubscribe();
   }
 

@@ -22,7 +22,7 @@
     (click)="clickSlider($event, response.startDate, i)">
     <span #dateSlide class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMM'}}</span>
     <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
-    <span class="carousel-price" *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)">{{ flight.price.eur | currency: 'EUR' }}</span>
+    <span class="carousel-price" *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)">{{ flight.price[userCurrency | lowercase] | currency: userCurrency : 'symbol-narrow' }}</span>
     <div class="no-flight-icon-bg" *ngIf="!flight.isFlight || (response.startDate | sequenceDate: i) < today">
       <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
     </div>
@@ -97,7 +97,7 @@
             </div>
             <div class="price-wrapper">
               <span class="price-label" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">Price</span>
-              <span class="price">{{ flight.price.eur | currency:'EUR' }}</span>
+              <span class="price">{{ flight.price[userCurrency | lowercase] | currency: userCurrency : 'symbol-narrow' }}</span>
             </div>
           </div>
           <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>

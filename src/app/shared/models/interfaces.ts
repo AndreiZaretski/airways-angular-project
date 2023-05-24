@@ -13,6 +13,7 @@ export interface IFlightInfo {
   timeWay: number,
   flightNumber: string,
   price: {
+    [key: string] : number,
     eur: number,
     usd: number,
     pln: number,
