@@ -50,6 +50,10 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     dots: false,
   };
 
+  indexThereWay: number;
+
+  indexBackWay: number;
+
   isFlightCardVertical = false;
 
   isFlightDetailsVertical = false;
@@ -147,12 +151,16 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
   // }
 
   ngOnInit(): void {
-    this.setBackCarouselIndex();
+    // this.setBackCarouselIndex();
 
     this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
+      this.indexThereWay = res.indexThereWay;
+      this.indexBackWay = res.indexBackWay;
     });
+
+    this.setCarouselIndex();
 
     this.subscriptionUserSettings = this.userSettings$
       .subscribe((res) => this.userCurrency = res.currency);
@@ -205,7 +213,8 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       this.slickModal.unslick();
     }
 
-    this.setBackCarouselIndex();
+    // this.setBackCarouselIndex();
+    this.setCarouselIndex();
   }
 
   ngOnDestroy(): void {
@@ -224,10 +233,29 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  private setBackCarouselIndex(): void {
+  slickInit(event: any) {
+    console.log('slick init', event);
+  }
+
+  private setCarouselIndex(): void {
+    this.slideConfig.initialSlide = this.indexThereWay;
+    this.flightCardConfig.initialSlide = this.indexThereWay;
+
     if (this.response.backWay) {
-      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
-      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
+      if (this.checkedBackWay) {
+        this.slideConfigBack.initialSlide = this.indexBackWay;
+        this.flightCardConfigBack.initialSlide = this.indexBackWay;
+      } else {
+        this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+        this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
+      }
     }
   }
+
+  // private setBackCarouselIndex(): void {
+  //   if (this.response.backWay) {
+  //     this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+  //     this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
+  //   }
+  // }
 }
