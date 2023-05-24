@@ -1,10 +1,19 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, Input, OnChanges, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { Subscription } from 'rxjs';
-import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
-import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import {
+  updateChooseChekedBackWay,
+  updateChooseChekedBackWayEdit,
+  updateChooseChekedThereWay,
+  updateChooseChekedThereWayEdit,
+  updateIndexBackWay,
+  updateIndexThereWay,
+} from 'src/app/redux/actions/state.actions';
+import { selectUserBooking, selectUserSettings } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
 import { SequenceDatePipe } from 'src/app/shared/pipes/sequence-date.pipe';
 
@@ -49,6 +58,10 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     arrows: false,
     dots: false,
   };
+
+  indexThereWay: number;
+
+  indexBackWay: number;
 
   isFlightCardVertical = false;
 
@@ -118,43 +131,30 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
 
   userBooking$ = this.store.select(selectUserBooking);
 
+  userCurrency: string;
+
+  userSettings$ = this.store.select(selectUserSettings);
+
   private subscriptionBreakpoints: Subscription;
 
   private subscriptionUserBooking: Subscription;
 
+  private subscriptionUserSettings: Subscription;
+
   constructor(private store: Store, private responsive: BreakpointObserver) {}
 
-  // slickInit(event: any) {
-  //   console.log('slick initialized', event);
-  // }
-
-  // breakpoint(event: any) {
-  //   console.log('breakpoint', event);
-  // }
-
-  // afterChange(event: any) {
-  //   console.log('afterChange', event);
-  // }
-
-  // beforeChange(event: any) {
-  //   console.log('beforeChange', event);
-  // }
-
   ngOnInit(): void {
-    this.setBackCarouselIndex();
-
     this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
+      this.indexThereWay = res.indexThereWay;
+      this.indexBackWay = res.indexBackWay;
     });
 
-    // this.subscriptionBreakpoints = this.responsive
-    //   .observe(Breakpoints.Small).subscribe((result) => {
-    //     this.isFlightCardVertical = false;
-    //     if (result.matches) {
-    //       this.isFlightCardVertical = true;
-    //     }
-    //   });
+    this.setCarouselIndex();
+
+    this.subscriptionUserSettings = this.userSettings$
+      .subscribe((res) => this.userCurrency = res.currency);
 
     this.subscriptionBreakpoints = this.responsive.observe(
       [Breakpoints.XSmall, Breakpoints.Small],
@@ -168,7 +168,6 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       }
 
       if (breakpoints[Breakpoints.XSmall]) {
-        // this.isFlightCardVertical = true;
         this.isFlightDetailsVertical = true;
       }
     });
@@ -204,11 +203,12 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       this.slickModal.unslick();
     }
 
-    this.setBackCarouselIndex();
+    this.setCarouselIndex();
   }
 
   ngOnDestroy(): void {
     this.subscriptionUserBooking.unsubscribe();
+    this.subscriptionUserSettings.unsubscribe();
     this.subscriptionBreakpoints.unsubscribe();
   }
 
@@ -222,10 +222,18 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  private setBackCarouselIndex(): void {
+  private setCarouselIndex(): void {
+    this.slideConfig.initialSlide = this.indexThereWay;
+    this.flightCardConfig.initialSlide = this.indexThereWay;
+
     if (this.response.backWay) {
-      this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
-      this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
+      if (this.checkedBackWay) {
+        this.slideConfigBack.initialSlide = this.indexBackWay;
+        this.flightCardConfigBack.initialSlide = this.indexBackWay;
+      } else {
+        this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
+        this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
+      }
     }
   }
 }

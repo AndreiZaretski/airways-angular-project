@@ -6,7 +6,13 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { createDateValidator, createLocationsValidator } from 'src/app/shared/validators/custom-validators-search-form';
 import { Store } from '@ngrx/store';
-import { updateChooseChekedBackWayEdit, updateChooseChekedThereWayEdit, updateMainState } from 'src/app/redux/actions/state.actions';
+import {
+  updateChooseChekedBackWayEdit,
+  updateChooseChekedThereWayEdit,
+  updateIndexBackWay,
+  updateIndexThereWay,
+  updateMainState,
+} from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
 import { selectSearchMain, selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
@@ -217,6 +223,8 @@ export class FormComponent implements OnInit, OnDestroy {
       if (this.checkedBackWay) {
         this.store.dispatch(updateChooseChekedBackWayEdit());
       }
+      this.store.dispatch(updateIndexThereWay({ newIndexThereWay: 3 }));
+      this.store.dispatch(updateIndexBackWay({ newIndexBackWay: 3 }));
 
       this.editPanelService.editPanelShown = false;
 

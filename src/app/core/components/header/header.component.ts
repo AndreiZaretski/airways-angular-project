@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   euro = Currency.EUR;
 
-  usa = Currency.USA;
+  usa = Currency.USD;
 
   rub = Currency.RUB;
 
