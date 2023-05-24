@@ -1,9 +1,18 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, Input, OnChanges, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { Subscription } from 'rxjs';
-import { updateChooseChekedBackWay, updateChooseChekedBackWayEdit, updateChooseChekedThereWay, updateChooseChekedThereWayEdit, updateIndexBackWay, updateIndexThereWay } from 'src/app/redux/actions/state.actions';
+import {
+  updateChooseChekedBackWay,
+  updateChooseChekedBackWayEdit,
+  updateChooseChekedThereWay,
+  updateChooseChekedThereWayEdit,
+  updateIndexBackWay,
+  updateIndexThereWay,
+} from 'src/app/redux/actions/state.actions';
 import { selectUserBooking, selectUserSettings } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
 import { SequenceDatePipe } from 'src/app/shared/pipes/sequence-date.pipe';
@@ -134,25 +143,7 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
 
   constructor(private store: Store, private responsive: BreakpointObserver) {}
 
-  // slickInit(event: any) {
-  //   console.log('slick initialized', event);
-  // }
-
-  // breakpoint(event: any) {
-  //   console.log('breakpoint', event);
-  // }
-
-  // afterChange(event: any) {
-  //   console.log('afterChange', event);
-  // }
-
-  // beforeChange(event: any) {
-  //   console.log('beforeChange', event);
-  // }
-
   ngOnInit(): void {
-    // this.setBackCarouselIndex();
-
     this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
@@ -177,7 +168,6 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       }
 
       if (breakpoints[Breakpoints.XSmall]) {
-        // this.isFlightCardVertical = true;
         this.isFlightDetailsVertical = true;
       }
     });
@@ -213,7 +203,6 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       this.slickModal.unslick();
     }
 
-    // this.setBackCarouselIndex();
     this.setCarouselIndex();
   }
 
@@ -233,10 +222,6 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  slickInit(event: any) {
-    console.log('slick init', event);
-  }
-
   private setCarouselIndex(): void {
     this.slideConfig.initialSlide = this.indexThereWay;
     this.flightCardConfig.initialSlide = this.indexThereWay;
@@ -251,11 +236,4 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
       }
     }
   }
-
-  // private setBackCarouselIndex(): void {
-  //   if (this.response.backWay) {
-  //     this.slideConfigBack.initialSlide = this.response.backWay.length - 4;
-  //     this.flightCardConfigBack.initialSlide = this.response.backWay.length - 4;
-  //   }
-  // }
 }
