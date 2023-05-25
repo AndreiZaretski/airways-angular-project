@@ -2,7 +2,8 @@ import {
   Component, Input, OnInit, forwardRef,
 } from '@angular/core';
 import {
-  FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators,
+  ControlValueAccessor,
+  FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators,
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { IAirport } from '../../models/interface-locations-passengers';
@@ -24,7 +25,7 @@ import { IAirport } from '../../models/interface-locations-passengers';
     },
   ],
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() items?: IAirport[];
 
   @Input() label?: string;
@@ -34,8 +35,6 @@ export class DropdownComponent implements OnInit {
   filteredItems?: Observable<IAirport[] | undefined>;
 
   locationInput = new FormControl('', [Validators.required]);
-
-  onTouched: () => void = () => {};
 
   ngOnInit(): void {
     this.filteredItems = this.locationInput.valueChanges.pipe(
@@ -53,22 +52,6 @@ export class DropdownComponent implements OnInit {
     return location;
   }
 
-  private filter(value: string): IAirport[] | undefined {
-    const filterValue = value.toLowerCase();
-
-    return this.items?.filter(
-      (option) => option.city.toLowerCase().includes(filterValue)
-      || option.iataCode.toLowerCase().includes(filterValue)
-      || option.name.toLowerCase().includes(filterValue)
-      || option.country.toLowerCase().includes(filterValue),
-    );
-  }
-
-  writeValue(val: any): void {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val && this.locationInput.setValue(val, { emitEvent: false });
-  }
-
   registerOnChange(fn: any): void {
     this.locationInput.valueChanges.subscribe(fn);
   }
@@ -80,4 +63,22 @@ export class DropdownComponent implements OnInit {
   validate(): ValidationErrors | null {
     return this.locationInput.valid ? null : { invalidForm: { valid: false, message: 'location input fields are invalid' } };
   }
+
+  writeValue(val: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    val && this.locationInput.setValue(val, { emitEvent: false });
+  }
+
+  private filter(value: string): IAirport[] | undefined {
+    const filterValue = value.toLowerCase();
+
+    return this.items?.filter(
+      (option) => option.city.toLowerCase().includes(filterValue)
+      || option.iataCode.toLowerCase().includes(filterValue)
+      || option.name.toLowerCase().includes(filterValue)
+      || option.country.toLowerCase().includes(filterValue),
+    );
+  }
+
+  private onTouched: () => void = () => {};
 }
