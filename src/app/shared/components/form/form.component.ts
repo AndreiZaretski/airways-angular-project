@@ -14,7 +14,7 @@ import {
   updateMainState,
 } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { selectSearchMain, selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import { selectSearchMain, selectUserBooking, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
 import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -69,6 +69,8 @@ export class FormComponent implements OnInit, OnDestroy {
   });
 
   userBooking$ = this.store.select(selectUserBooking);
+
+  userDateFormat$ = this.store.select(selectUserSettingsDateFormat);
 
   private locationFrom = '';
 
@@ -125,6 +127,8 @@ export class FormComponent implements OnInit, OnDestroy {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
+
+    // this.userDateFormat$.subscribe
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {

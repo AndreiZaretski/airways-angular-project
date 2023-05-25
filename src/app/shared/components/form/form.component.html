@@ -46,7 +46,7 @@
           matEndDate
           placeholder="End date">
         </mat-date-range-input>
-        <mat-hint *ngIf="rangePicker.opened">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-hint *ngIf="rangePicker.opened">{{  userDateFormat$ | async }} - {{  userDateFormat$ | async }}</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #rangePicker>
           <mat-date-range-picker-actions>
@@ -106,6 +106,6 @@
       </mat-form-field>
     </div>
 
-    <button class="search-btn" type="button" mat-flat-button color="primary" (click)="submitSearchRequest()">{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
+    <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
   </form>
 </div>
