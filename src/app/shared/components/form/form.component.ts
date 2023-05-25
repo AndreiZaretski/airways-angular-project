@@ -14,7 +14,7 @@ import {
   updateMainState,
 } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { selectSearchMain, selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import { selectSearchMain, selectUserBooking, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
 import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -70,6 +70,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   userBooking$ = this.store.select(selectUserBooking);
 
+  userDateFormat$ = this.store.select(selectUserSettingsDateFormat);
+
   private locationFrom = '';
 
   private locationTo = '';
@@ -113,12 +115,14 @@ export class FormComponent implements OnInit, OnDestroy {
 
       this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
 
-      this.dates?.setValue(
-        {
-          startDate: new Date(res.searchForm.startDate),
-          endDate: new Date(res.searchForm.endDate),
-        },
-      );
+      if (res.searchForm.startDate && res.searchForm.endDate) {
+        this.dates?.setValue(
+          {
+            startDate: new Date(res.searchForm.startDate),
+            endDate: new Date(res.searchForm.endDate),
+          },
+        );
+      }
     });
 
     this.userBooking$.subscribe((res) => {
@@ -129,11 +133,15 @@ export class FormComponent implements OnInit, OnDestroy {
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
     if (chosenPassenger.count !== undefined) {
-      // eslint-disable-next-line no-param-reassign
-      chosenPassenger.count += 1;
-      // eslint-disable-next-line no-param-reassign
-      chosenPassenger.selected = true;
-      event.stopPropagation();
+      const totalPassengers = this.passengerOptions
+        .reduce((sum, acc) => sum + (acc.count as number), 0);
+      if (totalPassengers < 100) {
+        // eslint-disable-next-line no-param-reassign
+        chosenPassenger.count += 1;
+        // eslint-disable-next-line no-param-reassign
+        chosenPassenger.selected = true;
+        event.stopPropagation();
+      }
       if (!this.selectedPassengers.includes(chosenPassenger.value)) {
         this.selectedPassengers.push(chosenPassenger.value);
         this.passengers?.setValue(this.selectedPassengers);

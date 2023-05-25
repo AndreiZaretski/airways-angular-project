@@ -151,8 +151,17 @@ button.search-btn {
 
   .locations-wrap {
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 0;
+    width: 50%;
+
+    .mat-mdc-form-field-error {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: -20px;
+    }
   }
 
   .search-btn {
@@ -163,11 +172,16 @@ button.search-btn {
     &.search-form {
       flex-wrap: wrap;
       gap: 12px;
-      max-height: 250px;
+      max-height: 300px;
 
       .locations-wrap {
+        flex-direction: column;
         gap: 12px;
         width: 100%;
+
+        .mat-mdc-form-field-error {
+          margin-top: -8px;
+        }
       }
 
       .details-wrap {
@@ -175,8 +189,16 @@ button.search-btn {
         gap: 12px;
       }
 
+      .dates-field {
+        width: 260px;
+      }
+
+      .passengers-field {
+        width: 180px;
+      }
+
       button.search-btn {
-        width: 100px;
+        width: 80px;
       }
     }
   }
@@ -191,6 +213,7 @@ button.search-btn {
     .locations-wrap,
     .details-wrap {
       flex-direction: column;
+      width: unset;
     }
   }
 }
