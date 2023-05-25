@@ -1,19 +1,23 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
 import {
-  AbstractControl,
+  AfterViewInit, Component, OnDestroy, OnInit,
+} from '@angular/core';
+import {
+  // AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
+import { Store } from '@ngrx/store';
+import { selectPassengersInfo, selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IPassengersCount } from 'src/app/shared/models/interface-user-booking';
 import { ValidatedForms } from 'src/app/shared/validators/custom-validate-forms';
 import { country } from 'src/app/shared/data/country';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { Router } from '@angular/router';
 import { updatePassengersInfo } from 'src/app/redux/actions/state.actions';
+import { StepperService } from 'src/app/core/services/stepper-service.service';
+import { Subscription } from 'rxjs';
 
 interface Country {
   country: string;
@@ -25,7 +29,7 @@ interface Country {
   templateUrl: './passenger-card.component.html',
   styleUrls: ['./passenger-card.component.scss'],
 })
-export class PassengerCardComponent {
+export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit {
   passengersCount$: IPassengersCount = {
     adult: 1,
     child: 0,
@@ -40,73 +44,121 @@ export class PassengerCardComponent {
 
   takenSeatsBack: string[] = [];
 
+  passengerInfo$ = this.store.select(selectPassengersInfo);
+
+  subscripePas: Subscription;
+
+  codeCountry = this.countries[0].calling_code;
+
+  phone = '';
+
+  passengEmail = '';
+
   // isBackWay: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private stepper: StepperService,
   ) {
-    this.store.pipe(select(selectUserBooking)).subscribe((bookingData) => {
-      if (bookingData.passengersCount)
-        this.passengersCount$ = bookingData.passengersCount;
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.store.select((selectUserBooking)).subscribe((bookingData) => {
+      if (bookingData.passengersCount) { this.passengersCount$ = bookingData.passengersCount; }
       // this.isBackWay = bookingData.responseAir?.way === 'round';
     });
+
+    this.previousRoute = this.router
+      .getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
   }
 
-  ngOnInit() {
-    this.formPassengers = this.formBuilder.group({
-      passengers: this.formBuilder.array([]),
-      contact: this.formBuilder.group({
-        countryCode: [this.countries[0].calling_code, [Validators.required]],
-        phoneNumber: [
-          '',
-          [Validators.required, Validators.pattern('[0-9]{5,13}')],
-        ],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'
-            ),
-          ],
-        ],
-      }),
-    });
+  ngAfterViewInit(): void {}
 
-    Object.entries(this.passengersCount$).forEach(([type, count]) => {
-      for (let i = 0; i < count; i += 1) {
-        const randomSeats =
-          type === 'infant'
+  ngOnDestroy(): void {
+    this.subscripePas?.unsubscribe();
+  }
+
+  previousRoute: string | undefined;
+
+  ngOnInit() {
+    // this.previousRoute = this.router
+    //   .getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+    this.subscripePas = this.passengerInfo$.subscribe((res) => {
+      if (res) {
+        this.phone = res.contactsDetail.phoneNumber;
+        this.codeCountry = res.contactsDetail.countryCode;
+        this.passengEmail = res.contactsDetail.email;
+      }
+
+      this.formPassengers = this.formBuilder.group({
+        passengers: this.formBuilder.array([]),
+        contact: this.formBuilder.group({
+          countryCode: [this.codeCountry, [Validators.required]],
+          phoneNumber: [
+            this.phone,
+            [Validators.required, Validators.pattern('[0-9]{5,13}')],
+          ],
+          email: [
+            this.passengEmail,
+            [
+              Validators.required,
+              Validators.pattern(
+                '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$',
+              ),
+            ],
+          ],
+        }),
+      });
+
+      Object.entries(this.passengersCount$).forEach(([type, count]) => {
+        const passengersOfType = res?.passengers.filter((p) => p.type === type);
+
+        for (let i = 0; i < count; i += 1) {
+          const randomSeats = type === 'infant'
             ? []
             : [
-                this.generateRandomSeat(this.takenSeatsThere),
-                this.generateRandomSeat(this.takenSeatsBack),
-              ];
-        console.log(randomSeats);
-        const passengerFormGroup: FormGroup = this.formBuilder.group({
-          type: type,
-          firstName: [
-            '',
-            [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
-          ],
-          lastName: [
-            '',
-            [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
-          ],
-          gender: ['male', [Validators.required]],
-          birthDay: ['', [Validators.required, ValidatedForms.validateDate]],
-          specialAssistance: [false],
-          commonLuggage: [{ value: false, disabled: type === 'infant' }],
-          cabinLuggage: [{ value: false, disabled: type === 'infant' }],
-          seat: [randomSeats],
-        });
+              this.generateRandomSeat(this.takenSeatsThere),
+              this.generateRandomSeat(this.takenSeatsBack),
+            ];
+          const passengerFormGroup = this.formBuilder.group({
+            type,
+            firstName: [
+              '',
+              [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
+            ],
+            lastName: [
+              '',
+              [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
+            ],
+            gender: ['male', [Validators.required]],
+            birthDay: ['', [Validators.required, ValidatedForms.validateDate]],
+            specialAssistance: [false],
+            commonLuggage: [{ value: false, disabled: type === 'infant' }],
+            cabinLuggage: [{ value: false, disabled: type === 'infant' }],
+            seat: [randomSeats],
+          });
 
-        (this.formPassengers.get('passengers') as FormArray).push(
-          passengerFormGroup
-        );
-      }
+          if (passengersOfType) {
+            const passenger = passengersOfType[i];
+            if (passenger) {
+              passengerFormGroup.patchValue({
+                firstName: passenger.firstName,
+                lastName: passenger.lastName,
+                gender: passenger.gender,
+                birthDay: passenger.birthDay,
+                seat: passenger.seat,
+                cabinLuggage: passenger.cabinLuggage,
+                commonLuggage: passenger.commonLuggage,
+                specialAssistance: passenger.specialAssistance,
+              });
+            }
+          }
+
+          (this.formPassengers.get('passengers') as FormArray).push(
+            passengerFormGroup,
+          );
+        }
+      });
     });
   }
 
@@ -140,19 +192,29 @@ export class PassengerCardComponent {
   }
 
   goBack() {
+    this.stepper.previousStep();
+    this.store.dispatch(
+      updatePassengersInfo({
+        newPassengersInfo: {
+          passengers: this.formPassengers.value.passengers,
+          contactsDetail: this.formPassengers.value.contact,
+        },
+      }),
+    );
     return this.router.navigateByUrl(`/${Path.Booking}/${Path.Flights}`);
   }
 
   submitForm() {
     if (this.formPassengers.valid) {
       console.log(this.formPassengers.value);
+      this.stepper.nextStep();
       this.store.dispatch(
         updatePassengersInfo({
           newPassengersInfo: {
             passengers: this.formPassengers.value.passengers,
             contactsDetail: this.formPassengers.value.contact,
           },
-        })
+        }),
       );
     }
     this.router.navigateByUrl(`/${Path.Booking}/${Path.Summary}`);

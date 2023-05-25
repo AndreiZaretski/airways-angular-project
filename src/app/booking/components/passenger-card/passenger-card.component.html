@@ -177,8 +177,7 @@
             <mat-select formControlName="countryCode">
               <mat-option
                 *ngFor="let country of countries"
-                [value]="country.calling_code"
-              >
+                [value]="country.calling_code">
                 {{ country.country }} (+{{ country.calling_code }})
               </mat-option>
             </mat-select>
@@ -234,7 +233,7 @@
     </div>
 
     <div class="passengers-buttons">
-      <button mat-button class="button-back" color="primary" (click)="goBack()">
+      <button mat-button class="button-back" type="button" color="primary" (click)="goBack()">
         Back
       </button>
       <button

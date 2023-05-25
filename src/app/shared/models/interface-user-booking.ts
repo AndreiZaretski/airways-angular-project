@@ -50,7 +50,7 @@ export interface IPassengersCount {
 export interface IUserPassengers {
   passengers: Array<IPassengersData>;
   contactsDetail: {
-    countriCode: string;
+    countryCode: number;
     phoneNumber: string;
     email: string;
   };
