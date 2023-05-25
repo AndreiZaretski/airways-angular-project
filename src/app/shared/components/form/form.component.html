@@ -1,5 +1,5 @@
 <div class="search-form-wrapper container" [ngClass]="{'is-booking-page': source === 'booking-page'}">
-  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}">
+  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}" (ngSubmit)="submitSearchRequest()">
     <mat-radio-group formControlName="way" aria-label="Select an option">
       <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
       <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
@@ -66,10 +66,10 @@
         <mat-error *ngIf="endDate?.hasError('matDatepickerMax')">
           Please choose end date before 01/01/2024
         </mat-error>
-        <mat-error *ngIf="startDate?.hasError('required') || endDate?.hasError('required')">
+        <mat-error *ngIf="startDate?.hasError('required') || endDate?.hasError('required') || startDate?.hasError('InvalidDate')">
           Start/end dates are required
         </mat-error>
-        <mat-error *ngIf="dates?.hasError('isDateInvalid')">
+        <mat-error *ngIf="!(startDate?.hasError('required')) && !(endDate?.hasError('required')) && dates?.hasError('isDateInvalid')">
           Start date should go before end date
         </mat-error>
       </mat-form-field>
@@ -106,6 +106,6 @@
       </mat-form-field>
     </div>
 
-    <button class="search-btn" mat-flat-button color="primary" (click)="submitSearchRequest()">{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
+    <button class="search-btn" type="submit" mat-flat-button color="primary" >{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
   </form>
 </div>

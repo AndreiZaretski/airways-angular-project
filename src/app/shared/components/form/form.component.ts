@@ -115,20 +115,20 @@ export class FormComponent implements OnInit, OnDestroy {
 
       this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
 
-      this.dates?.setValue(
-        {
-          startDate: new Date(res.searchForm.startDate),
-          endDate: new Date(res.searchForm.endDate),
-        },
-      );
+      if (res.searchForm.startDate && res.searchForm.endDate) {
+        this.dates?.setValue(
+          {
+            startDate: new Date(res.searchForm.startDate),
+            endDate: new Date(res.searchForm.endDate),
+          },
+        );
+      }
     });
 
     this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
-
-    // this.userDateFormat$.subscribe
   }
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
