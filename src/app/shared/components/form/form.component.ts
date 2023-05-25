@@ -133,11 +133,15 @@ export class FormComponent implements OnInit, OnDestroy {
 
   addPassenger(chosenPassenger: IPassengers, event: Event): void {
     if (chosenPassenger.count !== undefined) {
-      // eslint-disable-next-line no-param-reassign
-      chosenPassenger.count += 1;
-      // eslint-disable-next-line no-param-reassign
-      chosenPassenger.selected = true;
-      event.stopPropagation();
+      const totalPassengers = this.passengerOptions
+        .reduce((sum, acc) => sum + (acc.count as number), 0);
+      if (totalPassengers < 100) {
+        // eslint-disable-next-line no-param-reassign
+        chosenPassenger.count += 1;
+        // eslint-disable-next-line no-param-reassign
+        chosenPassenger.selected = true;
+        event.stopPropagation();
+      }
       if (!this.selectedPassengers.includes(chosenPassenger.value)) {
         this.selectedPassengers.push(chosenPassenger.value);
         this.passengers?.setValue(this.selectedPassengers);
