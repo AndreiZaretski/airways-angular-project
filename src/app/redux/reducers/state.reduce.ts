@@ -15,6 +15,7 @@ import {
   updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, watchDetailsOrder,
   addToFlightsHistory,
   updateFlightsHistory,
+  updateBookingPageToInitState,
 } from '../actions/state.actions';
 
 function getIndex(array: IBookingPage[], id: string): number {
@@ -210,23 +211,22 @@ export const airStateReducer = createReducer(
   //   cartShoppings: [...state.cartShoppings, state.bookingPage],
   // })),
   // replase
-  // on(
-  //   addOrderCart,
-  //   (state) => ({
-  //     ...state,
-  //     bookingPage: {
-  //       orderId: null,
-  //       responseAir: null,
-  //       chooseData: null,
-  //       indexFrom: 0,
-  //       indexTo: 0,
-  //       checkedFrom: false,
-  //       checkedTo: false,
-  //       passengersCount: null,
-  //       userPassengers: null,
-  //     },
-  //   }),
-  // ),
+  on(
+    updateBookingPageToInitState,
+    (state) => ({
+      ...state,
+      bookingPage: {
+        orderId: null,
+        responseAir: null,
+        indexThereWay: 3,
+        indexBackWay: 3,
+        checkedThereWay: false,
+        checkedBackWay: false,
+        passengersCount: null,
+        userPassengers: null,
+      },
+    }),
+  ),
 
   // Reducer total
   on(addOrderCart, (state, { newOrderId }) => ({
@@ -234,7 +234,6 @@ export const airStateReducer = createReducer(
     bookingPage: {
       orderId: null,
       responseAir: null,
-      chooseData: null,
       indexThereWay: 3,
       indexBackWay: 3,
       checkedThereWay: false,
@@ -258,7 +257,6 @@ export const airStateReducer = createReducer(
       bookingPage: {
         orderId: null,
         responseAir: null,
-        chooseData: null,
         indexThereWay: 3,
         indexBackWay: 3,
         checkedThereWay: false,
