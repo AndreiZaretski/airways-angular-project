@@ -13,16 +13,16 @@
   </div>
   <app-total-sum [currentFlight]="currentFlight" [passengersCountWithTypes]="passengersCountWithTypes$"></app-total-sum>
   <div class="summary-maincard__buttons">
-    <button class="summary-button__back"  *ngIf="!isFromFlightsHistory" mat-button color="primary" (click)="backClicked()">
+    <button class="summary-button__back"  *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="backClicked()">
       Back
     </button>
-    <button class="summary-button__addtocard" *ngIf="!isFromFlightsHistory" mat-button color="primary" (click)="addOrderToCard(bookingFlight$.orderId)">
-      Add to order card
+    <button class="summary-button__addtocard" *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="addOrderToCart()">
+      Add to order cart
     </button>
-    <button class="summary-button__buynow"  *ngIf="!isFromFlightsHistory" mat-button color="primary" (click)="goToCart()">
+    <button class="summary-button__buynow"  *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="goToCart()">
       Buy now
     </button>
-    <button class="summary-button__buynow" *ngIf="isFromFlightsHistory" mat-button color="primary" (click)="backToAccount()">
+    <button class="summary-button__buynow" *ngIf="!isPreviousRouteFromPassengers" mat-button color="primary" (click)="backToAccount()">
       Return to account
     </button>
   </div>

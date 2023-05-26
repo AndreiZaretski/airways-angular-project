@@ -1,24 +1,23 @@
 import { Location } from '@angular/common';
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   IBookingPage,
   IPassengersData,
-  IUserPassengers,
   IPassengersCount,
 } from 'src/app/shared/models/interface-user-booking';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IFlightInfo } from 'src/app/shared/models/interfaces';
-import { addOrderCart } from 'src/app/redux/actions/state.actions';
+import { checkCart } from 'src/app/redux/actions/state.actions';
 import { Router } from '@angular/router';
 import { Path } from 'src/app/shared/enums/router.enum';
-import { filter, pairwise } from 'rxjs';
-import { RoutesRecognized } from '@angular/router';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
 
 export interface ICurrentFlightSummary {
   from: string;
   to: string;
+  startDate: string;
+  index: number;
   flightData?: IFlightInfo;
 }
 @Component({
@@ -35,9 +34,13 @@ export class SummaryPageComponent implements OnInit {
 
   bookingFlight$: IBookingPage;
 
-  previousUrl: string = '';
+  isPresentInFlightsHistory: boolean;
 
-  isFromFlightsHistory: boolean = false;
+  previousRoute: string | undefined;
+
+  isPreviousRouteFromPassengers: boolean;
+
+  isPreviousRouteFromHistory: boolean;
 
   constructor(
     public stepper: StepperService,
@@ -45,15 +48,20 @@ export class SummaryPageComponent implements OnInit {
     private store: Store,
     private router: Router,
   ) {
-    this.store.pipe(select(selectUserBooking)).subscribe((bookingData) => {
-      if (bookingData.passengersCount)
+    this.store.select(selectUserBooking).subscribe((bookingData) => {
+      if (bookingData.passengersCount) {
+        this.bookingFlight$ = bookingData;
         this.passengersCountWithTypes$ = bookingData.passengersCount;
-      this.bookingFlight$ = bookingData;
+      }
+
+      this.previousRoute = this.router
+        .getCurrentNavigation()
+        ?.previousNavigation?.finalUrl?.toString();
     });
   }
 
   ngOnInit() {
-    // this.isPreviousUrlFromFlightsHistory();
+    this.isPreviousRouteFromPassengers = this.previousRoute === `/${Path.Booking}/${Path.Passengers}`;
 
     if (
       this.bookingFlight$.responseAir?.thereWay[
@@ -62,60 +70,54 @@ export class SummaryPageComponent implements OnInit {
     ) {
       this.currentFlight = this.bookingFlight$.responseAir?.backWay?.length
         ? [
-            {
-              from: this.bookingFlight$.responseAir?.from,
-              to: this.bookingFlight$.responseAir?.to,
-              flightData:
-                this.bookingFlight$.responseAir?.thereWay[
-                  this.bookingFlight$.indexThereWay
-                ],
-            },
-            {
-              from: this.bookingFlight$.responseAir?.to,
-              to: this.bookingFlight$.responseAir?.from,
-              flightData:
-                this.bookingFlight$.responseAir?.backWay[
-                  this.bookingFlight$.indexBackWay
-                ],
-            },
-          ]
+          {
+            from: this.bookingFlight$.responseAir?.from,
+            to: this.bookingFlight$.responseAir?.to,
+            startDate: this.bookingFlight$.responseAir?.startDate,
+            index: this.bookingFlight$.indexThereWay,
+            flightData:
+              this.bookingFlight$.responseAir?.thereWay[
+                this.bookingFlight$.indexThereWay
+              ],
+          },
+          {
+            from: this.bookingFlight$.responseAir?.to,
+            to: this.bookingFlight$.responseAir?.from,
+            startDate: this.bookingFlight$.responseAir?.startDate,
+            index: this.bookingFlight$.indexBackWay,
+            flightData:
+              this.bookingFlight$.responseAir?.backWay[
+                this.bookingFlight$.indexBackWay
+              ],
+          },
+        ]
         : [
-            {
-              from: this.bookingFlight$.responseAir?.from,
-              to: this.bookingFlight$.responseAir?.to,
-              flightData:
-                this.bookingFlight$.responseAir?.thereWay[
-                  this.bookingFlight$.indexThereWay
-                ],
-            },
-          ];
+          {
+            from: this.bookingFlight$.responseAir?.from,
+            to: this.bookingFlight$.responseAir?.to,
+            startDate: this.bookingFlight$.responseAir?.startDate,
+            index: this.bookingFlight$.indexThereWay,
+            flightData:
+              this.bookingFlight$.responseAir?.thereWay[
+                this.bookingFlight$.indexThereWay
+              ],
+          },
+        ];
     }
 
-    // if (this.bookingFlight$.userPassengers) {
-    //   const passengersArray: IPassengersData[] = Object.values(
-    //     this.bookingFlight$.userPassengers
-    //   ).reduce((acc, rec) => {
-    //     if (Array.isArray(rec)) {
-    //       return [...acc, ...rec];
-    //     }
-    //     return acc;
-    //   }, []);
-    //   this.passengers = [...passengersArray];
-    // }
     if (this.bookingFlight$.userPassengers?.passengers) {
       this.passengers = this.bookingFlight$.userPassengers.passengers;
     }
   }
 
-  addOrderToCard(id: string | null) {
-    if (id) {
-      this.store.dispatch(addOrderCart({ newOrderId: id }));
-    }
+  addOrderToCart() {
+    this.store.dispatch(checkCart());
     this.stepper.resetStepper();
     this.router.navigateByUrl(`/${Path.Main}`);
   }
 
   goToCart() {
+    this.store.dispatch(checkCart());
     this.stepper.resetStepper();
     this.router.navigateByUrl(`/${Path.Cart}`);
   }
@@ -126,21 +128,7 @@ export class SummaryPageComponent implements OnInit {
   }
 
   backToAccount() {
+    this.stepper.resetStepper();
     this.router.navigateByUrl(`/${Path.Cart}/${Path.FlightsHistory}`);
   }
-
-  // isPreviousUrlFromFlightsHistory() {
-  //   this.router.events
-  //     .pipe(
-  //       filter((evt: any) => evt instanceof RoutesRecognized),
-  //       pairwise()
-  //     )
-  //     .subscribe((events: RoutesRecognized[]) => {
-  //       this.previousUrl = events[0].urlAfterRedirects;
-  //       this.isFromFlightsHistory = this.previousUrl.includes(
-  //         '/cart/flights-history'
-  //       )
-  //       console.log('isFromFlightsHistory', this.isFromFlightsHistory);
-  //     });
-  // }
 }
