@@ -33,6 +33,8 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
 
   @Input() placeholder = '';
 
+  chosenAirport: IAirport | string;
+
   confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
   filteredItems?: Observable<IAirport[] | undefined>;
@@ -42,8 +44,22 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
   ngOnInit(): void {
     this.filteredItems = this.locationInput.valueChanges.pipe(
       startWith(''),
-      map((value) => this.filter(value || '')),
+      map((value) => this.filter(value?.trim() || '')),
     );
+
+    this.filteredItems?.subscribe((res) => {
+      if (res?.length === 0) {
+        this.locationInput.setValue(null);
+      }
+    });
+  }
+
+  checkLocationControl() {
+    setTimeout(() => {
+      if (this.locationInput.value?.startsWith(' ')) {
+        this.locationInput.setValue(null);
+      }
+    }, 300);
   }
 
   displayFn(location: string): string {
