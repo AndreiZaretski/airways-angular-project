@@ -1,12 +1,15 @@
 import {
-  Component, Input, OnInit, forwardRef,
+  Component, Input, OnDestroy, OnInit, forwardRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators,
 } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import {
+  Observable, Subscription, map, startWith,
+} from 'rxjs';
 import { IAirport } from '../../models/interface-locations-passengers';
+import { ConfirmValidParentMatcher } from '../../validators/custom-validators-search-form';
 
 @Component({
   selector: 'app-dropdown',
@@ -25,22 +28,40 @@ import { IAirport } from '../../models/interface-locations-passengers';
     },
   ],
 })
-export class DropdownComponent implements OnInit, ControlValueAccessor, Validator {
+export class DropdownComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   @Input() items?: IAirport[];
 
   @Input() label?: string;
 
   @Input() placeholder = '';
 
+  confirmValidParentMatcher = new ConfirmValidParentMatcher();
+
   filteredItems?: Observable<IAirport[] | undefined>;
 
   locationInput = new FormControl('', [Validators.required]);
 
+  private subscriptionFilteredItems: Subscription;
+
   ngOnInit(): void {
     this.filteredItems = this.locationInput.valueChanges.pipe(
       startWith(''),
-      map((value) => this.filter(value || '')),
+      map((value) => this.filter(value?.trim() || '')),
     );
+
+    this.subscriptionFilteredItems = this.filteredItems?.subscribe((res) => {
+      if (res?.length === 0) {
+        this.locationInput.setValue(null);
+      }
+    });
+  }
+
+  checkLocationControl(): void {
+    setTimeout(() => {
+      if (this.locationInput.value?.startsWith(' ')) {
+        this.locationInput.setValue(null);
+      }
+    }, 300);
   }
 
   displayFn(location: string): string {
@@ -52,10 +73,16 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
     return location;
   }
 
+  ngOnDestroy(): void {
+    this.subscriptionFilteredItems.unsubscribe();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnChange(fn: any): void {
     this.locationInput.valueChanges.subscribe(fn);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -64,6 +91,7 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
     return this.locationInput.valid ? null : { invalidForm: { valid: false, message: 'location input fields are invalid' } };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   writeValue(val: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     val && this.locationInput.setValue(val, { emitEvent: false });

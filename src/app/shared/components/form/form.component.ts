@@ -14,7 +14,9 @@ import {
   updateMainState,
 } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
-import { selectSearchMain, selectUserBooking, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
+import {
+  selectAirResponse, selectPassengersCount, selectUserBooking, selectUserSettingsDateFormat,
+} from 'src/app/redux/selectors/state.selector';
 import { IAirport, IPassengers } from '../../models/interface-locations-passengers';
 import { Path } from '../../enums/router.enum';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -76,11 +78,19 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private locationTo = '';
 
-  private savedState$ = this.store.select(selectSearchMain);
+  private passengersOptions$ = this.store.select(selectPassengersCount);
+
+  private responseDetails$ = this.store.select(selectAirResponse);
 
   private selectedPassengers: string[] = [];
 
   private subscriptionBreakpoints: Subscription;
+
+  private subscriptionPassengersOptions: Subscription;
+
+  private subscriptionResponseDetails: Subscription;
+
+  private subscriptionUserBooking: Subscription;
 
   constructor(
     private router: Router,
@@ -106,26 +116,45 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.savedState$.subscribe((res) => {
-      this.way?.setValue(res.searchForm.way);
-      this.route?.setValue(res.searchForm.route);
+    this.subscriptionResponseDetails = this.responseDetails$.subscribe((res) => {
+      if (res) {
+        this.way?.setValue(res.way);
+        this.route?.setValue({
+          fromLocation: res?.from,
+          toLocation: res?.to,
+        });
 
-      this.selectedPassengers = [...res.searchForm.passengers as Array<string>];
-      this.passengers?.setValue(this.selectedPassengers);
-
-      this.passengerOptions = JSON.parse(JSON.stringify(res.passengerOptions));
-
-      if (res.searchForm.startDate && res.searchForm.endDate) {
-        this.dates?.setValue(
-          {
-            startDate: new Date(res.searchForm.startDate),
-            endDate: new Date(res.searchForm.endDate),
-          },
-        );
+        if (res.startDate && res.endDate) {
+          this.dates?.setValue(
+            {
+              startDate: new Date(res.startDate),
+              endDate: new Date(res.endDate),
+            },
+          );
+        }
       }
     });
 
-    this.userBooking$.subscribe((res) => {
+    this.subscriptionPassengersOptions = this.passengersOptions$.subscribe((res) => {
+      if (res) {
+        const selectedPas = Object.entries(res)
+          .filter((item) => item[1] > 0).map((item) => item[0])
+          .map((item) => `${item[0].toUpperCase()}${item.slice(1)}`);
+        this.selectedPassengers = [...selectedPas];
+        this.passengers?.setValue(this.selectedPassengers);
+
+        const countList = Object.values(res);
+
+        this.passengerOptions = JSON.parse(JSON.stringify(this.passengerOptions));
+
+        this.passengerOptions.forEach((item, index) => {
+          // eslint-disable-next-line no-param-reassign
+          item.count = countList[index];
+        });
+      }
+    });
+
+    this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
@@ -188,6 +217,9 @@ export class FormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptionBreakpoints.unsubscribe();
+    this.subscriptionPassengersOptions.unsubscribe();
+    this.subscriptionResponseDetails.unsubscribe();
+    this.subscriptionUserBooking.unsubscribe();
   }
 
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -207,7 +239,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.passengers?.setValue(this.selectedPassengers);
   }
 
-  submitSearchRequest(): void {
+  submitSearchRequest(event: Event): void {
+    event.preventDefault();
     if (this.searchForm.valid) {
       const searchFormValue = {
         startDate: String(this.startDate?.value),
@@ -241,9 +274,11 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   switchLocations(
+    event: Event,
     fromLocation: DropdownComponent,
     toLocation: DropdownComponent,
   ): void {
+    event.preventDefault();
     this.locationFrom = toLocation.locationInput.value ?? '';
     this.locationTo = fromLocation.locationInput.value ?? '';
 

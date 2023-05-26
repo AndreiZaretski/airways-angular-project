@@ -15,6 +15,6 @@ export interface IPassengers {
   value: string;
   viewCategory: string;
   viewDesc: string;
-  count?: number;
+  count: number;
   selected: boolean;
 }

@@ -1,4 +1,7 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl, FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn,
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 export function createDateValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -20,4 +23,19 @@ export function createLocationsValidator(): ValidatorFn {
 
     return isValid ? null : { sameLocations: true };
   };
+}
+
+export class ConfirmValidParentMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    if (control && control.touched) {
+      return form?.value.route.fromLocation
+        ? (form?.value.route.fromLocation === form?.value.route.toLocation)
+        : !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    }
+    if ((control && isSubmitted) || (control && control.touched && control.invalid)) {
+      return control.hasError('required');
+    }
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }

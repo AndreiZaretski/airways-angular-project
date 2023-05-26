@@ -5,7 +5,9 @@
       aria-label="from"
       matInput
       [formControl]="locationInput"
-      [matAutocomplete]="auto">
+      [matAutocomplete]="auto"
+      [errorStateMatcher]="confirmValidParentMatcher"
+      (blur)="checkLocationControl()">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
       <mat-option *ngFor="let item of filteredItems | async" [value]="item.iataCode">
         <div class="location-option">
