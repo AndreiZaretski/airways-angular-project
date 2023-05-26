@@ -16,7 +16,7 @@
       </button>
       <div class="cart-totalprice">
         <div class="cart-total">Total</div>
-        <div class="cart-price">{{ getTotalCost() | currency }}</div>
+        <div class="cart-price">{{ getTotalCost() | currency: userCurrency: 'symbol-narrow' }}</div>
       </div>
     </div>
 
