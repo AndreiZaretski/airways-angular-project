@@ -35,8 +35,6 @@ export class DropdownComponent implements OnInit, OnDestroy, ControlValueAccesso
 
   @Input() placeholder = '';
 
-  chosenAirport: IAirport | string;
-
   confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
   filteredItems?: Observable<IAirport[] | undefined>;

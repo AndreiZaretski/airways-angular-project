@@ -8,7 +8,7 @@
       </div>
       <div class="order-details">
         <span class="way detail-item">{{ formDetails.searchForm.way === 'round' ? 'Return' : 'One-way' }}</span>
-        <span class="dates detail-item">{{ formDetails.searchForm.startDate | date }} - {{ formDetails.searchForm.endDate | date }}</span>
+        <span class="dates detail-item">{{ formDetails.searchForm.startDate | date: 'd MMM' }} - {{ formDetails.searchForm.endDate | date: 'd MMM' }}</span>
         <div class="passengers">
           <span>{{ formDetails.passengerOptions | totalPassengers }}</span>
           <mat-icon class="passenger-icon">person</mat-icon>
