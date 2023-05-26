@@ -82,6 +82,10 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private subscriptionBreakpoints: Subscription;
 
+  private subscriptionSavedState: Subscription;
+
+  private subscriptionUserBooking: Subscription;
+
   constructor(
     private router: Router,
     private responsive: BreakpointObserver,
@@ -106,7 +110,7 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.savedState$.subscribe((res) => {
+    this.subscriptionSavedState = this.savedState$.subscribe((res) => {
       this.way?.setValue(res.searchForm.way);
       this.route?.setValue(res.searchForm.route);
 
@@ -125,7 +129,7 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.userBooking$.subscribe((res) => {
+    this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
@@ -188,6 +192,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptionBreakpoints.unsubscribe();
+    this.subscriptionSavedState.unsubscribe();
+    this.subscriptionUserBooking.unsubscribe();
   }
 
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -207,7 +213,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.passengers?.setValue(this.selectedPassengers);
   }
 
-  submitSearchRequest(): void {
+  submitSearchRequest(event: Event): void {
+    event.preventDefault();
     if (this.searchForm.valid) {
       const searchFormValue = {
         startDate: String(this.startDate?.value),
@@ -241,9 +248,11 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   switchLocations(
+    event: Event,
     fromLocation: DropdownComponent,
     toLocation: DropdownComponent,
   ): void {
+    event.preventDefault();
     this.locationFrom = toLocation.locationInput.value ?? '';
     this.locationTo = fromLocation.locationInput.value ?? '';
 

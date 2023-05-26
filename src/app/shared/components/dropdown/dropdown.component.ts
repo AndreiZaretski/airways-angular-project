@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { IAirport } from '../../models/interface-locations-passengers';
+import { ConfirmValidParentMatcher } from '../../validators/custom-validators-search-form';
 
 @Component({
   selector: 'app-dropdown',
@@ -31,6 +32,8 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
   @Input() label?: string;
 
   @Input() placeholder = '';
+
+  confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
   filteredItems?: Observable<IAirport[] | undefined>;
 

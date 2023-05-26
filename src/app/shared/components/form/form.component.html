@@ -1,5 +1,5 @@
 <div class="search-form-wrapper container" [ngClass]="{'is-booking-page': source === 'booking-page'}">
-  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}" (ngSubmit)="submitSearchRequest()">
+  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}" (ngSubmit)="submitSearchRequest($event)">
     <mat-radio-group formControlName="way" aria-label="Select an option">
       <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
       <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
@@ -26,7 +26,7 @@
     <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">
       Locations should differ
     </mat-error>
-      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic" (click)="switchLocations(fromLocation, toLocation)">
+      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic" (click)="switchLocations($event, fromLocation, toLocation)">
         <mat-icon><span class="material-symbols-outlined">
           sync_alt
           </span></mat-icon>
