@@ -1,4 +1,4 @@
-import { IAirResponse, IFlightInfo } from './interfaces';
+import { IAirResponse } from './interfaces';
 
 export interface IUserBooking {
   bookingPage: IBookingPage;
@@ -10,8 +10,6 @@ export interface IBookingPage {
   orderId: string | null
 
   responseAir: IAirResponse | null,
-
-  chooseData: IChooseData | null,
 
   indexThereWay: number,
   indexBackWay: number,
@@ -54,12 +52,4 @@ export interface IUserPassengers {
     phoneNumber: string;
     email: string;
   };
-}
-
-export interface IChooseData {
-  from: string,
-  to: string,
-  way: string,
-  dataThere: IFlightInfo,
-  dataBack?: IFlightInfo,
 }

@@ -1,6 +1,9 @@
+<!-- <asl-google-signin-button></asl-google-signin-button> -->
 <button mat-stroked-button
-class="entry-social google">Continue with Google</button>
+class="entry-social google"
+(click)="signInWithGoogle()">Continue with Google</button>
 <button mat-stroked-button
+(click)="signInWithFacebook()"
 class="entry-social facebook">Continue with Facebook</button>
 
 <p class="entry-social__text">or sign up with your email</p>

@@ -46,7 +46,9 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
 
   passengerInfo$ = this.store.select(selectPassengersInfo);
 
-  subscripePas: Subscription;
+  subscripePas$: Subscription;
+
+  subscripeStore$: Subscription;
 
   codeCountry = this.countries[0].calling_code;
 
@@ -63,27 +65,21 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
     private stepper: StepperService,
   ) {
     // eslint-disable-next-line @ngrx/no-store-subscription
-    this.store.select((selectUserBooking)).subscribe((bookingData) => {
+    this.subscripeStore$ = this.store.select((selectUserBooking)).subscribe((bookingData) => {
       if (bookingData.passengersCount) { this.passengersCount$ = bookingData.passengersCount; }
       // this.isBackWay = bookingData.responseAir?.way === 'round';
     });
-
-    this.previousRoute = this.router
-      .getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
   }
 
   ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
-    this.subscripePas?.unsubscribe();
+    this.subscripePas$?.unsubscribe();
+    this.subscripeStore$?.unsubscribe();
   }
 
-  previousRoute: string | undefined;
-
   ngOnInit() {
-    // this.previousRoute = this.router
-    //   .getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
-    this.subscripePas = this.passengerInfo$.subscribe((res) => {
+    this.subscripePas$ = this.passengerInfo$.subscribe((res) => {
       if (res) {
         this.phone = res.contactsDetail.phoneNumber;
         this.codeCountry = res.contactsDetail.countryCode;
@@ -206,7 +202,6 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
 
   submitForm() {
     if (this.formPassengers.valid) {
-      console.log(this.formPassengers.value);
       this.stepper.nextStep();
       this.store.dispatch(
         updatePassengersInfo({

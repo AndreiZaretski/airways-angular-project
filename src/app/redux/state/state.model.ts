@@ -54,7 +54,6 @@ export const UserBookingStateInit: IUserBooking = {
   bookingPage: {
     orderId: null,
     responseAir: null,
-    chooseData: null,
     indexThereWay: 3,
     indexBackWay: 3,
     checkedThereWay: false,

@@ -63,12 +63,6 @@ export const updatePassengersCount = createAction(
   }>(),
 );
 
-// export const updateChooseData = createAction(
-//   '[Passengers] update choose data',
-//   props<{ newChooseData: IChooseData,
-//   }>(),
-// );
-
 export const updateIndexThereWay = createAction(
   '[Passengers] update index There Way',
   props<{ newIndexThereWay: number,
@@ -148,4 +142,10 @@ export const updateOrderCart = createAction(
 export const addToFlightsHistory = createAction(
   '[FlightsHistory] add flights to history',
   props<{ newBoughtFlights: IBookingPage[] }>(),
+);
+
+export const updateFlightsHistory = createAction(
+  '[FlightsHistory] update flight history',
+  props<{ newBoughtFlights: IBookingPage[],
+  }>(),
 );
