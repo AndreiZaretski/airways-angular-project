@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { selectAirResponse, selectPassengersCount, selectSearchMain } from 'src/app/redux/selectors/state.selector';
+import { selectAirResponse, selectPassengersCount } from 'src/app/redux/selectors/state.selector';
 import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
 
 @Component({
@@ -13,8 +13,6 @@ import { EditPanelService } from 'src/app/shared/services/edit-panel.service';
 })
 export class BookingHeaderComponent implements OnInit, OnDestroy {
   isHeaderVertical = false;
-
-  headerDetails$ = this.store.select(selectSearchMain);
 
   passengersOptions$ = this.store.select(selectPassengersCount);
 
@@ -30,8 +28,6 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.responseDetails$.subscribe((res) => console.log(res));
-
     this.subscriptionBreakpoints = this.responsive
       .observe(Breakpoints.XSmall).subscribe((result) => {
         this.isHeaderVertical = false;

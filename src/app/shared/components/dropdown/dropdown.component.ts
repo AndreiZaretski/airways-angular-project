@@ -77,10 +77,12 @@ export class DropdownComponent implements OnInit, OnDestroy, ControlValueAccesso
     this.subscriptionFilteredItems.unsubscribe();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnChange(fn: any): void {
     this.locationInput.valueChanges.subscribe(fn);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -89,6 +91,7 @@ export class DropdownComponent implements OnInit, OnDestroy, ControlValueAccesso
     return this.locationInput.valid ? null : { invalidForm: { valid: false, message: 'location input fields are invalid' } };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   writeValue(val: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     val && this.locationInput.setValue(val, { emitEvent: false });
