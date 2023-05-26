@@ -206,25 +206,19 @@ export const airStateReducer = createReducer(
   ),
 
   // replase
-  on(
-    addOrderCart,
-    (state, { newOrderId }) => ({
-      ...state,
-      bookingPage: {
-        ...state.bookingPage,
-        orderId: newOrderId,
-      },
-    }),
-  ),
+  // on(addOrderCart, (state, { newOrderId }) => ({
+  //   ...state,
+  //   bookingPage: {
+  //     ...state.bookingPage,
+  //     orderId: newOrderId,
+  //   },
+  // })),
 
   // replase
-  on(
-    addOrderCart,
-    (state) => ({
-      ...state,
-      cartShoppings: [...state.cartShoppings, state.bookingPage],
-    }),
-  ),
+  // on(addOrderCart, (state) => ({
+  //   ...state,
+  //   cartShoppings: [...state.cartShoppings, state.bookingPage],
+  // })),
   // replase
   // on(
   //   addOrderCart,
@@ -245,27 +239,27 @@ export const airStateReducer = createReducer(
   // ),
 
   // Reducer total
-  // on(
-  //   addOrderCart,
-  //   (state, { newOrderId }) => ({
-  //     ...state,
-  //     bookingPage: {
-  //       orderId: null,
-  //       responseAir: null,
-  //       chooseData: null,
-  //       indexFrom: 0,
-  //       indexTo: 0,
-  //       checkedFrom: false,
-  //       checkedTo: false,
-  //       passengersCount: null,
-  //       userPassengers: null,
-  //     },
-  //     cartShoppings: [...state.cartShoppings, {
-  //       ...state.bookingPage,
-  //       orderId: newOrderId,
-  //     }],
-  //   }),
-  // ),
+  on(addOrderCart, (state, { newOrderId }) => ({
+    ...state,
+    bookingPage: {
+      orderId: null,
+      responseAir: null,
+      chooseData: null,
+      indexThereWay: 3,
+      indexBackWay: 3,
+      checkedThereWay: false,
+      checkedBackWay: false,
+      passengersCount: null,
+      userPassengers: null,
+    },
+    cartShoppings: [
+      ...state.cartShoppings,
+      {
+        ...state.bookingPage,
+        orderId: newOrderId,
+      },
+    ],
+  })),
 
   on(
     replaceOrderCart,
