@@ -1,11 +1,13 @@
 import {
-  Component, Input, OnInit, forwardRef,
+  Component, Input, OnDestroy, OnInit, forwardRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators,
 } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import {
+  Observable, Subscription, map, startWith,
+} from 'rxjs';
 import { IAirport } from '../../models/interface-locations-passengers';
 import { ConfirmValidParentMatcher } from '../../validators/custom-validators-search-form';
 
@@ -26,7 +28,7 @@ import { ConfirmValidParentMatcher } from '../../validators/custom-validators-se
     },
   ],
 })
-export class DropdownComponent implements OnInit, ControlValueAccessor, Validator {
+export class DropdownComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   @Input() items?: IAirport[];
 
   @Input() label?: string;
@@ -41,20 +43,22 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
 
   locationInput = new FormControl('', [Validators.required]);
 
+  private subscriptionFilteredItems: Subscription;
+
   ngOnInit(): void {
     this.filteredItems = this.locationInput.valueChanges.pipe(
       startWith(''),
       map((value) => this.filter(value?.trim() || '')),
     );
 
-    this.filteredItems?.subscribe((res) => {
+    this.subscriptionFilteredItems = this.filteredItems?.subscribe((res) => {
       if (res?.length === 0) {
         this.locationInput.setValue(null);
       }
     });
   }
 
-  checkLocationControl() {
+  checkLocationControl(): void {
     setTimeout(() => {
       if (this.locationInput.value?.startsWith(' ')) {
         this.locationInput.setValue(null);
@@ -69,6 +73,10 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
     }
 
     return location;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionFilteredItems.unsubscribe();
   }
 
   registerOnChange(fn: any): void {
