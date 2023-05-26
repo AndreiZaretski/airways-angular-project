@@ -1,11 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IPassengers } from 'src/app/main/model/search-form.model';
+import { IPassengersCount } from 'src/app/shared/models/interface-user-booking';
 
 @Pipe({
   name: 'totalPassengers',
 })
 export class TotalPassengersPipe implements PipeTransform {
-  transform(passengerOptions: IPassengers[]): number {
-    return passengerOptions.reduce((sum, acc) => sum + (acc.count as number), 0);
+  transform(passengerOptions: IPassengersCount | null) {
+    if (passengerOptions) {
+      return Object.values(passengerOptions).reduce((sum, acc) => sum + acc, 0);
+    }
+    return 0;
   }
 }
