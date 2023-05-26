@@ -2,11 +2,22 @@
     ::ng-deep .cdk-overlay-container {
     overflow: auto;
     pointer-events: auto;
+    // position: absolute;
+    position: fixed;
+    top: 0px;
+    // top: 45%;
   }
 
   ::ng-deep .cdk-overlay-backdrop {
-    height: 172vh;
+    min-height: 172vh;
   }
+
+  // ::ng-deep .custom-backdrop {
+  //   //overflow: auto;
+  //   position: absolute !important;
+  //   //bottom: 0;
+  //   //pointer-events: auto;
+  // }
 //}
 
 .auth-modal {

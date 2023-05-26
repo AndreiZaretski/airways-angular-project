@@ -17,9 +17,10 @@ import { Subscription } from 'rxjs';
 import { ResultFlightSumService } from 'src/app/core/services/result-flight-sum.service';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
 import {
-  checkRequestUser,
+  // checkRequestUser,
   deleteOrderCart,
-  replaceOrderCart,
+  editOrderCart,
+  // replaceOrderCart,
   watchDetailsOrder,
 } from 'src/app/redux/actions/state.actions';
 import {
@@ -106,7 +107,7 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(checkRequestUser());
+    // this.store.dispatch(checkRequestUser());
 
     this.isVisibleInCart = this.isVisibleColumnInCart();
     this.flightsColumns = this.isVisibleInCart
@@ -156,7 +157,7 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   editFlightDetails(id: string) {
-    this.store.dispatch(replaceOrderCart({ OrderId: id }));
+    this.store.dispatch(editOrderCart({ OrderId: id }));
     this.router.navigateByUrl(`${Path.Booking}/${Path.Flights}`);
   }
 

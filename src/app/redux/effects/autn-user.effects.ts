@@ -4,7 +4,7 @@ import {
 } from '@ngrx/effects';
 import {
   debounceTime,
-  exhaustMap, map, mergeMap, of, switchMap,
+  exhaustMap, iif, map, mergeMap, of, switchMap,
 } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GetAirDataService } from 'src/app/core/services/get-air-data.service';
@@ -15,11 +15,16 @@ import {
   checkRequestUser, checkCart, deleteOrderCart, getRequestUser,
   replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
-  updateUserSettingCurrency, updateUserSettingDateFormat, updateUserSettings, addToFlightsHistory,
+  updateUserSettingCurrency, updateUserSettingDateFormat,
+  updateUserSettings, updateFlightsHistory,
 } from '../actions/state.actions';
 import {
   selectCartPage, selectCartPageHistory, selectOrderId, selectUserSettings,
 } from '../selectors/state.selector';
+
+function notNull<T>(value: T | null): value is T {
+  return value !== null;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +45,7 @@ export class UserEffects {
         return of(
           getRequestUser({ currentUser: result }),
           updateOrderCart({ newOrders: result.orders.cartShoppings }),
-          addToFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
+          updateFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
           updateUserSettings({ newSettinggs: result.userSettings }),
         );
       }
@@ -49,7 +54,7 @@ export class UserEffects {
         return of(
           getRequestUser({ currentUser: result }),
           updateOrderCart({ newOrders: result.orders.cartShoppings }),
-          addToFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
+          updateFlightsHistory({ newBoughtFlights: result.orders.flightsHistory }),
         );
       }
 
@@ -79,7 +84,10 @@ export class UserEffects {
     ofType(getRequestUser),
     map((result) => {
       if (result.currentUser.orders) {
-        return addToFlightsHistory({ newBoughtFlights: result.currentUser.orders.flightsHistory });
+        return updateFlightsHistory({
+          newBoughtFlights:
+          result.currentUser.orders.flightsHistory,
+        });
       }
       return { type: 'NO_ACTION' };
     }),
@@ -122,26 +130,39 @@ export class UserEffects {
 
   ));
 
+  // checkCart$ = createEffect(() => this.actions$.pipe(
+  //   ofType(checkCart),
+  //   mergeMap(() => this.store.select(selectOrderId)),
+  // map((result) => {
+  //   if (result) {
+  //     return replaceOrderCart({ OrderId: result });
+  //   }
+
+  //   return addOrderCart({ newOrderId: uuidv4() });
+  // }),
+
+  //   switchMap((result) => {
+  //     if (!result) {
+  //       // return of(replaceOrderCart({ OrderId: result }));
+  //       return of(addOrderCart({ newOrderId: uuidv4() }));
+  //     }
+  //     return of(replaceOrderCart({ OrderId: result }));
+  //     // return of(addOrderCart({ newOrderId: uuidv4() }));
+  //   }),
+  //   take(1),
+
+  // ));
+
   checkCart$ = createEffect(() => this.actions$.pipe(
     ofType(checkCart),
-    mergeMap(() => this.store.select(selectOrderId)),
-    map((result) => {
-      if (result) {
-        return replaceOrderCart({ OrderId: result });
-      }
-
-      return addOrderCart({ newOrderId: uuidv4() });
-    }),
-
+    concatLatestFrom(() => this.store.select(selectOrderId)),
+    mergeMap(([, orderId]) => iif(
+      () => notNull(orderId),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      of(replaceOrderCart({ OrderId: orderId! })),
+      of(addOrderCart({ newOrderId: uuidv4() })),
+    )),
   ));
-
-  // sendUserData$ = createEffect(() => this.actions$.pipe(
-  //   ofType(replaceOrderCart, addOrderCart, deleteOrderCart),
-  //   exhaustMap(() => this.store.select(selectCartPage)),
-  //   map((result) => {
-  //     this.checkUser.updateUserData(result)?.subscribe();
-  //   }),
-  // ), { dispatch: false });
 
   sendUserData$ = createEffect(() => this.actions$.pipe(
     ofType(replaceOrderCart, addOrderCart, deleteOrderCart),

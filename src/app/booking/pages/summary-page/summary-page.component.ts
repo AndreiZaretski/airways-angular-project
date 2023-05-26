@@ -8,7 +8,7 @@ import {
 } from 'src/app/shared/models/interface-user-booking';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
 import { IFlightInfo } from 'src/app/shared/models/interfaces';
-import { checkCart } from 'src/app/redux/actions/state.actions';
+import { checkCart, updateBookingPageToInitState } from 'src/app/redux/actions/state.actions';
 import { Router } from '@angular/router';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
@@ -129,6 +129,7 @@ export class SummaryPageComponent implements OnInit {
 
   backToAccount() {
     this.stepper.resetStepper();
+    this.store.dispatch(updateBookingPageToInitState());
     this.router.navigateByUrl(`/${Path.Cart}/${Path.FlightsHistory}`);
   }
 }

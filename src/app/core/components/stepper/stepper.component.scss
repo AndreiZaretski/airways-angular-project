@@ -19,3 +19,9 @@
   pointer-events: none !important; 
   }
 }
+
+@media screen and (max-width: 1000px) {
+::ng-deep .mat-horizontal-stepper-wrapper {
+  height: 48px;
+} 
+}
