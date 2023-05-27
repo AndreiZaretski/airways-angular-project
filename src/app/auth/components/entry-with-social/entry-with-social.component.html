@@ -1,9 +1,27 @@
-<!-- <asl-google-signin-button></asl-google-signin-button> -->
-<button mat-stroked-button
+<!-- <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button> -->
+<asl-google-signin-button
+  class="auth-button"
+  type="standard"
+  text="signin_with"
+  shape="rectangular"
+  theme="outline"
+  logo_alignment="center"
+  
+  style="height: 20px; margin: 36px auto 16px;"
+  locale="en"
+  
+  mat-stroked-button
+  
+>
+</asl-google-signin-button>
+<!-- <button mat-stroked-button
 class="entry-social google"
-(click)="signInWithGoogle()">Continue with Google</button>
+(click)="signInWithGoogle()"
+>Continue with Google</button> -->
 <button mat-stroked-button
 (click)="signInWithFacebook()"
 class="entry-social facebook">Continue with Facebook</button>
 
 <p class="entry-social__text">or sign up with your email</p>
+
+<!-- (click)="signInWithGoogle()" -->

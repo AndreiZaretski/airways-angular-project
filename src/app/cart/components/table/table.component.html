@@ -126,7 +126,7 @@
           {{
             element.responseAir.startDate
               | sequenceDate : element.indexThereWay
-              | date : "EEEE, d MMM, y"
+              | date: (formatDate$ | async |userFormatData)
           }}
           {{ element.responseAir?.thereWay[element.indexThereWay]?.startTime }}
           {{ "&mdash;" }}
@@ -144,7 +144,7 @@
           {{
             element.responseAir.startDate
               | sequenceDate : element.indexBackWay
-              | date : "EEEE, d MMM, y"
+              | date: (formatDate$ | async |userFormatData)
           }}
           {{ element.responseAir?.backWay[element.indexBackWay]?.startTime }}
           {{ "&mdash;" }}

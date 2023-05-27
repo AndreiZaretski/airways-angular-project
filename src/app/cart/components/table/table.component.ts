@@ -13,7 +13,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ResultFlightSumService } from 'src/app/core/services/result-flight-sum.service';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
 import {
@@ -27,7 +27,9 @@ import {
   selectUserSettings,
   selectCartPage,
   selectCartPageHistory,
+  selectUserSettingsDateFormat,
 } from 'src/app/redux/selectors/state.selector';
+import { DateFormat } from 'src/app/shared/enums/date.enum';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 
@@ -90,6 +92,10 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   private subscriptionUserSettings: Subscription;
 
+  formatDate$: Observable<DateFormat>;
+
+  formatDate = DateFormat.MDY;
+
   constructor(
     public stepper: StepperService,
     private liveAnnouncer: LiveAnnouncer,
@@ -104,10 +110,13 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
     this.store.select(selectCartPageHistory).subscribe((pageHistory) => {
       this.pageHistory$ = pageHistory;
     });
+
+    this.formatDate$ = this.store.select(selectUserSettingsDateFormat);
   }
 
   ngOnInit(): void {
     // this.store.dispatch(checkRequestUser());
+    this.formatDate$ = this.store.select(selectUserSettingsDateFormat);
 
     this.isVisibleInCart = this.isVisibleColumnInCart();
     this.flightsColumns = this.isVisibleInCart
