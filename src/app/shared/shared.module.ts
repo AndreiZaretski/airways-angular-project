@@ -43,6 +43,7 @@ import { NextDayArrivalPipe } from './pipes/next-day-arrival.pipe';
 import { ArrivalTimePipe } from './pipes/arrival-time.pipe';
 import { SequenceDatePipe } from './pipes/sequence-date.pipe';
 import { MyFormat } from './services/format-date';
+import { UserFormatDataPipe } from './pipes/user-format-data.pipe';
 
 const materialModules = [
   MatAutocompleteModule,
@@ -77,6 +78,7 @@ const materialModules = [
     NextDayArrivalPipe,
     ArrivalTimePipe,
     SequenceDatePipe,
+    UserFormatDataPipe,
   ],
   imports: [
     CommonModule,
@@ -93,6 +95,7 @@ const materialModules = [
     NextDayArrivalPipe,
     ArrivalTimePipe,
     SequenceDatePipe,
+    UserFormatDataPipe,
   ],
   providers: [
     {

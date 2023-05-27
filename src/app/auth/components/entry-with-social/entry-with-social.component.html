@@ -1,9 +1,29 @@
-<!-- <asl-google-signin-button></asl-google-signin-button> -->
+<!-- <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button> -->
+<div 
+class="entry-social-gogle" 
+(click)="tabChange.emit(1)">
+<asl-google-signin-button
+  type="standard"
+  text="continue_with"
+  shape="rectangular"
+  theme="outline"
+  logo_alignment="center"
+  style="height: 20px; margin: 36px auto 16px;"
+  locale="en"
+  (click)="tabChange.emit(1)"
+  mat-stroked-button>
+</asl-google-signin-button>
+</div>
+
 <button mat-stroked-button
-class="entry-social google"
-(click)="signInWithGoogle()">Continue with Google</button>
-<button mat-stroked-button
-(click)="signInWithFacebook()"
+(click)="signInWithFacebook(); tabChange.emit(1)"
 class="entry-social facebook">Continue with Facebook</button>
 
 <p class="entry-social__text">or sign up with your email</p>
+
+<!-- (click)="signInWithGoogle()" -->
+<!-- (click)="tabChange.emit(1)" -->
+<!-- <button mat-stroked-button
+class="entry-social google"
+(click)="signInWithGoogle()"
+>Continue with Google</button> -->
