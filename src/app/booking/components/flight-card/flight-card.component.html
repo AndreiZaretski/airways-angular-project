@@ -2,7 +2,7 @@
   <div  class="flight-card__title">
     <mat-card-title class="title-position">{{flight.flightData?.flightNumber}}</mat-card-title>
     <mat-card-title class="title-flight">{{flight.from | airportName: 'city'}} {{flight.from | airportName: 'name'}} {{"&mdash;"}} {{flight.to | airportName: 'city'}} {{flight.to | airportName: 'name'}}</mat-card-title>
-    <mat-card-subtitle class="flight-card__subtitle">{{flight.startDate | sequenceDate: flight.index | date: 'EEEE, d MMM, y'}}     {{flight.flightData?.startTime}} {{"&mdash;"}} {{flight.startDate | nextDayArrival: flight.flightData?.startTime : flight.flightData?.timeWay| sequenceDate: flight.index | date:  'HH:mm'}}</mat-card-subtitle>
+    <mat-card-subtitle class="flight-card__subtitle">{{flight.startDate | sequenceDate: flight.index | date: (formatDate$ | async |userFormatData)}}     {{flight.flightData?.startTime}} {{"&mdash;"}} {{flight.startDate | nextDayArrival: flight.flightData?.startTime : flight.flightData?.timeWay| sequenceDate: flight.index | date:  'HH:mm'}}</mat-card-subtitle>
   </div>
 
   <app-passenger-luggage *ngFor="let passenger of passengers" [passenger]="passenger" [indexOfFlight]="indexOfFlight"></app-passenger-luggage>

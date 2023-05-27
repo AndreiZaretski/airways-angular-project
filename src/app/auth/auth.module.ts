@@ -40,17 +40,17 @@ import { EntryWithSocialComponent } from './components/entry-with-social/entry-w
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               '240861790827-cp4s9qvmh3j908quhegqap4m58jf0cbb.apps.googleusercontent.com',
-
             ),
             ux_mode: 'popup',
+            autoLogin: false,
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider(
               '1650024955469825',
-              {
-                scope: 'public_profile',
-              },
+              // {
+              //   scope: 'public_profile',
+              // },
             ),
 
           },

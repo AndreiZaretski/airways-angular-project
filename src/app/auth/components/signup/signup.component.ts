@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, OnDestroy, OnInit,
+} from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ValidatedForms } from 'src/app/shared/validators/custom-validate-forms';
@@ -7,6 +9,7 @@ import { Subscription, catchError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthResponse } from 'src/app/shared/models/interface-users';
 import { getRequestUser } from 'src/app/redux/actions/state.actions';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { AuthService } from '../../../core/services/auth.service';
 
 interface Country {
@@ -20,6 +23,12 @@ interface Country {
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
+  // @Input() user: SocialUser | null;
+
+  user: SocialUser | null;
+
+  subscriptionUser: Subscription;
+
   countries: Country[] = country;
 
   hide = true;
@@ -37,6 +46,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private store: Store,
+    private authServiceSocial: SocialAuthService,
 
   ) {}
 
@@ -68,10 +78,29 @@ export class SignupComponent implements OnInit, OnDestroy {
 
       termsUse: ['', [Validators.required]],
     });
+
+    this.subscriptionUser = this.authServiceSocial.authState.subscribe((user) => {
+      this.user = user;
+      // console.log(this.user);
+      if (this.user) {
+        this.formSignup.patchValue({
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          email: this.user.email,
+          password: this.user.id,
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.subscriptionUser?.unsubscribe();
+    this.user = null;
+    // this.authServiceSocial.signOut();
+    // this.subscriptionGogle?.unsubscribe();
+    // this.subscriptionFacebook?.unsubscribe();
+    // console.log('elem was destroy', this.user);
   }
 
   getErrorMessageEmail() {
