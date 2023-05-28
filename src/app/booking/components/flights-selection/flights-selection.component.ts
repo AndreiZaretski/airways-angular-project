@@ -32,13 +32,17 @@ export class FlightsSelectionComponent implements OnInit, OnDestroy {
     public stepper: StepperService,
   ) {}
 
-  ngOnInit() {
-    // this.responseDetails$.subscribe((res) => console.log(res));
-
+  ngOnInit(): void {
     this.subscriptionUserBooking = this.userBooking$.subscribe((res) => {
       this.checkedThereWay = res.checkedThereWay;
       this.checkedBackWay = res.checkedBackWay;
     });
+  }
+
+  clickStepper(): void {
+    if (localStorage.getItem('auth-token')) {
+      this.stepper.nextStep();
+    }
   }
 
   ngOnDestroy(): void {
