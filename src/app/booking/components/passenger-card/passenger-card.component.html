@@ -34,16 +34,18 @@
               matSuffix
               matTooltip="Add the passenger's name as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
               matTooltipPosition="right"
-              matTooltipShowDelay="200"
-              matTooltipHideDelay="200"
+              [matTooltipHideDelay]="hideDelay.value"
               *ngIf="
-                passenger.get('firstName')?.valid ||
-                passenger.get('firstName')?.untouched
+              passenger.get('firstName')?.valid ||
+              passenger.get('firstName')?.untouched
               "
               >info_outline
             </mat-icon>
             <mat-icon
               matSuffix
+              matTooltip="Add the passenger's name as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
+              matTooltipPosition="right"
+              [matTooltipHideDelay]="hideDelay.value"
               class="passenger-form-icon"
               *ngIf="
                 passenger.get('firstName')?.invalid &&
@@ -78,16 +80,18 @@
               matSuffix
               matTooltip="Add the passenger's surname as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
               matTooltipPosition="right"
-              matTooltipShowDelay="200"
-              matTooltipHideDelay="200"
+              [matTooltipHideDelay]="hideDelay.value"
               *ngIf="
-                passenger.get('lastName')?.valid ||
-                passenger.get('lastName')?.untouched
+              passenger.get('lastName')?.valid ||
+              passenger.get('lastName')?.untouched
               "
               >info_outline</mat-icon
-            >
-            <mat-icon
+              >
+              <mat-icon
               matSuffix
+              matTooltip="Add the passenger's surname as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
+              matTooltipPosition="right"
+              [matTooltipHideDelay]="hideDelay.value"
               class="passenger-form-icon"
               *ngIf="
                 passenger.get('lastName')?.invalid &&

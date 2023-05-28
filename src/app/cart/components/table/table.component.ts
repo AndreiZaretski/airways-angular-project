@@ -4,6 +4,7 @@ import {
   Component,
   DoCheck,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -35,7 +36,7 @@ import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, DoCheck {
+export class TableComponent implements OnInit, DoCheck, OnDestroy {
   @Output() selectedFlights = new EventEmitter<IBookingPage[]>();
 
   flightsInCart: string[] = [
@@ -78,8 +79,6 @@ export class TableComponent implements OnInit, DoCheck {
 
   pageHistory$: IBookingPage[] = [];
 
-  private subscriptionUserSettings: Subscription;
-
   formatDate$: Observable<DateFormat>;
 
   formatDate = DateFormat.MDY;
@@ -88,6 +87,12 @@ export class TableComponent implements OnInit, DoCheck {
 
   sortDirection = 'asc';
 
+  private subscriptionUserSettings: Subscription;
+
+  private subscriptionOnCart$: Subscription;
+
+  private subscriptionOnHistory$: Subscription;
+
   constructor(
     public stepper: StepperService,
     private liveAnnouncer: LiveAnnouncer,
@@ -95,13 +100,16 @@ export class TableComponent implements OnInit, DoCheck {
     private store: Store,
     private resultFlightSumService: ResultFlightSumService,
   ) {
-    this.store.select(selectCartPage).subscribe((cart) => {
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.subscriptionOnCart$ = this.store.select(selectCartPage).subscribe((cart) => {
       this.cart$ = cart;
       this.selection.clear();
     });
-    this.store.select(selectCartPageHistory).subscribe((pageHistory) => {
-      this.pageHistory$ = pageHistory;
-    });
+    this.subscriptionOnHistory$ = this.store.select(selectCartPageHistory)
+    // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe((pageHistory) => {
+        this.pageHistory$ = pageHistory;
+      });
 
     this.formatDate$ = this.store.select(selectUserSettingsDateFormat);
   }
@@ -219,5 +227,10 @@ export class TableComponent implements OnInit, DoCheck {
 
   getTotalSum(flight: IBookingPage, userCurrency: string) {
     return this.resultFlightSumService.calculateTotalSum(flight, userCurrency);
+  }
+
+  ngOnDestroy() {
+    this.subscriptionOnCart$.unsubscribe();
+    this.subscriptionOnHistory$.unsubscribe();
   }
 }

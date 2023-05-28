@@ -5,6 +5,7 @@ import {
   // AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -56,6 +57,8 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
 
   passengEmail = '';
 
+  hideDelay = new FormControl(2000);
+
   // isBackWay: boolean = false;
 
   constructor(
@@ -64,11 +67,15 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
     private router: Router,
     private stepper: StepperService,
   ) {
+    this.subscripeStore$ = this.store
+      .select(selectUserBooking)
     // eslint-disable-next-line @ngrx/no-store-subscription
-    this.subscripeStore$ = this.store.select((selectUserBooking)).subscribe((bookingData) => {
-      if (bookingData.passengersCount) { this.passengersCount$ = bookingData.passengersCount; }
-      // this.isBackWay = bookingData.responseAir?.way === 'round';
-    });
+      .subscribe((bookingData) => {
+        if (bookingData.passengersCount) {
+          this.passengersCount$ = bookingData.passengersCount;
+        }
+        // this.isBackWay = bookingData.responseAir?.way === 'round';
+      });
   }
 
   ngAfterViewInit(): void {}

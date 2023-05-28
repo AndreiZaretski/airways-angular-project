@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   IBookingPage,
@@ -12,6 +12,7 @@ import { checkCart, updateBookingPageToInitState } from 'src/app/redux/actions/s
 import { Router } from '@angular/router';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
+import { Subscription } from 'rxjs';
 import { ICurrentFlightSummary } from '../../models/current-flight.model';
 
 @Component({
@@ -19,7 +20,7 @@ import { ICurrentFlightSummary } from '../../models/current-flight.model';
   templateUrl: './summary-page.component.html',
   styleUrls: ['./summary-page.component.scss'],
 })
-export class SummaryPageComponent implements OnInit {
+export class SummaryPageComponent implements OnInit, OnDestroy {
   currentFlight: ICurrentFlightSummary[] = [];
 
   passengers: IPassengersData[] = [];
@@ -36,22 +37,27 @@ export class SummaryPageComponent implements OnInit {
 
   isPreviousRouteFromHistory: boolean;
 
+  subscriptionBookingData$: Subscription;
+
   constructor(
     public stepper: StepperService,
     private location: Location,
     private store: Store,
     private router: Router,
   ) {
-    this.store.select(selectUserBooking).subscribe((bookingData) => {
-      if (bookingData.passengersCount) {
-        this.bookingFlight$ = bookingData;
-        this.passengersCountWithTypes$ = bookingData.passengersCount;
-      }
+    this.subscriptionBookingData$ = this.store
+      .select(selectUserBooking)
+    // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe((bookingData) => {
+        if (bookingData.passengersCount) {
+          this.bookingFlight$ = bookingData;
+          this.passengersCountWithTypes$ = bookingData.passengersCount;
+        }
 
-      this.previousRoute = this.router
-        .getCurrentNavigation()
-        ?.previousNavigation?.finalUrl?.toString();
-    });
+        this.previousRoute = this.router
+          .getCurrentNavigation()
+          ?.previousNavigation?.finalUrl?.toString();
+      });
   }
 
   ngOnInit() {
@@ -125,5 +131,9 @@ export class SummaryPageComponent implements OnInit {
     this.stepper.resetStepper();
     this.store.dispatch(updateBookingPageToInitState());
     this.router.navigateByUrl(`/${Path.Cart}/${Path.FlightsHistory}`);
+  }
+
+  ngOnDestroy() {
+    this.subscriptionBookingData$.unsubscribe();
   }
 }
