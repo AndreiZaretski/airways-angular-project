@@ -37,6 +37,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   checkedBackWay = false;
 
+  focusState: boolean;
+
   isBookingFormVertical = false;
 
   isFormVertical = false;
