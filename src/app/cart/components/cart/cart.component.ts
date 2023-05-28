@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   selectedFlights: IBookingPage[] = [];
 
   path = Path;
@@ -38,8 +38,10 @@ export class CartComponent implements OnInit {
 
   getTotalCost() {
     return this.selectedFlights
-      .map((flight) => this.resultFlightSumService
-        .calculateTotalSum(flight, this.userCurrency.toLowerCase()))
+      .map((flight) => this.resultFlightSumService.calculateTotalSum(
+        flight,
+        this.userCurrency.toLowerCase(),
+      ))
       .reduce((acc, value) => acc + value, 0);
   }
 
@@ -52,9 +54,14 @@ export class CartComponent implements OnInit {
       this.store.dispatch(
         addToFlightsHistory({ newBoughtFlights: this.selectedFlights }),
       );
-      this.selectedFlights
-        .map((flight) => flight.orderId && this.store
-          .dispatch(deleteOrderCart({ OrderId: flight.orderId })));
+      this.selectedFlights.map(
+        (flight) => flight.orderId && this.store
+          .dispatch(deleteOrderCart({ OrderId: flight.orderId })),
+      );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionUserSettings.unsubscribe();
   }
 }

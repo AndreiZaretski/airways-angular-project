@@ -2,6 +2,7 @@ import {
   Component,
   DoCheck,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -18,7 +19,7 @@ import { ICurrentFlightSummary } from '../../models/current-flight.model';
   templateUrl: './total-sum.component.html',
   styleUrls: ['./total-sum.component.scss'],
 })
-export class TotalSumComponent implements OnInit, DoCheck {
+export class TotalSumComponent implements OnInit, DoCheck, OnDestroy {
   @Input() currentFlight: ICurrentFlightSummary[] = [];
 
   @Input() passengersCountWithTypes: IPassengersCount = {
@@ -52,10 +53,14 @@ export class TotalSumComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     if (this.currentFlight[0]?.flightData?.price) {
-      this.fareThere = this.currentFlight[0]?.flightData?.price[this.userCurrency.toLowerCase()];
+      this.fareThere = this.currentFlight[0]?.flightData?.price[
+        this.userCurrency.toLowerCase()
+      ];
     }
     if (this.currentFlight[1]?.flightData?.price) {
-      this.fareBack = this.currentFlight[1]?.flightData?.price[this.userCurrency.toLowerCase()];
+      this.fareBack = this.currentFlight[1]?.flightData?.price[
+        this.userCurrency.toLowerCase()
+      ];
     }
   }
 
@@ -77,5 +82,9 @@ export class TotalSumComponent implements OnInit, DoCheck {
       this.fareThere,
       this.fareBack,
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionUserSettings.unsubscribe();
   }
 }
