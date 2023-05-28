@@ -29,7 +29,7 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     if (control && control.touched) {
-      return form?.value.route.fromLocation
+      return (form?.value.route.fromLocation && form?.value.route.toLocation)
         ? (form?.value.route.fromLocation === form?.value.route.toLocation)
         : !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
     }
