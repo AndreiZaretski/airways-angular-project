@@ -60,9 +60,9 @@ export class SignupComponent implements OnInit, OnDestroy {
         ValidatedForms.validatePassword]],
 
       firstName: ['', [Validators.required,
-        Validators.pattern('[A-Za-zА-Яа-яЁё]+$')]],
+        Validators.pattern('[A-Za-zА-Яа-яЁё]+$'), Validators.maxLength(25)]],
       lastName: ['', [Validators.required,
-        Validators.pattern('[A-Za-zА-Яа-яЁё]+$')]],
+        Validators.pattern('[A-Za-zА-Яа-яЁё]+$'), Validators.maxLength(25)]],
 
       birthDay: ['', [Validators.required,
         ValidatedForms.validateDate]],
