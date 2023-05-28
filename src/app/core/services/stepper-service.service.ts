@@ -48,6 +48,19 @@ export class StepperService {
     this.stepper.selectedIndex = this.stepper.steps.length - 1;
   }
 
+  goToSecondStep() {
+    if (this.stepper) {
+      const step1 = this.stepper.steps.get(0);
+      const step2 = this.stepper.steps.get(1);
+      if (step1 && step2) {
+        step1.completed = true;
+        step1.editable = false;
+        step2.editable = true;
+        this.stepper.selectedIndex = 1;
+      }
+    }
+  }
+
   init(stepper: MatStepper) {
     this.stepper = stepper;
   }
