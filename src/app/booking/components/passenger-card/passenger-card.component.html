@@ -32,6 +32,10 @@
             />
             <mat-icon
               matSuffix
+              matTooltip="Add the passenger's name as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
+              matTooltipPosition="right"
+              matTooltipShowDelay="200"
+              matTooltipHideDelay="200"
               *ngIf="
                 passenger.get('firstName')?.valid ||
                 passenger.get('firstName')?.untouched
@@ -72,6 +76,10 @@
             />
             <mat-icon
               matSuffix
+              matTooltip="Add the passenger's surname as it is written on their documents (passport or ID. Do not use any accents or special characters. Do not use a nick name)"
+              matTooltipPosition="right"
+              matTooltipShowDelay="200"
+              matTooltipHideDelay="200"
               *ngIf="
                 passenger.get('lastName')?.valid ||
                 passenger.get('lastName')?.untouched
