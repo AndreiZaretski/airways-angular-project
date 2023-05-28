@@ -63,8 +63,9 @@ Sign in</button>
 (click)="goToCartPageHistory()">
   <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
   <mat-icon class="header__button-user-icon"
-  [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">account_circle</mat-icon>
+  [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">account_circle</mat-icon><div class="username">
 {{user.firstName}} {{user.lastName}}
+  </div>
 </button>
 </ng-container>
 

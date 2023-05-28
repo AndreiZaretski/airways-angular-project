@@ -108,6 +108,11 @@ p {
     height: 40px;
   }
 
+  .username {
+    max-width: 140px;
+    overflow: hidden;
+  }
+
   // &__button-user-icon {
   //   color: #11397E;
   // }
