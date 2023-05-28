@@ -7,19 +7,13 @@ import {
   IPassengersCount,
 } from 'src/app/shared/models/interface-user-booking';
 import { selectUserBooking } from 'src/app/redux/selectors/state.selector';
-import { IFlightInfo } from 'src/app/shared/models/interfaces';
+// import { IFlightInfo } from 'src/app/shared/models/interfaces';
 import { checkCart, updateBookingPageToInitState } from 'src/app/redux/actions/state.actions';
 import { Router } from '@angular/router';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
+import { ICurrentFlightSummary } from '../../models/current-flight.model';
 
-export interface ICurrentFlightSummary {
-  from: string;
-  to: string;
-  startDate: string;
-  index: number;
-  flightData?: IFlightInfo;
-}
 @Component({
   selector: 'app-summary-page',
   templateUrl: './summary-page.component.html',

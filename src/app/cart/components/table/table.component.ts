@@ -1,7 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import {
-  AfterViewInit,
   Component,
   DoCheck,
   EventEmitter,
@@ -17,10 +16,8 @@ import { Observable, Subscription } from 'rxjs';
 import { ResultFlightSumService } from 'src/app/core/services/result-flight-sum.service';
 import { StepperService } from 'src/app/core/services/stepper-service.service';
 import {
-  // checkRequestUser,
   deleteOrderCart,
   editOrderCart,
-  // replaceOrderCart,
   watchDetailsOrder,
 } from 'src/app/redux/actions/state.actions';
 import {
@@ -33,21 +30,12 @@ import { DateFormat } from 'src/app/shared/enums/date.enum';
 import { Path } from 'src/app/shared/enums/router.enum';
 import { IBookingPage } from 'src/app/shared/models/interface-user-booking';
 
-export interface PeriodicElement {
-  position: string;
-  flight: string;
-  typeTrip: string;
-  dataType: string;
-  passengers: string;
-  price: number;
-}
-
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, DoCheck, AfterViewInit {
+export class TableComponent implements OnInit, DoCheck {
   @Output() selectedFlights = new EventEmitter<IBookingPage[]>();
 
   flightsInCart: string[] = [
@@ -96,6 +84,10 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   formatDate = DateFormat.MDY;
 
+  sortType = 'typeTrip';
+
+  sortDirection = 'asc';
+
   constructor(
     public stepper: StepperService,
     private liveAnnouncer: LiveAnnouncer,
@@ -115,7 +107,6 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.store.dispatch(checkRequestUser());
     this.formatDate$ = this.store.select(selectUserSettingsDateFormat);
 
     this.isVisibleInCart = this.isVisibleColumnInCart();
@@ -134,21 +125,67 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   ngDoCheck(): void {
     this.dataSource = new MatTableDataSource(
-      this.isVisibleInCart ? this.cart$ : this.pageHistory$,
+      this.isVisibleInCart
+        ? this.dataSort(this.cart$)
+        : this.dataSort(this.pageHistory$),
     );
     this.selectedFlights.emit(this.selection.selected);
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  compare(a: string | number, b: string | number, isAsc: boolean): number {
+    if (typeof a === 'string' && typeof b === 'string') {
+      return a.localeCompare(b) * (isAsc ? 1 : -1);
+    }
+    if (typeof a === 'number' && typeof b === 'number') {
+      return (a - b) * (isAsc ? 1 : -1);
+    }
+    return 0;
+  }
+
+  dataSort(data: IBookingPage[]) {
+    const sortedData = [...data];
+    return sortedData.sort((a, b) => {
+      const isAsc = this.sortDirection === 'asc';
+      if (a.responseAir && b.responseAir) {
+        switch (this.sortType) {
+          case 'position':
+            return this.compare(
+              a.responseAir?.thereWay[a.indexThereWay]?.flightNumber,
+              b.responseAir?.thereWay[b.indexThereWay]?.flightNumber,
+              isAsc,
+            );
+          case 'flight':
+            return this.compare(
+              a.responseAir?.from,
+              b.responseAir?.from,
+              isAsc,
+            );
+          case 'typeTrip':
+            return this.compare(a.responseAir?.way, b.responseAir?.way, isAsc);
+          case 'dataType':
+            return this.compare(
+              a.responseAir.startDate,
+              b.responseAir.startDate,
+              isAsc,
+            );
+          case 'price':
+            return this.compare(
+              this.getTotalSum(a, this.userCurrency),
+              this.getTotalSum(b, this.userCurrency),
+              isAsc,
+            );
+          default:
+            return 0;
+        }
+      }
+      return 0;
+    });
+    return sortedData;
   }
 
   announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this.liveAnnouncer.announce('Sorting cleared');
-    }
+    this.sortType = sortState.active;
+    this.sortDirection = sortState.direction;
   }
 
   isAllSelected() {
@@ -167,7 +204,7 @@ export class TableComponent implements OnInit, DoCheck, AfterViewInit {
 
   editFlightDetails(id: string) {
     this.store.dispatch(editOrderCart({ OrderId: id }));
-    this.router.navigateByUrl(`${Path.Booking}/${Path.Flights}`);
+    this.router.navigateByUrl(`${Path.Booking}/${Path.Passengers}`);
   }
 
   deleteFlight(id: string): void {

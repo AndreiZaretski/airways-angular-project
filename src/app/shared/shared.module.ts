@@ -36,6 +36,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AirportNamePipe } from './pipes/airport-name.pipe';
 import { FormComponent } from './components/form/form.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
@@ -68,6 +69,7 @@ const materialModules = [
   MatChipsModule,
   MatButtonToggleModule,
   MatSlideToggleModule,
+  MatTooltipModule,
 ];
 
 @NgModule({

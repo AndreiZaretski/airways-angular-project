@@ -9,11 +9,11 @@ export class ResultFlightSumService {
 
   calculateTotalSum(flight: IBookingPage, userCurrency: string) {
     let result = 0;
-    const fareThere = flight.responseAir?.thereWay[flight.indexThereWay]?.price[userCurrency]
-      || 0;
+    const fareThere = flight.responseAir?.thereWay[flight.indexThereWay]?.price[userCurrency
+      .toLowerCase()] || 0;
 
     const fareBack = flight.responseAir?.backWay
-      ? flight.responseAir?.backWay[flight.indexBackWay]?.price[userCurrency]
+      ? flight.responseAir?.backWay[flight.indexBackWay]?.price[userCurrency.toLowerCase()]
       : 0;
     const totalFare = fareBack + fareThere;
     if (flight.passengersCount) {

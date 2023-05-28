@@ -7,14 +7,14 @@
 }
 
 .card-totalsum {
-  background: #ffffff;
+  background: var(--white);
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.5px;
-  color: #000000;
+  color: var(--default-black);
   padding-top: 24px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 4px var(--shadow);
   border-radius: 8px;
 
   .totalsum-main {
@@ -33,7 +33,7 @@
       font-size: 16px;
       line-height: 24px;
       letter-spacing: 0.5px;
-      color: #000000;
+      color: var(--default-black);
       padding-left: 40px;
       padding-right: 0px;
     }
@@ -46,7 +46,7 @@
   padding: 20px 72px 20px 40px;
   border-width: 1px 0px;
   border-style: solid;
-  border-color: #e1e5eb;
+  border-color: var(--light-gray);
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -54,7 +54,7 @@
   color: #000000;
 
   .totalsum-result__amount {
-    color: #11397e;
+    color: var(--blue);
   }
 }
 
@@ -75,9 +75,5 @@
 
   .totalsum-result {
     padding: 20px 10px 20px 10px;
-
-    .totalsum-result__amount {
-      color: #11397e;
-    }
   }
 }
