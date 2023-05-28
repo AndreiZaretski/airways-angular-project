@@ -6,7 +6,7 @@
     mat-table
     [dataSource]="dataSource"
     matSort
-    matSortActive="position"
+    [matSortActive]="sortType"
     matSortDirection="asc"
     class="mat-elevation-z8"
     (matSortChange)="announceSortChange(sort)"
@@ -38,7 +38,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by number"
+        sortActionDescription="Sort by position"
         width="12%"
       >
         No.
@@ -203,7 +203,6 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #mainMenu="matMenu" MenuPositionX="before">
-          <!-- <button mat-raised-button (click)="openDialog()">Delete</button> -->
           <button mat-menu-item (click)="deleteFlight(row.orderId)">
             Delete
           </button>
