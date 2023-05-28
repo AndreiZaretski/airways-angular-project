@@ -59,6 +59,8 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
 
   hideDelay = new FormControl(2000);
 
+  previousRoute: string | undefined;
+
   // isBackWay: boolean = false;
 
   constructor(
@@ -67,6 +69,10 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
     private router: Router,
     private stepper: StepperService,
   ) {
+    this.previousRoute = this.router
+      .getCurrentNavigation()
+      ?.previousNavigation?.finalUrl?.toString();
+
     this.subscripeStore$ = this.store
       .select(selectUserBooking)
     // eslint-disable-next-line @ngrx/no-store-subscription
@@ -74,8 +80,11 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
         if (bookingData.passengersCount) {
           this.passengersCount$ = bookingData.passengersCount;
         }
-        // this.isBackWay = bookingData.responseAir?.way === 'round';
       });
+
+    if (this.previousRoute === `/${Path.Booking}/${Path.Flights}` || this.previousRoute === undefined) {
+      setTimeout(() => this.stepper.nextStep());
+    }
   }
 
   ngAfterViewInit(): void {}
