@@ -10,10 +10,6 @@
 
 <ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" class="carousel date-carousel"
   #slickModalDate="slick-carousel" [config]="source !== 'backway' ? slideConfig : slideConfigBack">
-  <!-- (init)="slickInit($event)"
-  (breakpoint)="breakpoint($event)"
-  (afterChange)="afterChange($event)"
-  (beforeChange)="beforeChange($event)"> -->
   <div ngxSlickItem
     *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide"
@@ -32,8 +28,6 @@
     [seatsCount]="flight.available"></div>
   </div>
 </ngx-slick-carousel>
-<!-- <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
-<button (click)="slickModal.unslick()">unslick</button> -->
 
 <ngx-slick-carousel class="carousel"
   [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
@@ -41,7 +35,6 @@
   [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
   <div ngxSlickItem *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
     class="slide">
-    <!-- Index {{i}} -->
     <mat-card *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
       class="flight-card"
       [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
@@ -51,7 +44,7 @@
           [ngClass]="{'is-xsmall': isFlightDetailsVertical}">
           <div class="flight-details">
             <div class="info-wrapper">
-              <span class="day">{{ response.startDate | sequenceDate: i | date: 'EE, d MMM y' }}</span>
+              <span class="day">{{ response.startDate | sequenceDate: i | date: (formatDate$ | async | userFormatData) }}</span>
               <span class="time">{{ flight.startTime }}</span>
               <span class="timezone">UTC +0</span>
               <span class="airport">{{ source === 'backway' ?
@@ -72,8 +65,7 @@
               </div>
             </div>
             <div class="info-wrapper arrival">
-              <span class="day">{{ response.startDate | nextDayArrival: flight.startTime : flight.timeWay | sequenceDate: i | date:
-                'EE, d MMM y' }}</span>
+              <span class="day">{{ response.startDate | nextDayArrival: flight.startTime : flight.timeWay | sequenceDate: i | date: (formatDate$ | async | userFormatData) }}</span>
               <span class="time">{{ flight.startTime | arrivalTime: flight.timeWay }}</span>
               <span class="timezone timezone-arrival">UTC +0</span>
               <span class="airport">{{ source !== 'backway' ?
