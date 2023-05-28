@@ -57,5 +57,4 @@ export class CartComponent implements OnInit {
           .dispatch(deleteOrderCart({ OrderId: flight.orderId })));
     }
   }
-
 }
