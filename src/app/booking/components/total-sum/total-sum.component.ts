@@ -11,7 +11,7 @@ import { ResultFlightSumService } from 'src/app/core/services/result-flight-sum.
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectUserSettings } from 'src/app/redux/selectors/state.selector';
-import { ICurrentFlightSummary } from '../../pages/summary-page/summary-page.component';
+import { ICurrentFlightSummary } from '../../models/current-flight.model';
 
 @Component({
   selector: 'app-total-sum',
@@ -27,9 +27,9 @@ export class TotalSumComponent implements OnInit, DoCheck {
     infant: 0,
   };
 
-  fareThere: number;
+  fareThere = 0;
 
-  fareBack: number;
+  fareBack = 0;
 
   typesOfPassengers = Object.keys(this.passengersCountWithTypes);
 

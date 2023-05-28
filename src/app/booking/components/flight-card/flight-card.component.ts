@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { DateFormat } from 'src/app/shared/enums/date.enum';
 import { Store } from '@ngrx/store';
 import { selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
-import { ICurrentFlightSummary } from '../../pages/summary-page/summary-page.component';
+import { ICurrentFlightSummary } from '../../models/current-flight.model';
 
 @Component({
   selector: 'app-flight-card',
