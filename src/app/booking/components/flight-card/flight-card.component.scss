@@ -19,7 +19,7 @@
     gap: 8px;
     width: 100%;
     background: #f1f3f6;
-    border-top: 3px solid #11397e;
+    border-top: 3px solid var(--blue);
     border-radius: 8px 8px 0px 0px;
     flex-wrap: wrap;
 
@@ -29,7 +29,7 @@
       font-size: 20px;
       line-height: 24px;
       letter-spacing: 0.5px;
-      color: #11397e;
+      color: var(--blue);
     }
   }
 
@@ -39,14 +39,5 @@
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.5px;
-  }
-}
-
-@media screen and (max-width: 300px) {
-  .flight-card {
-
-    .flight-card__title {
-      height: 130px;
-    }
   }
 }

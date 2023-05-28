@@ -4,7 +4,7 @@
 }
 
 :host:not(:last-child) {
-  border-bottom: 1px solid #B4B4B4;
+  border-bottom: 1px solid var(--shadow-gray);
 }
 
 .passenger-name {
@@ -12,7 +12,7 @@
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.5px;
-  color: #1C1B1F;
+  color: var(--black);
   padding-bottom: 12px;
 }
 
@@ -23,7 +23,7 @@
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.5px;
-  color: #000000;
+  color: var(--default-black);
   padding-left: 28px;
   padding-bottom: 4px;
 }
