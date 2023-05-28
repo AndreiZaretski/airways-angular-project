@@ -89,6 +89,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           email: this.user.email,
           password: this.user.id,
         });
+        this.authServiceSocial.signOut();
       }
     });
   }
@@ -96,8 +97,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscriptionUser?.unsubscribe();
-    this.user = null;
-    // this.authServiceSocial.signOut();
+    // this.user = null;
+    // if (this.user) { this.authServiceSocial.signOut(); }
     // this.subscriptionGogle?.unsubscribe();
     // this.subscriptionFacebook?.unsubscribe();
     // console.log('elem was destroy', this.user);

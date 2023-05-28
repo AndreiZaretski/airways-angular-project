@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
   apiUrl: 'https://tiny-kindly-orchid.glitch.me/',
-  // 'https://airways-angular-api-production.up.railway.app',
+  // apiUrl: 'http://localhost:3000/',
 };
-// 'http://localhost:3000/' ||
