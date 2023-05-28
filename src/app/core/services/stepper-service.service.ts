@@ -57,7 +57,6 @@ export class StepperService {
         step1.editable = false;
         step2.editable = true;
         this.stepper.selectedIndex = 1;
-        console.log(step1.completed, step1.editable, step2.editable);
       }
     }
   }
