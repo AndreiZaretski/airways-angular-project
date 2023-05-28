@@ -14,8 +14,10 @@
       [routerLink]="['/' + path.Booking + '/' + path.Passengers]"
       [disabled]="(responseDetails$ | async)?.backWay ? !(checkedThereWay && checkedBackWay) : !checkedThereWay"
       mat-flat-button color="primary"
-      (click)="clickStepper()">Continue</button>
+      >Continue</button>
   </div>
 </div>
+
+<!-- (click)="clickStepper()" -->
 
 
