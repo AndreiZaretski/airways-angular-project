@@ -27,11 +27,11 @@ export class UserFormatDataPipe implements PipeTransform {
     }
 
     if (formatData === this.ydm) {
-      return 'EE, y d MMM';
+      return 'y, d MMM, EE';
     }
 
     if (formatData === this.ymd) {
-      return 'EE, y MMM d';
+      return 'y MMM d, EE';
     }
 
     return 'EE, MMM d, y';

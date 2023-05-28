@@ -13,7 +13,7 @@ import {
   updateIndexBackWay,
   updateIndexThereWay,
 } from 'src/app/redux/actions/state.actions';
-import { selectUserBooking, selectUserSettings } from 'src/app/redux/selectors/state.selector';
+import { selectUserBooking, selectUserSettings, selectUserSettingsDateFormat } from 'src/app/redux/selectors/state.selector';
 import { IAirResponse } from 'src/app/shared/models/interfaces';
 import { SequenceDatePipe } from 'src/app/shared/pipes/sequence-date.pipe';
 
@@ -58,6 +58,8 @@ export class FlightsSelectionItemComponent implements OnInit, OnChanges, OnDestr
     arrows: false,
     dots: false,
   };
+
+  formatDate$ = this.store.select(selectUserSettingsDateFormat);
 
   indexThereWay: number;
 

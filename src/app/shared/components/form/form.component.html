@@ -40,13 +40,15 @@
           <input
           formControlName="startDate"
           matStartDate
-          placeholder="Start date">
+          placeholder="Start date"
+          (focus)="focusState = true" (focusout)="focusState = false">
           <input
           formControlName="endDate"
           matEndDate
-          placeholder="End date">
+          placeholder="End date"
+          (focus)="focusState = true" (focusout)="focusState = false">
         </mat-date-range-input>
-        <mat-hint *ngIf="rangePicker.opened">{{  userDateFormat$ | async }} - {{  userDateFormat$ | async }}</mat-hint>
+        <mat-hint *ngIf="rangePicker.opened || focusState">{{  userDateFormat$ | async }} - {{  userDateFormat$ | async }}</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #rangePicker>
           <mat-date-range-picker-actions>
