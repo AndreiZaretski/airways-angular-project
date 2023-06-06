@@ -64,9 +64,7 @@ export class PassengersGuard implements CanActivate, CanLoad {
       return true;
     }
     this.router.navigate([Path.Booking, Path.Flights]);
-    this.dialog.open(ModalComponent, {
-      panelClass: 'custom-backdrop',
-    });
+    this.dialog.open(ModalComponent);
 
     return false;
   }
