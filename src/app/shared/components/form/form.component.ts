@@ -94,6 +94,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private subscriptionUserBooking: Subscription;
 
+  private subscriptionFormatDate: Subscription;
+
   constructor(
     private router: Router,
     private responsive: BreakpointObserver,
@@ -134,6 +136,20 @@ export class FormComponent implements OnInit, OnDestroy {
             },
           );
         }
+      }
+    });
+
+    this.subscriptionFormatDate = this.userDateFormat$.subscribe(() => {
+      const endDate = this.dates?.get('endDate');
+      const startDate = this.dates?.get('startDate');
+
+      if (startDate && endDate) {
+        this.dates?.setValue(
+          {
+            startDate: startDate.value,
+            endDate: endDate.value,
+          },
+        );
       }
     });
 
@@ -222,6 +238,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subscriptionPassengersOptions.unsubscribe();
     this.subscriptionResponseDetails.unsubscribe();
     this.subscriptionUserBooking.unsubscribe();
+    this.subscriptionFormatDate?.unsubscribe();
   }
 
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
