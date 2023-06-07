@@ -48,17 +48,17 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
 
   passengerInfo$ = this.store.select(selectPassengersInfo);
 
-  private userDateFormat$ = this.store.select(selectUserSettingsDateFormat);
+  userDateFormat$ = this.store.select(selectUserSettingsDateFormat);
 
   private subscribePas$: Subscription;
 
   private subscribeStore$: Subscription;
 
+  private subscriptionFormatDate: Subscription;
+
   hideDelay = new FormControl(2000);
 
   previousRoute: string | undefined;
-
-  private subscriptionFormatDate: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -103,79 +103,84 @@ export class PassengerCardComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngOnInit() {
-    this.formPassengers = this.formBuilder.group({
-      passengers: this.formBuilder.array([]),
-      contact: this.formBuilder.group({
-        countryCode: [this.countries[0].calling_code, [Validators.required]],
-        phoneNumber: [
-          '',
-          [Validators.required, Validators.pattern('[0-9]{5,13}')],
-        ],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$',
-            ),
-          ],
-        ],
-      }),
-    });
-
-    Object.entries(this.passengersCount$).forEach(([type, count]) => {
-      for (let i = 0; i < count; i += 1) {
-        const randomSeats = type === 'infant'
-          ? []
-          : [
-            this.generateRandomSeat(this.takenSeatsThere),
-            this.generateRandomSeat(this.takenSeatsBack),
-          ];
-        const passengerFormGroup = this.formBuilder.group({
-          type,
-          firstName: [
-            '',
-            [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
-          ],
-          lastName: [
-            '',
-            [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
-          ],
-          gender: ['male', [Validators.required]],
-          birthDay: ['', [Validators.required, ValidatedForms.validateDate]],
-          specialAssistance: [false],
-          commonLuggage: [{ value: false, disabled: type === 'infant' }],
-          cabinLuggage: [{ value: false, disabled: type === 'infant' }],
-          seat: [randomSeats],
-        });
-
-        (this.formPassengers.get('passengers') as FormArray).push(
-          passengerFormGroup,
-        );
-      }
-    });
-
     this.subscribePas$ = this.passengerInfo$.subscribe((res) => {
+      this.formPassengers = this.formBuilder.group({
+        passengers: this.formBuilder.array([]),
+        contact: this.formBuilder.group({
+          countryCode: [this.countries[0].calling_code, [Validators.required]],
+          phoneNumber: [
+            '',
+            [Validators.required, Validators.pattern('[0-9]{5,13}')],
+          ],
+          email: [
+            '',
+            [
+              Validators.required,
+              Validators.pattern(
+                '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$',
+              ),
+            ],
+          ],
+        }),
+      });
+
       if (res) {
         this.formPassengers.controls['contact'].setValue({
           countryCode: res.contactsDetail.countryCode,
           phoneNumber: res.contactsDetail.phoneNumber,
           email: res.contactsDetail.email,
         });
-
-        this.allPassengers.controls.forEach((el, i) => {
-          el.patchValue({
-            firstName: res?.passengers[i].firstName,
-            lastName: res?.passengers[i].lastName,
-            gender: res?.passengers[i].gender,
-            birthDay: res?.passengers[i].birthDay,
-            seat: res?.passengers[i].seat,
-            cabinLuggage: res?.passengers[i].cabinLuggage,
-            commonLuggage: res?.passengers[i].commonLuggage,
-            specialAssistance: res?.passengers[i].specialAssistance,
-          });
-        });
       }
+
+      Object.entries(this.passengersCount$).forEach(([type, count]) => {
+        const passengersOfType = res?.passengers.filter((p) => p.type === type);
+
+        for (let i = 0; i < count; i += 1) {
+          const randomSeats = type === 'infant'
+            ? []
+            : [
+              this.generateRandomSeat(this.takenSeatsThere),
+              this.generateRandomSeat(this.takenSeatsBack),
+            ];
+          const passengerFormGroup = this.formBuilder.group({
+            type,
+            firstName: [
+              '',
+              [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
+            ],
+            lastName: [
+              '',
+              [Validators.required, Validators.pattern('[A-Za-zА-Яа-яЁё]+$')],
+            ],
+            gender: ['male', [Validators.required]],
+            birthDay: ['', [Validators.required, ValidatedForms.validateDate]],
+            specialAssistance: [false],
+            commonLuggage: [{ value: false, disabled: type === 'infant' }],
+            cabinLuggage: [{ value: false, disabled: type === 'infant' }],
+            seat: [randomSeats],
+          });
+
+          if (passengersOfType) {
+            const passenger = passengersOfType[i];
+            if (passenger) {
+              passengerFormGroup.patchValue({
+                firstName: passenger.firstName,
+                lastName: passenger.lastName,
+                gender: passenger.gender,
+                birthDay: passenger.birthDay,
+                seat: passenger.seat,
+                cabinLuggage: passenger.cabinLuggage,
+                commonLuggage: passenger.commonLuggage,
+                specialAssistance: passenger.specialAssistance,
+              });
+            }
+          }
+
+          (this.formPassengers.get('passengers') as FormArray).push(
+            passengerFormGroup,
+          );
+        }
+      });
     });
   }
 
