@@ -9,8 +9,6 @@ import { Store } from '@ngrx/store';
 import {
   updateChooseChekedBackWayEdit,
   updateChooseChekedThereWayEdit,
-  updateIndexBackWay,
-  updateIndexThereWay,
   updateMainState,
 } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
@@ -283,9 +281,6 @@ export class FormComponent implements OnInit, OnDestroy {
       if (this.checkedBackWay) {
         this.store.dispatch(updateChooseChekedBackWayEdit());
       }
-      this.store.dispatch(updateIndexThereWay({ newIndexThereWay: 3 }));
-      this.store.dispatch(updateIndexBackWay({ newIndexBackWay: 3 }));
-
       this.editPanelService.editPanelShown = false;
 
       this.router.navigate([Path.Booking, Path.Flights]);

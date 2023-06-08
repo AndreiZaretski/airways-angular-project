@@ -16,7 +16,7 @@ import {
   replaceOrderCart, updateOrderCart,
   updateAirsData, updateMainState, updatePassengersCount,
   updateUserSettingCurrency, updateUserSettingDateFormat,
-  updateUserSettings, updateFlightsHistory,
+  updateUserSettings, updateFlightsHistory, updateIndexBackWay, updateIndexThereWay,
 } from '../actions/state.actions';
 import {
   selectCartPage, selectCartPageHistory, selectOrderId, selectUserSettings,
@@ -130,28 +130,13 @@ export class UserEffects {
 
   ));
 
-  // checkCart$ = createEffect(() => this.actions$.pipe(
-  //   ofType(checkCart),
-  //   mergeMap(() => this.store.select(selectOrderId)),
-  // map((result) => {
-  //   if (result) {
-  //     return replaceOrderCart({ OrderId: result });
-  //   }
-
-  //   return addOrderCart({ newOrderId: uuidv4() });
-  // }),
-
-  //   switchMap((result) => {
-  //     if (!result) {
-  //       // return of(replaceOrderCart({ OrderId: result }));
-  //       return of(addOrderCart({ newOrderId: uuidv4() }));
-  //     }
-  //     return of(replaceOrderCart({ OrderId: result }));
-  //     // return of(addOrderCart({ newOrderId: uuidv4() }));
-  //   }),
-  //   take(1),
-
-  // ));
+  updateIndexes$ = createEffect(() => this.actions$.pipe(
+    ofType(updateMainState),
+    mergeMap(() => [
+      updateIndexThereWay({ newIndexThereWay: 3 }),
+      updateIndexBackWay({ newIndexBackWay: 3 }),
+    ]),
+  ));
 
   checkCart$ = createEffect(() => this.actions$.pipe(
     ofType(checkCart),
