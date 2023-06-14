@@ -26,6 +26,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     if (overlayContainer instanceof HTMLElement) {
       overlayContainer.style.overflow = 'visible';
+      overlayContainer.style.position = 'fixed';
     }
   }
 
@@ -33,6 +34,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     const overlayContainer = document.querySelector('.cdk-overlay-container');
     if (overlayContainer instanceof HTMLElement) {
       overlayContainer.style.overflow = 'auto';
+      overlayContainer.style.position = 'static';
     }
   }
 }
