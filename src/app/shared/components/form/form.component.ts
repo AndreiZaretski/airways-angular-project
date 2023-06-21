@@ -9,8 +9,6 @@ import { Store } from '@ngrx/store';
 import {
   updateChooseChekedBackWayEdit,
   updateChooseChekedThereWayEdit,
-  updateIndexBackWay,
-  updateIndexThereWay,
   updateMainState,
 } from 'src/app/redux/actions/state.actions';
 import { Subscription } from 'rxjs';
@@ -94,6 +92,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   private subscriptionUserBooking: Subscription;
 
+  private subscriptionFormatDate: Subscription;
+
   constructor(
     private router: Router,
     private responsive: BreakpointObserver,
@@ -134,6 +134,20 @@ export class FormComponent implements OnInit, OnDestroy {
             },
           );
         }
+      }
+    });
+
+    this.subscriptionFormatDate = this.userDateFormat$.subscribe(() => {
+      const endDate = this.dates?.get('endDate');
+      const startDate = this.dates?.get('startDate');
+
+      if (startDate && endDate) {
+        this.dates?.setValue(
+          {
+            startDate: startDate.value,
+            endDate: endDate.value,
+          },
+        );
       }
     });
 
@@ -222,6 +236,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subscriptionPassengersOptions.unsubscribe();
     this.subscriptionResponseDetails.unsubscribe();
     this.subscriptionUserBooking.unsubscribe();
+    this.subscriptionFormatDate?.unsubscribe();
   }
 
   removePassenger(chosenPassenger: IPassengers, event: Event): void {
@@ -266,9 +281,6 @@ export class FormComponent implements OnInit, OnDestroy {
       if (this.checkedBackWay) {
         this.store.dispatch(updateChooseChekedBackWayEdit());
       }
-      this.store.dispatch(updateIndexThereWay({ newIndexThereWay: 3 }));
-      this.store.dispatch(updateIndexBackWay({ newIndexBackWay: 3 }));
-
       this.editPanelService.editPanelShown = false;
 
       this.router.navigate([Path.Booking, Path.Flights]);

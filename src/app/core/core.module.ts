@@ -7,12 +7,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../auth/auth.module';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     StepperComponent,
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,12 @@ import { StepperComponent } from './components/stepper/stepper.component';
     provide: HTTP_INTERCEPTORS,
     useClass: ApiInterceptor,
     multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: SpinnerInterceptor,
+    multi: true,
   }],
-  exports: [HeaderComponent, FooterComponent],
+  exports: [HeaderComponent, FooterComponent, SpinnerComponent],
 })
 export class CoreModule { }

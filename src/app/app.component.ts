@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from './core/services/auth.service';
 import { checkRequestUser } from './redux/actions/state.actions';
+import { SpinnerService } from './core/services/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private store: Store,
+    public spinnerService: SpinnerService,
   ) { }
 
   ngOnInit() {

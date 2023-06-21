@@ -196,21 +196,6 @@ export const airStateReducer = createReducer(
     }),
   ),
 
-  // replase
-  // on(addOrderCart, (state, { newOrderId }) => ({
-  //   ...state,
-  //   bookingPage: {
-  //     ...state.bookingPage,
-  //     orderId: newOrderId,
-  //   },
-  // })),
-
-  // replase
-  // on(addOrderCart, (state) => ({
-  //   ...state,
-  //   cartShoppings: [...state.cartShoppings, state.bookingPage],
-  // })),
-  // replase
   on(
     updateBookingPageToInitState,
     (state) => ({

@@ -58,6 +58,11 @@ export class SummaryPageComponent implements OnInit, OnDestroy {
           .getCurrentNavigation()
           ?.previousNavigation?.finalUrl?.toString();
       });
+
+    if (this.previousRoute === undefined) {
+      setTimeout(() => this.stepper.nextStep());
+      setTimeout(() => this.stepper.nextStep());
+    }
   }
 
   ngOnInit() {

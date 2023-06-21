@@ -37,6 +37,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AirportNamePipe } from './pipes/airport-name.pipe';
 import { FormComponent } from './components/form/form.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
@@ -70,6 +71,7 @@ const materialModules = [
   MatButtonToggleModule,
   MatSlideToggleModule,
   MatTooltipModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({

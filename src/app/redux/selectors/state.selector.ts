@@ -73,11 +73,6 @@ export const selectOrderId = createSelector(
   (state) => state.orderId,
 );
 
-// export const selectChooseData = createSelector(
-//   selectUserBooking,
-//   (state) => state.chooseData,
-// );
-
 export const selectIndexThereWay = createSelector(
   selectUserBooking,
   (state) => state.indexThereWay,
