@@ -1,0 +1,153 @@
+<form class="registered-form"
+          [formGroup]="formSignup" (submit)="onLogin()">
+        
+          <mat-form-field appearance="outline" class="registered-form__input email">
+            <mat-label>Enter your email</mat-label>
+            <input matInput  type="email" placeholder="e.g. example@email.com" formControlName="email">
+            <mat-icon matSuffix
+            *ngIf="formSignup.controls['email'].valid ||formSignup.controls['email'].untouched">info_outline</mat-icon>
+            <mat-icon matSuffix class="registered-form__icon"
+            *ngIf="formSignup.controls['email'].invalid &&formSignup.controls['email'].touched">info</mat-icon>
+            <mat-error *ngIf="formSignup.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
+          </mat-form-field>
+        
+            <mat-form-field  appearance="outline" class="registered-form__input password"
+            subscriptSizing="dynamic">
+              <mat-label>Enter your password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'"
+              formControlName="password">
+              <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <!-- <mat-icon matSuffix
+            *ngIf="formSignup.controls.password.valid ||formSignup.controls.password.untouched">info_outline</mat-icon>
+            <mat-icon matSuffix class="registered-form__icon"
+            *ngIf="formSignup.controls.password.invalid &&formSignup.controls.password.touched">info</mat-icon> -->
+              <mat-error class="login-message" *ngIf="formSignup.controls['password'].invalid">{{getErrorMessagePassword()}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="registered-form__input first-name">
+              <mat-label>First name</mat-label>
+              <input matInput  placeholder="First name" formControlName="firstName">
+              <mat-icon matSuffix
+            *ngIf="formSignup.controls['firstName'].valid ||formSignup.controls['firstName'].untouched">info_outline</mat-icon>
+            <mat-icon matSuffix class="registered-form__icon"
+            *ngIf="formSignup.controls['firstName'].invalid &&formSignup.controls['firstName'].touched">info</mat-icon>
+              <mat-error *ngIf="(formSignup.controls['firstName'].hasError('required')) 
+                  && !formSignup.controls['firstName'].hasError('pattern')">
+                     Please enter a <strong>first name</strong>
+                  </mat-error>
+              <mat-error *ngIf="formSignup.controls['firstName'].hasError('pattern')">
+                  Invalid character
+              </mat-error>
+            </mat-form-field>
+          
+              <mat-form-field  appearance="outline" class="registered-form__input last-name">
+                <mat-label>Last name</mat-label>
+                <input matInput  placeholder="Last name" formControlName="lastName">
+                <mat-icon matSuffix
+            *ngIf="formSignup.controls['lastName'].valid ||formSignup.controls['lastName'].untouched">info_outline</mat-icon>
+            <mat-icon matSuffix class="registered-form__icon"
+            *ngIf="formSignup.controls['lastName'].invalid &&formSignup.controls['lastName'].touched">info</mat-icon>
+                <mat-error *ngIf="(formSignup.controls['lastName'].hasError('required')) 
+                && !formSignup.controls['lastName'].hasError('pattern')">
+                   Please enter a<strong> last name</strong>
+                </mat-error>
+            <mat-error *ngIf="formSignup.controls['lastName'].hasError('pattern')">
+                Invalid character
+            </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Date of birth</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="birthDay">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="(formSignup.controls['birthDay'].hasError('invalidDate')) 
+     && !formSignup.controls['birthDay'].hasError('required')">
+      Please enter a valid date of birth. The date must not be in the future
+    </mat-error>
+    <mat-error *ngIf="formSignup.controls['birthDay'].hasError('required')">
+      Please enter a<strong> date of birth</strong>
+    </mat-error>
+              </mat-form-field>
+
+              <mat-button-toggle-group formControlName="gender" required
+              class="registered-form__gender">
+                <mat-button-toggle value="male" class="registered-form__gender-item">Male</mat-button-toggle>
+                <mat-button-toggle value="female" class="registered-form__gender-item">Female</mat-button-toggle>
+              </mat-button-toggle-group>
+
+              <div class="registered-form__phome-number">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Country code</mat-label>
+                <mat-select formControlName="countryCode">
+                  <mat-option *ngFor="let country of countries" [value]="country.calling_code">
+                    {{country.country}} (+{{country.calling_code}})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field  appearance="outline" class="registered-form__phone-number">
+                <mat-label>Phone number</mat-label>
+                <input matInput type="number" placeholder="e.g. 1111111111" formControlName="phoneNumber">
+                <mat-error *ngIf="(formSignup.controls['phoneNumber'].hasError('required')) 
+                && !formSignup.controls['phoneNumber'].hasError('pattern')">
+                   Please enter a phone number
+                </mat-error>
+            <mat-error *ngIf="formSignup.controls['phoneNumber'].hasError('pattern')">
+              Please enter a correct number
+            </mat-error>
+              </mat-form-field>
+             
+              
+
+            </div>
+            
+
+            <mat-form-field appearance="outline">
+              <mat-label>citizenship</mat-label>
+              <mat-select formControlName="citizenship">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let country of countries" [value]="country.country">
+                  {{country.country}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+           
+        
+            <mat-checkbox
+            color="primary" formControlName="termsUse"
+            required>I agree to Airway's 
+            <a href="https://www.ryanair.com/ie/en/corporate/privacy-policy"
+            target="_blank">
+            Privacy Policy</a>
+             and 
+            <a href="https://www.ryanair.com/ie/en/corporate/terms-of-use"
+            target="_blank"> Terms of Use</a>   
+
+            
+           </mat-checkbox>
+           <mat-error *ngIf="formSignup.controls['termsUse'].hasError('required')"
+            >{{errorMessageProvatePolice}}</mat-error>
+
+            <div class="message">{{message}}</div>
+                             
+            <button mat-raised-button 
+            [disabled]="loading"
+            (click)="getErroMessage()"
+            class="registered-form__button"
+            type="submit"
+            color="primary" 
+            >
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Sign up</button>
+          </form>
+
+          
+         
+
+          
+

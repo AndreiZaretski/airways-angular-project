@@ -1,0 +1,17 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 10px;
+  min-height: 270px;
+}
+
+.login-password {
+  color: #11397E;
+  text-align: right;
+  cursor: pointer;
+}
+
+.form-input {
+  margin-top: 20px;
+}

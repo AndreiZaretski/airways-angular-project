@@ -1,0 +1,14 @@
+:host {
+  background-color: var(--bg-gray);
+}
+
+.booking-page-wrapper {
+  min-height: calc(100vh - 100px);
+  padding-top: 88px;
+}
+
+@media screen and (max-width: 730px) {
+  .booking-page-wrapper {
+    padding-top: 114px;
+  }
+}
