@@ -43,7 +43,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   minDate = new Date();
 
-  maxDate = new Date(2024, 0, 1);
+  maxDate = new Date(2025, 0, 1);
 
   passengerOptions: IPassengers[] = [
     {
