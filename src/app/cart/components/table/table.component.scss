@@ -1,0 +1,87 @@
+.table-container {
+  max-height: 36vh;
+  width: 100%;
+  overflow: auto;
+}
+
+.table-history-container {
+  max-height: 60vh;
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  box-shadow: none;
+
+  .mdc-data-table__cell {
+    padding: 56px 16px;
+  }
+
+  .mat-column-position {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: var(--blue-accent);
+  }
+
+  .mat-column-flight,
+  .mat-column-typeTrip,
+  .mat-column-dataType,
+  .mat-column-passengers,
+  .mat-column-price {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    color: var(--default-black);
+    letter-spacing: 0.5px;
+  }
+
+  .mat-column-price {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0.5px;
+    color: var(--green-yellow);
+  }
+
+  .mdc-data-table__header-row {
+    border: 5px solid var(--default-black);
+    color: var(--blue);
+  }
+
+  .mdc-data-table__header-cell {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: var(--default-black);
+    background-color: var(--bg-gray);
+    border-bottom: 0.5px solid var(--super-light-gray);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .mdc-data-table__header-row {
+    display: none;
+  }
+
+  .mdc-data-table__cell {
+    border: 5px solid var(--superdark-red);
+    margin-bottom: 20px;
+  }
+
+  .mdc-data-table__row .mdc-data-table__cell {
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 0px 35px;
+    margin: 0px;
+    text-align: right;
+  }
+
+  .mdc-data-table__row:not(:last-child) .mdc-data-table__cell:last-child {
+    border-bottom: 0.5px solid var(--super-light-gray);
+    margin: 10px 0px 20px 0px;
+  }
+}

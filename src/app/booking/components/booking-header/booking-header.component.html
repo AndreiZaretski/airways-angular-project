@@ -1,0 +1,19 @@
+<div class="booking-header" [ngClass]="{'is-xsmall': isHeaderVertical}">
+  <div class="header-content container">
+    <ng-container *ngIf="(responseDetails$| async) as formDetails">
+      <div class="itinerary">
+        <span>{{ formDetails.from | airportName: 'city'}} {{ formDetails.from | airportName: 'name'}}</span>
+        <div class="way-icon" [ngClass]="{'round-trip': formDetails.way === 'round'}"></div>
+        <span>{{ formDetails.to | airportName: 'city'}} {{ formDetails.to | airportName: 'name'}}</span>
+      </div>
+      <div class="order-details">
+        <span class="way detail-item">{{ formDetails.way === 'round' ? 'Return' : 'One-way' }}</span>
+        <span class="dates detail-item">{{ formDetails.startDate | date: 'd MMM' }} - {{ formDetails.endDate | date: 'd MMM' }}</span>
+        <div class="passengers">
+          <span>{{ (passengersOptions$ | async) | totalPassengers }}</span>
+          <mat-icon class="passenger-icon">person</mat-icon>
+        </div>
+      </div>
+      <button *ngIf="router.url.endsWith('flights')" class="edit-btn" mat-button color="primary" (click)="editPanelService.openEditPanel()">Edit</button>
+    </ng-container>
+</div>

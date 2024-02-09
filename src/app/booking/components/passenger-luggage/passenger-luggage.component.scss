@@ -1,0 +1,29 @@
+:host {
+  width: 100%;
+  padding: 20px 16px 20px 24px;
+}
+
+:host:not(:last-child) {
+  border-bottom: 1px solid var(--shadow-gray);
+}
+
+.passenger-name {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: var(--black);
+  padding-bottom: 12px;
+}
+
+.passenger-commonluggage,
+.passenger-cabinluggage,
+.passenger-seat {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: var(--default-black);
+  padding-left: 28px;
+  padding-bottom: 4px;
+}
