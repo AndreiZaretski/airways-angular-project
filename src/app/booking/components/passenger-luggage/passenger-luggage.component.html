@@ -1,0 +1,4 @@
+  <div class="passenger-name">{{passenger.firstName | uppercase}} {{passenger.lastName | uppercase}}</div>
+  <div class="passenger-commonluggage" *ngIf="passenger.commonLuggage">{{ commonLuggageMessage}}</div>
+  <div class="passenger-cabinluggage"  *ngIf="passenger.cabinLuggage">{{ cabinLuggageMessage}}</div>
+  <div class="passenger-seat" *ngIf="passenger.type !== 'infant'">Seat {{passenger.seat[indexOfFlight]}}</div>

@@ -1,0 +1,113 @@
+<h2 class="page-title flight-selection-title">
+  <mat-icon class="flight-icon"
+  [ngClass]="{'is-xsmall': isFlightDetailsVertical}">flight</mat-icon>
+  <span>
+    {{ source === 'backway' ?
+    (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name') + ' to ' + (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name'):
+    (response.from | airportName: 'city') + ' ' + (response.from | airportName: 'name') + ' to ' + (response.to | airportName: 'city') + ' ' + (response.to | airportName: 'name')}}
+  </span>
+</h2>
+
+<ngx-slick-carousel *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" class="carousel date-carousel"
+  #slickModalDate="slick-carousel" [config]="source !== 'backway' ? slideConfig : slideConfigBack">
+  <div ngxSlickItem
+    *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
+    class="slide"
+    [ngClass]="{'no-flight': !flight.isFlight || (response.startDate | sequenceDate: i) < today }"
+    width="25%"
+    (click)="clickSlider($event, response.startDate, i)">
+    <span #dateSlide class="carousel-date">{{ response.startDate | sequenceDate: i | date: 'd MMM'}}</span>
+    <span class="carousel-weekday">{{ response.startDate | sequenceDate: i | date: 'EEEE'}}</span>
+    <span class="carousel-price" *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)">{{ flight.price[userCurrency | lowercase] | currency: userCurrency : 'symbol-narrow' }}</span>
+    <div class="no-flight-icon-bg" *ngIf="!flight.isFlight || (response.startDate | sequenceDate: i) < today">
+      <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+    </div>
+    <div class="colourful-border"
+    *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
+    appColorSeats
+    [seatsCount]="flight.available"></div>
+  </div>
+</ngx-slick-carousel>
+
+<ngx-slick-carousel class="carousel"
+  [ngClass]="{'backway-carousel': source === 'backway', 'flight-carousel': source !== 'backway'}"
+  #slickModal="slick-carousel"
+  [config]="source !== 'backway' ? flightCardConfig : flightCardConfigBack">
+  <div ngxSlickItem *ngFor="let flight of (source !== 'backway' ? response.thereWay : response.backWay), let i = index"
+    class="slide">
+    <mat-card *ngIf="flight.isFlight && !((response.startDate | sequenceDate: i) < today)"
+      class="flight-card"
+      [ngClass]="{'selected' : (source !== 'backway' ? checkedThereWay : checkedBackWay)}">
+      <mat-card-content class="content-wrapper"
+        [ngClass]="{'is-small': isFlightCardVertical}">
+        <div class="flight-details-wrapper"
+          [ngClass]="{'is-xsmall': isFlightDetailsVertical}">
+          <div class="flight-details">
+            <div class="info-wrapper">
+              <span class="day">{{ response.startDate | sequenceDate: i | date: (formatDate$ | async | userFormatData) }}</span>
+              <span class="time">{{ flight.startTime }}</span>
+              <span class="timezone">UTC +0</span>
+              <span class="airport">{{ source === 'backway' ?
+                (response.to | airportName: 'city') + ' (' + response.to + ')' :
+                (response.from | airportName: 'city') + ' (' + response.from + ')'}}</span>
+            </div>
+            <div class="add-info-wrapper">
+              <div class="add-info">
+                <span class="flight-duration">{{ flight.timeWay | convertDuration }}</span>
+                <mat-icon class="takeoff-icon" [ngClass]="{'backway-icon': source === 'backway'}">flight_takeoff</mat-icon>
+                <div class="flight-type">
+                  <span>{{ flight.direct.isDirect ? 'Direct' : 'Connected'}}</span>
+                  <span
+                    *ngIf="!flight.direct.isDirect">
+                    {{ flight.direct.airportRedirect[1]}} ({{ flight.direct.airportRedirect[0] }})
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="info-wrapper arrival">
+              <span class="day">{{ response.startDate | nextDayArrival: flight.startTime : flight.timeWay | sequenceDate: i | date: (formatDate$ | async | userFormatData) }}</span>
+              <span class="time">{{ flight.startTime | arrivalTime: flight.timeWay }}</span>
+              <span class="timezone timezone-arrival">UTC +0</span>
+              <span class="airport">{{ source !== 'backway' ?
+                (response.to | airportName: 'city') + ' (' + response.to + ')' :
+                (response.from | airportName: 'city') + ' (' + response.from + ')' }}</span>
+            </div>
+            </div>
+          <div class="flight-number">
+            <span class="number-label">Flight no.</span>
+            <span>{{ flight.flightNumber}}</span>
+          </div>
+        </div>
+        <div class="price-details" [ngClass]="{'is-xsmall': isFlightDetailsVertical}">
+          <div class="availability-price">
+            <div class="availability"
+              appColorSeats
+              [seatsCount]="flight.available"
+              *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">
+              <span>{{ flight.available }} seats</span>
+              <span>available</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="price-label" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay">Price</span>
+              <span class="price">{{ flight.price[userCurrency | lowercase] | currency: userCurrency : 'symbol-narrow' }}</span>
+            </div>
+          </div>
+          <button class="select-btn" *ngIf="source !== 'backway' ? !checkedThereWay : !checkedBackWay" mat-flat-button (click)="selectFlight(i)">Select</button>
+          <button class="edit-btn" *ngIf="source !== 'backway' ? checkedThereWay : checkedBackWay" mat-button color="primary" (click)="editSelection()">Edit</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="no-flight-wrapper" *ngIf="!flight.isFlight && !((response.startDate | sequenceDate: i) < today)">
+      <div class="no-flight-icon-bg">
+        <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+      </div>
+      <span class="no-flight-text">Sorry, there are no flights available on this day</span>
+    </div>
+    <div class="no-flight-wrapper" *ngIf="(response.startDate | sequenceDate: i) < today">
+      <div class="no-flight-icon-bg">
+        <mat-icon class="no-flight-icon">airplanemode_inactive</mat-icon>
+      </div>
+      <span class="no-flight-text">Sorry, flights are not available for past dates</span>
+    </div>
+  </div>
+</ngx-slick-carousel>

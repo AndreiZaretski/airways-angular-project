@@ -1,0 +1,53 @@
+<div class="cart-wrapper">
+  <mat-card class="cart-card">
+    <mat-card-title class="cart-title">Cart</mat-card-title>
+
+    <app-table (selectedFlights)="getSelectedFlights($event)"></app-table>
+    <mat-divider class="cart-divider"></mat-divider>
+
+    <div class="cart-section_addtrip">
+      <button
+        class="cart-button_addtrip"
+        mat-button
+        color="primary"
+        [routerLink]="['/', path.Main]"
+      >
+        + Add new trip
+      </button>
+      <div class="cart-totalprice">
+        <div class="cart-total">Total</div>
+        <div class="cart-price">{{ getTotalCost() | currency: userCurrency: 'symbol-narrow' }}</div>
+      </div>
+    </div>
+
+    <mat-divider class="cart-divider"></mat-divider>
+
+    <div class="cart-section_payment">
+      <div class="cart-form">
+        <input
+          type="text"
+          class="cart-promo"
+          matInput
+          placeholder="Promo Code"
+        />
+
+        <button
+          type="submit"
+          class="cart-button_apply"
+          mat-button
+          color="primary"
+        >
+          APPLY
+        </button>
+      </div>
+      <div class="section_payment-right">
+        <div class="cart-selected">
+          {{ this.selectedFlights.length || "none" }} selected
+        </div>
+        <button class="cart-button_payment" mat-button color="primary" (click)="payForOrder()">
+          Payment
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

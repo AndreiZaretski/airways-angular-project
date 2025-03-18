@@ -1,0 +1,29 @@
+<mat-card class="summary-maincard" >
+  <mat-card-title class="summary-title">
+    <mat-icon class="summary-title__image"></mat-icon>
+    Summary
+  </mat-card-title>
+  <div class="summary-flights__container">
+    <app-flight-card
+      *ngFor="let flight of currentFlight, let indexOfFlight = index"
+      [indexOfFlight]="indexOfFlight"
+      [flight]="flight"
+      [passengers]="passengers"
+    ></app-flight-card>
+  </div>
+  <app-total-sum [currentFlight]="currentFlight" [passengersCountWithTypes]="passengersCountWithTypes$"></app-total-sum>
+  <div class="summary-maincard__buttons">
+    <button class="summary-button__back"  *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="backClicked()">
+      Back
+    </button>
+    <button class="summary-button__addtocard" *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="addOrderToCart()">
+      Add to order cart
+    </button>
+    <button class="summary-button__buynow"  *ngIf="isPreviousRouteFromPassengers" mat-button color="primary" (click)="goToCart()">
+      Buy now
+    </button>
+    <button class="summary-button__buynow" *ngIf="!isPreviousRouteFromPassengers" mat-button color="primary" (click)="backToAccount()">
+      Return to account
+    </button>
+  </div>
+</mat-card>

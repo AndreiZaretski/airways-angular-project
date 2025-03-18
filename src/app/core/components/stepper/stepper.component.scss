@@ -1,0 +1,27 @@
+ :host { 
+
+// .header-stepper {
+//   //background-color: firebrick;
+//   // background-color: none;
+//   //margin: 0 auto;
+//   //height: 100%;
+//   // display: flex;
+//   // justify-content: center;
+//   // align-items: center;
+//   // padding: 0;
+// }
+
+::ng-deep .mat-horizontal-content-container {
+  padding: 0;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important; 
+  }
+}
+
+@media screen and (max-width: 1000px) {
+::ng-deep .mat-horizontal-stepper-wrapper {
+  height: 48px;
+} 
+}

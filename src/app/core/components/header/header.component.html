@@ -1,0 +1,96 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<header class="header"
+[ngStyle]="{'background-color': router.url === main || router.url === empty  ? 'rgba(116, 118, 122, 0.2)' : 'white'}">
+  <div class="header__logo" (click)="goToMainPage()">
+<mat-icon color="primary" class="header__icon-flight">flight</mat-icon>
+<p class="header__logo-text">AIRWAYS</p>
+</div>
+
+<app-stepper *ngIf="showContainer$ | async"
+class="header__stepper"></app-stepper>
+
+
+<div class="header__user-pannel">
+  <div class="header__user-pannel-settings">
+    <p class="header__settings-text"
+       [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">Book flight
+    </p>
+
+  <form [formGroup]="formDateFormat">
+    <mat-select formControlName="dateFormat" class="header__date"
+        (selectionChange)="sendDateFormatValue(formDateFormat.value.dateFormat)">
+    <mat-select-trigger 
+       [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
+       [ngClass]="router.url === main || router.url === empty ? 'white-arrow.mat-mdc-select-arrow' : 'black-arrow.mat-mdc-select-arrow'">
+          {{formDateFormat.value.dateFormat}}</mat-select-trigger>
+    <mat-option [value]="mdy">MM/DD/YYYY</mat-option>
+    <mat-option [value]="dmy">DD/MM/YYYY</mat-option>
+    <mat-option [value]="ydm">YYYY/DD/MM</mat-option>
+    <mat-option [value]="ymd">YYYY/MM/DD</mat-option>
+    </mat-select>
+  </form>
+
+
+  <form [formGroup]="formCurrency">
+    <mat-select 
+        (selectionChange)="sendCurrencyValue(formCurrency.value.currency)"
+        formControlName="currency"
+         class="header__curr">
+      <mat-select-trigger 
+         [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">
+        {{formCurrency.value.currency}}</mat-select-trigger>
+      <mat-option [value]="euro">{{euro}}</mat-option>
+      <mat-option [value]="usa">{{usa}}</mat-option>
+      <mat-option [value]="rub">{{rub}}</mat-option>
+      <mat-option [value]="pln">{{pln}}</mat-option>
+    </mat-select>
+  </form>
+
+</div>
+
+<div class="header__user-auth">
+<button mat-button class="header__button-user" *ngIf="(user$ |async) === null"
+(click)="openDialog()"
+[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">
+  <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
+  <mat-icon class="header__button-user-icon"
+  [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">account_circle</mat-icon>
+Sign in</button>
+
+<ng-container *ngIf="(user$ |async) as user">
+<button mat-button class="header__button-user" *ngIf="(user$ |async) as user"
+[ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
+(click)="goToCartPageHistory()">
+  <!-- <mat-icon class="header__button-user-icon">person</mat-icon> -->
+  <mat-icon class="header__button-user-icon"
+  [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}">account_circle</mat-icon><div class="username">
+{{user.firstName}} {{user.lastName}}
+  </div>
+</button>
+</ng-container>
+
+<button mat-button class="header__button-basket" (click)="goToCartPage()">
+  <!-- <mat-icon class="header__basket">shopping_basket</mat-icon> -->
+  <mat-icon 
+    class="header__button-basket-icon" aria-hidden="false" 
+    fontIcon="shopping_basket"
+  [ngStyle]="{'color': router.url === main || router.url === empty  ? 'white' : 'black'}"
+  [matBadge]="orderLength$|async"
+  matBadgeSize="small" matBadgePosition="above after"
+  [matBadgeHidden]="(orderLength$|async) === 0"
+  ></mat-icon>
+  <!-- <span *ngIf="orderLength$|async" [matBadge]="orderLength$|async"
+  matBadgeSize="small" matBadgePosition="above before"
+  class="header__button-order-count"></span> -->
+</button>
+</div>
+</div>
+
+<!-- <button mat-raised-button color="primary"
+(click)="onPrevious()">back</button>
+<button mat-raised-button color="primary"
+(click)="onNext()">next</button> -->
+
+</header>
+
+

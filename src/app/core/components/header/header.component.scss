@@ -1,0 +1,208 @@
+p {
+  margin: 0;
+}
+
+.header {
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10.8%;
+    cursor: pointer;
+  }
+
+  &__icon-flight {
+   
+    position: relative;
+    font-size: 30px;
+    line-height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 34px;
+    height: 34px;
+  }
+
+  &__logo-text {
+    color: #11397E;
+    padding-left: 7px;
+  }
+  
+  &__icon-flight::after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: -0px;
+    left: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: 2px solid #11397E; 
+  }
+
+  &__user-pannel {
+    display: flex;
+    // color:aqua;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 9%;
+    width: 42%;
+  }
+
+  &__user-pannel-settings {
+    display: flex;
+    align-items: center;
+  }
+
+  &__date {
+    width: 162px;
+    height: 40px;
+    border: none;
+    padding-top: 7px;
+    padding-left: 16px;
+    padding-right: 17px;
+  }
+
+  &__curr {
+    width: 62px;
+    height: 40px;
+    padding-top: 7px;
+    text-align: center;
+    padding-left: 16px;
+
+    ::ng-deep .mat-mdc-select-arrow-wrapper {
+      display: none;
+    }
+  }
+
+  ::ng-deep .white-arrow .mat-mdc-select-arrow {
+    color: white;
+    }
+    
+    ::ng-deep .black-arrow .mat-mdc-select-arrow {
+    color: black;
+    }
+
+  // :host-context(.white-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: white;
+  //   }
+    
+  //   :host-context(.black-arrow) ::ng-deep .mat-mdc-select-arrow svg{
+  //   border-color: black;
+  //   }
+  
+//  &__curr::-ms-expand {
+//     display: none;
+//   }
+
+//   &__curr svg.ng-tns-c7-1 {
+//     display: none;
+//   }
+
+  &__button-user {
+    //width: 114px;
+    height: 40px;
+  }
+
+  .username {
+    max-width: 140px;
+    overflow: hidden;
+  }
+
+  // &__button-user-icon {
+  //   color: #11397E;
+  // }
+
+  // &__button-basket-icon {
+  //   color: black;
+  // }
+
+  &__button-order-count {
+    margin-bottom: 10px;
+  }
+
+}
+
+@media screen and (max-width: 1330px) {
+  .header {
+   
+    &__logo {
+      
+      margin-left: 3%;
+  
+    }
+
+    &__user-pannel {
+      
+      margin-right: 3%;
+      
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header {
+    flex-wrap: wrap;
+   
+    &__user-pannel {
+      
+      width: 60%;
+    }
+    &__stepper {
+      order:1;
+    }
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .header {
+   
+    &__user-pannel {
+      
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+    height: 114px;
+    //height: 100%;
+
+    &__logo {
+      margin: 0 auto;
+    }
+   
+    &__user-pannel {
+      
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    &__stepper {
+      display: none;
+    }
+
+    &__settings-text {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header {
+    
+    &__user-pannel {
+      
+      flex-direction: column;
+      justify-content: center;
+    }  
+  }
+}
+

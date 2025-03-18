@@ -1,0 +1,106 @@
+:host {
+  // height: 100%;
+  background: var(--bg-gray);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 40px;
+  padding-bottom: 44px;
+}
+
+.summary-maincard {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 78%;
+  background: var(--bg-gray);
+  box-shadow: none;
+
+  .summary-title {
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: var((--blue));
+    margin: 8px 0px 20px 0px;
+
+    .summary-title__image {
+      height: 24px;
+      width: 24px;
+      background-image: url(../../../../assets/icons/booking/summary.svg);
+      margin-right: 15px;
+    }
+  }
+
+  .summary-flights__container {
+    display: flex;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .summary-maincard__buttons {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    border-radius: 4px;
+    margin-top: 40px;
+
+    .summary-button__back {
+      color: var(--blue);
+      height: 60px;
+      width: 126px;
+      cursor: pointer;
+    }
+
+    .summary-button__addtocard {
+      color: var(--blue);
+      width: 166px;
+      height: 60px;
+      border: 1px solid var(--blue);
+      margin: 0px 40px;
+      cursor: pointer;
+    }
+
+    .summary-button__buynow {
+      color: var(--white);
+      background: var(--blue);
+      width: 126px;
+      height: 60px;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .summary-maincard {
+    .summary-flights__container {
+      flex-direction: column;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  :host {
+    width: 100%;
+  }
+
+  .summary-maincard {
+    width: 100%;
+
+    .summary-maincard__buttons {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .summary-button__addtocard {
+        margin: 20px 0px;
+      }
+    }
+  }
+}

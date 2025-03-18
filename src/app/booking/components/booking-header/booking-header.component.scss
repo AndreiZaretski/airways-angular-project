@@ -1,0 +1,86 @@
+.booking-header {
+  padding: 20px 0;
+  font-weight: 500;
+  background-color: var(--super-light-gray);
+  box-shadow: 0px 1px 4px 0px #00000033;
+}
+
+.header-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+}
+
+.itinerary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.way-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../../assets/icons/one-way.svg');
+}
+
+.round-trip {
+  background-image: url('../../../../assets/icons/round-trip.svg');
+}
+
+.order-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: var(--gray);
+}
+
+.passengers {
+  display: flex;
+  align-items: center;
+}
+
+.passenger-icon {
+  display: inline;
+  top: -2px;
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.dates {
+  min-width: 100px;
+}
+
+.detail-item {
+  position: relative;
+}
+
+.detail-item::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  content: '';
+  background-color: var(--blue-accent);
+  border-radius: 50%;
+}
+
+.is-xsmall.booking-header {
+  padding: 12px 0;
+
+  .header-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    .itinerary,
+    .order-details {
+      justify-content: center;
+    }
+  }
+}

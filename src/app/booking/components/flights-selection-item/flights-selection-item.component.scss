@@ -1,0 +1,470 @@
+.flight-selection-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+
+  .flight-icon {
+    position: relative;
+    z-index: 0;
+    line-height: 20px;
+    transform:rotate(90deg);
+  }
+}
+
+.flight-card {
+  margin-bottom: 32px;
+  box-shadow: none;
+
+  .content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 58px;
+    padding: 28px 40px;
+
+    .flight-details-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+  }
+
+  .content-wrapper::after {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 70%;
+    width: 2px;
+    height: 100%;
+    content: "";
+    border-right: 2px dashed var(--light-gray);
+  }
+}
+
+.flight-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  width: 80%;
+
+  .info-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 127px;
+
+    .day {
+      letter-spacing: 0.5px;
+      color: var(--gray);
+    }
+
+    .time {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .timezone {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 16px;
+      color: var(--gray);
+      font-size: 8px;
+    }
+
+    .airport {
+      color: var(--gray);
+      font-size: 12px;
+    }
+  }
+
+  .arrival {
+    text-align: right;
+
+    .timezone {
+      left: 16px;
+      right: unset;
+    }
+  }
+}
+
+.add-info-wrapper {
+  position: relative;
+  width: 50%;
+
+  .add-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+
+    .flight-duration,
+    .flight-type {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .takeoff-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -75%);
+      z-index: 3;
+      padding-left: 8px;
+      width: 44px;
+      height: 20px;
+      font-size: 26px;
+      color: var(--blue-accent);
+      background-color: var(--white);
+    }
+
+    .backway-icon {
+      transform: scaleX(-1) translate(50%, -75%);
+    }
+  }
+}
+
+.add-info-wrapper::after {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 2px;
+  content: '';
+  background-color: var(--light-gray);
+}
+
+.flight-number {
+  font-size: 14px;
+
+  .number-label {
+    color: var(--gray);
+  }
+}
+
+.price-details {
+  display: flex;
+  gap: 32px;
+
+  .availability-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+
+    .availability {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+      text-align: right;
+      border-radius: 2px;
+    }
+
+    .price-wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .price-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-align: right;
+        color: var(--gray);
+      }
+
+      .price {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--blue);
+      }
+    }
+  }
+
+  .select-btn {
+    align-self: center;
+    color: var(--white);
+    background: linear-gradient(108.75deg, var(--blue-accent) 59.91%, var(--blue) 95.36%);
+    border: 1px solid var(--blue);
+  }
+
+  .edit-btn {
+    align-self: center;
+  }
+}
+
+.flight-card.selected {
+  .content-wrapper::after {
+    display: none;
+  }
+}
+
+.selected .price-details {
+  .availability-price .price {
+    color: var(--default-black);
+  }
+}
+
+.no-flight-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 20px;
+  color: var(--gray);
+
+  .no-flight-icon-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--gray);
+    border-radius: 50%;
+
+    .no-flight-icon {
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+      transform: rotate(90deg);
+    }
+  }
+
+  .no-flight-text {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+.slick-slider {
+  z-index: 0;
+  width: 100%;
+  margin: 8px auto;
+}
+
+.date-carousel .slick-slide {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4px;
+  padding-bottom: 8px;
+  width: 25%;
+  background-color: var(--white);
+  border-left: 1px solid var(--light-gray);
+
+  .carousel-date {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--blue-accent);
+  }
+
+  .carousel-weekday {
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--gray);
+  }
+
+  .carousel-price {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: var(--blue);
+  }
+
+  .no-flight-icon-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--gray);
+    border-radius: 50%;
+
+    .no-flight-icon {
+      padding-left: 1px;
+      padding-top: 1px;
+      width: 18px;
+      height: 18px;
+      font-size: 16px;
+      color: var(--gray);
+      transform: rotate(90deg);
+    }
+  }
+
+  .colourful-border {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: none;
+    width: 100%;
+    height: 4px;
+  }
+}
+
+.date-carousel .slick-slide.no-flight {
+  .carousel-date {
+    color: var(--gray);
+  }
+}
+
+.carousel .slick-center {
+  position: relative;
+  height: 83px;
+
+  .carousel-date {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: var(--blue);
+  }
+
+  .carousel-weekday {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gray);
+  }
+
+  .carousel-price {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: var(--blue);
+  }
+
+  .no-flight-icon-bg {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--gray);
+
+    .no-flight-icon {
+      padding-top: 2px;
+      padding-right: 2px;
+      width: 24px;
+      height: 24px;
+      font-size: 20px;
+    }
+  }
+
+  .colourful-border {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 1056px) {
+  .flight-card .content-wrapper::after {
+    left: 65%;
+  }
+}
+
+.flight-card {
+  .is-small.content-wrapper {
+    flex-direction: column;
+    padding: 28px 20px;
+
+    .flight-details {
+      gap: 8px;
+    }
+
+    .add-info-wrapper {
+      .add-info {
+        .flight-type {
+          text-align: center;
+        }
+      }
+    }
+
+    .price-details {
+      justify-content: flex-end;
+      gap: 48px;
+
+      .availability-price {
+        flex-direction: row;
+        justify-content: center;
+        gap: 24px;
+
+        .availability {
+          width: 133px;
+        }
+      }
+
+      .select-btn {
+        height: 40px;
+      }
+    }
+  }
+}
+
+.flight-card {
+  .is-small.content-wrapper::after {
+    top: 50%;
+    left: 0;
+    transform: unset;
+    width: 100%;
+    height: 40px;
+    border-right: unset;
+    border-bottom: 2px dashed var(--light-gray);
+  }
+}
+
+.is-xsmall.flight-icon {
+  display: none;
+}
+
+.flight-card {
+  .is-xsmall.flight-details-wrapper {
+    flex-direction: column;
+
+    .flight-details {
+      width: 100%;
+
+      .info-wrapper {
+        .day {
+          letter-spacing: 0;
+        }
+
+        .timezone {
+          display: none;
+        }
+      }
+    }
+
+    .add-info-wrapper::after {
+      display: none;
+    }
+
+    .takeoff-icon {
+      display: none;
+    }
+  }
+
+  .content-wrapper {
+    .is-xsmall.price-details {
+      gap: 24px;
+
+      .availability-price {
+        div.availability {
+          width: unset;
+        }
+      }
+    }
+  }
+}
+

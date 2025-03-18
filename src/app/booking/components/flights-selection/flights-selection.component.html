@@ -1,0 +1,23 @@
+<app-floating-panel class="panel" *ngIf="editPanelService.editPanelShown"></app-floating-panel>
+<div class="flights-selection-wrapper container">
+  <ng-container *ngIf="(responseDetails$ | async) as response">
+    <app-flights-selection-item [response]="response" [index]="index"></app-flights-selection-item>
+    <app-flights-selection-item *ngIf="(responseDetails$ | async)?.backWay" [response]="response"
+      source="backway"></app-flights-selection-item>
+  </ng-container>
+  <div class="buttons-wrapper">
+    <button class="back-btn"
+      [routerLink]="['/']"
+      mat-flat-button
+      (click)="stepper.resetStepper()">Back</button>
+      <button class="continue-btn"
+      [routerLink]="['/' + path.Booking + '/' + path.Passengers]"
+      [disabled]="(responseDetails$ | async)?.backWay ? !(checkedThereWay && checkedBackWay) : !checkedThereWay"
+      mat-flat-button color="primary"
+      >Continue</button>
+  </div>
+</div>
+
+<!-- (click)="clickStepper()" -->
+
+

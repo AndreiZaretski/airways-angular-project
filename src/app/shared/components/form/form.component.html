@@ -1,0 +1,113 @@
+<div class="search-form-wrapper container" [ngClass]="{'is-booking-page': source === 'booking-page'}">
+  <form [formGroup]="searchForm" class="example-form search-form" [ngClass]="{'is-medium': isBookingFormVertical, 'is-xsmall': isFormVertical}" (ngSubmit)="submitSearchRequest($event)">
+    <mat-radio-group formControlName="way" aria-label="Select an option">
+      <mat-radio-button value="round" color="primary">Round Trip</mat-radio-button>
+      <mat-radio-button value="one-way" color="primary">One Way</mat-radio-button>
+      <mat-error *ngIf="way?.hasError('required')">
+        Please choose an option
+      </mat-error>
+    </mat-radio-group>
+
+    <div class="locations-wrap" formGroupName="route" [ngClass]="{'is-xsmall': isFormVertical}">
+      <app-dropdown class="dropdown"
+      formControlName="fromLocation"
+      label="From"
+      placeholder="Choose your starting point"
+      [items] = "airportsList"
+      #fromLocation>
+    </app-dropdown>
+      <app-dropdown class="dropdown"
+      formControlName="toLocation"
+      label="Destination"
+      placeholder="Choose your destination"
+      [items] = "airportsList"
+      #toLocation>
+    </app-dropdown>
+    <mat-error *ngIf="route?.hasError('sameLocations')" [ngStyle]="{ 'text-align': 'left', 'font-size': '12px' }">
+      Locations should differ
+    </mat-error>
+      <button class="swap-btn" mat-mini-fab color="primary" matTooltip="Basic" (click)="switchLocations($event, fromLocation, toLocation)">
+        <mat-icon><span class="material-symbols-outlined">
+          sync_alt
+          </span></mat-icon>
+      </button>
+    </div>
+
+    <div class="details-wrap" [ngClass]="{'is-xsmall': isFormVertical}">
+      <mat-form-field class="example-form-field dates-field" appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input formGroupName="dates" [rangePicker]="rangePicker" [min]="minDate" [max]="maxDate">
+          <input
+          formControlName="startDate"
+          matStartDate
+          placeholder="Start date"
+          (focus)="focusState = true" (focusout)="focusState = false">
+          <input
+          formControlName="endDate"
+          matEndDate
+          placeholder="End date"
+          (focus)="focusState = true" (focusout)="focusState = false">
+        </mat-date-range-input>
+        <mat-hint *ngIf="rangePicker.opened || focusState">{{  userDateFormat$ | async }} - {{  userDateFormat$ | async }}</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker>
+          <mat-date-range-picker-actions>
+            <button mat-button color="primary" matDateRangePickerCancel>Cancel</button>
+            <button mat-button color="primary" matDateRangePickerApply>Ok</button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+        <mat-error *ngIf="startDate?.hasError('matDatepickerMin')">
+          Start date cannot be in the past
+        </mat-error>
+        <mat-error *ngIf="startDate?.hasError('matDatepickerMax')">
+          Please choose start date before 01/01/2024
+        </mat-error>
+        <mat-error *ngIf="endDate?.hasError('matDatepickerMin')">
+          End date cannot be in the past
+        </mat-error>
+        <mat-error *ngIf="endDate?.hasError('matDatepickerMax')">
+          Please choose end date before 01/01/2024
+        </mat-error>
+        <mat-error *ngIf="startDate?.hasError('required') || endDate?.hasError('required') || startDate?.hasError('InvalidDate')">
+          Start/end dates are required
+        </mat-error>
+        <mat-error *ngIf="!(startDate?.hasError('required')) && !(endDate?.hasError('required')) && dates?.hasError('isDateInvalid')">
+          Start date should go before end date
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width passengers-field" appearance="outline">
+        <mat-label>Passengers</mat-label>
+        <mat-select formControlName="passengers" disableRipple multiple #passengersChosen>
+          <mat-select-trigger>
+            <ng-container *ngFor="let passenger of passengerOptions; let i = index">
+              {{ passenger.count ? passenger.count : '' }} {{ passenger.count ? passenger.value : '' }}{{ passenger.count && (passengerOptions[i + 1] && passengerOptions[i + 1].count || passengerOptions[i + 2] && passengerOptions[i + 2].count) ? ',' : '' }}
+            </ng-container>
+          </mat-select-trigger>
+            <mat-option #passengerOption class="passenger-options" *ngFor="let passenger of passengerOptions" [value]="passenger.value" (click)="disableClickDefaultBehaviour($event)">
+              <div class="passenger-option-wrapper" (click)="$event.stopPropagation()">
+                <div class="passenger-option">
+                  <span class="passenger-category">{{ passenger.viewCategory }}</span>
+                  <span class="passenger-desc">{{ passenger.viewDesc }}</span>
+                </div>
+                <div class="passenger-counter">
+                  <div class="remove-btn" [ngClass]="{'disabled': !passenger.count}" (click)="removePassenger(passenger, $event)">
+                    <mat-icon>remove</mat-icon>
+                  </div>
+                  <span class="count-number">{{ passenger.count }}</span>
+                  <div class="add-btn" (click)="addPassenger(passenger, $event)">
+                    <mat-icon color="gray">add</mat-icon>
+                  </div>
+                </div>
+              </div>
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="passengers?.hasError('required')">
+          Please add passengers
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <button class="search-btn" type="submit" mat-flat-button color="primary" >{{ source === 'booking-page' ? 'Save' : 'Search' }}</button>
+  </form>
+</div>

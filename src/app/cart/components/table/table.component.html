@@ -1,0 +1,218 @@
+<div
+  [ngClass]="isVisibleInCart ? 'table-container' : 'table-history-container'"
+>
+  <table
+    class="cart-table"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    [matSortActive]="sortType"
+    matSortDirection="asc"
+    class="mat-elevation-z8"
+    (matSortChange)="announceSortChange(sort)"
+    cdkScrollable
+  >
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          color="primary"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          color="primary"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="position">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by position"
+        width="12%"
+      >
+        No.
+      </th>
+
+      <td mat-cell *matCellDef="let element">
+        <a (click)="showFlightDetails(element.orderId)"
+          *ngIf="!isVisibleInCart"
+        >
+          <div>
+            {{
+              element.responseAir?.thereWay[element.indexThereWay]?.flightNumber
+            }}
+          </div>
+          <div>
+            <div *ngIf="element.responseAir?.backWay">
+              {{
+                element.responseAir?.backWay[element.indexBackWay]?.flightNumber
+              }}
+            </div>
+          </div>
+        </a>
+        <div *ngIf="isVisibleInCart">
+          <div>
+            {{
+              element.responseAir?.thereWay[element.indexThereWay]?.flightNumber
+            }}
+          </div>
+          <div *ngIf="element.responseAir?.backWay">
+            {{
+              element.responseAir?.backWay[element.indexBackWay]?.flightNumber
+            }}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="flight">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by flight"
+        width="20%"
+      >
+        Flight
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          {{ element.responseAir?.from | airportName : "city" }} -
+          {{ element.responseAir?.to | airportName : "city" }}
+        </div>
+        <div *ngIf="element.responseAir?.backWay">
+          {{ element.responseAir?.to | airportName : "city" }} -
+          {{ element.responseAir?.from | airportName : "city" }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="typeTrip">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by typeTrip"
+        width="15%"
+      >
+        Type Trip
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.responseAir?.way }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataType">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by dataType"
+        width="30%"
+      >
+        Data & Time
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          {{
+            element.responseAir.startDate
+              | sequenceDate : element.indexThereWay
+              | date: (formatDate$ | async |userFormatData)
+          }}
+          {{ element.responseAir?.thereWay[element.indexThereWay]?.startTime }}
+          {{ "&mdash;" }}
+          {{
+            element.responseAir.startDate
+              | nextDayArrival
+                : element.responseAir?.thereWay[element.indexThereWay]
+                    ?.startTime
+                : element.responseAir?.thereWay[element.indexThereWay].timeWay
+              | sequenceDate : element.indexThereWay
+              | date : "HH:mm"
+          }}
+        </div>
+        <div *ngIf="element.responseAir?.backWay">
+          {{
+            element.responseAir.startDate
+              | sequenceDate : element.indexBackWay
+              | date: (formatDate$ | async |userFormatData)
+          }}
+          {{ element.responseAir?.backWay[element.indexBackWay]?.startTime }}
+          {{ "&mdash;" }}
+          {{
+            element.responseAir.startDate
+              | nextDayArrival
+                : element.responseAir?.backWay[element.indexBackWay]?.startTime
+                : element.responseAir?.backWay[element.indexBackWay].timeWay
+              | sequenceDate : element.indexBackWay
+              | date : "HH:mm"
+          }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="passengers">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        sortActionDescription="Sort by passengers"
+        width="13%"
+      >
+        Passengers
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.passengersCount.adult">
+          {{ element.passengersCount.adult }} x Adult
+        </div>
+        <div *ngIf="element.passengersCount.child">
+          {{ element.passengersCount.child }} x Child
+        </div>
+        <div *ngIf="element.passengersCount.infant">
+          {{ element.passengersCount.infant }} x Infant
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by price"
+      >
+        Price
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ getTotalSum(element, userCurrency | lowercase) | currency: userCurrency : 'symbol-narrow' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionMenu">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button [matMenuTriggerFor]="mainMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #mainMenu="matMenu" MenuPositionX="before">
+          <button mat-menu-item (click)="deleteFlight(row.orderId)">
+            Delete
+          </button>
+          <button mat-menu-item (click)="editFlightDetails(row.orderId)">Edit</button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="flightsColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: flightsColumns"></tr>
+  </table>
+</div>

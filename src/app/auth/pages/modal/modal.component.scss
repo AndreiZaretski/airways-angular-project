@@ -1,0 +1,61 @@
+//:host{
+    // ::ng-deep .cdk-overlay-container {
+    // overflow: auto;
+    //pointer-events: auto;
+  //   position: fixed;
+  //   top: 0px;
+  // }
+
+
+  ::ng-deep .cdk-overlay-backdrop {
+    min-height: 172vh;    
+  }
+
+
+.auth-modal {
+  width: 494px;
+  
+  border-radius: 8px;
+  
+  display: inline-table;
+}
+
+
+@media screen and (max-width: 680px) {
+  .auth-modal {
+    width: 400px;
+    &__content{
+      width: 70vw;
+    }
+
+    &__social {
+      width: 70vw;
+    }
+
+    &__form{
+      width: 70vw;
+    }
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .auth-modal {
+    width: 290px;
+    &__content{
+      width: 60vw;
+    }
+    &__social {
+      width: 60vw;
+    }
+    &__form{
+      width: 60vw;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .auth-modal {
+    width: 200px;
+  }
+}
+
