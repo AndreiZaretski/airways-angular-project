@@ -43,7 +43,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   minDate = new Date();
 
-  maxDate = new Date(2025, 0, 1);
+  maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
 
   passengerOptions: IPassengers[] = [
     {
